@@ -1,0 +1,24 @@
+{
+    "Group": "Elements",
+    "Name": "Elements",
+    "Version": "0.0.2",
+    "Description": "An example plugin for HyTale!",
+    "Authors": [
+        {
+            "Name": "Verdo"
+        },
+        {
+            "Name": "Luxer"
+        }
+    ],
+    "ServerVersion": "*",
+    "Dependencies": {
+        
+    },
+    "OptionalDependencies": {
+        
+    },
+    "DisabledByDefault": false,
+    "Main": "me.verdo.elements.ElementsPlugin",
+    "IncludesAssetPack": true
+}
