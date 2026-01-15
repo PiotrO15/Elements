@@ -1,0 +1,82 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Essence_Jar.name"
+  },
+  "PlayerAnimationsId": "Item",
+  "Categories": [
+    "Items.Potions"
+  ],
+  "Icon": "Icons/ItemsGenerated/Potion_Empty.png",
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": "Block_Secondary"
+  },
+  "IconProperties": {
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Scale": 0.9,
+    "Translation": [
+      0,
+      -9
+    ]
+  },
+  "BlockType": {
+    "BlockParticleSetId": "GlassEmpty",
+    "BlockSoundSetId": "Metal",
+    "CustomModel": "Items/Blocks/Essence_Jar.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Items/Blocks/Essence_Jar.png",
+        "Weight": 1
+      }
+    ],
+    "CustomModelScale": 1,
+    "DrawType": "Model",
+    "Flags": {},
+    "Gathering": {
+      "Harvest": {},
+      "Soft": {}
+    },
+    "HitboxType": "Essence_Jar",
+    "Material": "Empty",
+    "RandomRotation": "None",
+    "Opacity": "Semitransparent",
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full"
+        }
+      ]
+    },
+    "ParticleColor": "#eaf4f6",
+    "Interactions": {
+      "Primary": "Break_Container",
+      "Use": "StoreEssence"
+    },
+    "State": {
+      "Id": "container",
+      "Capacity": 1,
+      "Definitions": {
+        "CloseWindow": {
+          "InteractionSoundEventId": "SFX_Chest_Wooden_Close",
+          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Close.blockyanim"
+        },
+        "OpenWindow": {
+          "InteractionSoundEventId": "SFX_Chest_Wooden_Open",
+          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Open.blockyanim"
+        }
+      }
+    }
+  },
+  "Tags": {
+    "Type": [
+      "Potion"
+    ]
+  },
+  "Scale": 1,
+  "MaxStack": 30,
+  "DropOnDeath": true
+}
