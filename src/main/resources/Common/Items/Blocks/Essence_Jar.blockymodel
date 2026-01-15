@@ -107,11 +107,11 @@
     {
       "id": "3",
       "name": "cube",
-      "position": {"x": -2, "y": 6, "z": -12},
-      "orientation": {"x": 0, "y": 0, "z": 0.10887, "w": 0.99406},
+      "position": {"x": 0, "y": 14, "z": 12},
+      "orientation": {"x": 0, "y": 0, "z": -0.10887, "w": 0.99406},
       "shape": {
         "type": "quad",
-        "offset": {"x": 4, "y": 8, "z": -0.1},
+        "offset": {"x": 0, "y": 0, "z": 0.1},
         "stretch": {"x": 1, "y": 1, "z": 1},
         "settings": {
           "isPiece": false,
