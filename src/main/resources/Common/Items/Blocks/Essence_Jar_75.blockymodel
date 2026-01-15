@@ -107,6 +107,58 @@
     {
       "id": "3",
       "name": "cube",
+      "position": {"x": -9, "y": 2, "z": -9},
+      "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
+      "shape": {
+        "type": "box",
+        "offset": {"x": 9, "y": 9, "z": 9},
+        "stretch": {"x": 1, "y": 1, "z": 1},
+        "settings": {
+          "isPiece": false,
+          "size": {"x": 20, "y": 18, "z": 20},
+          "isStaticBox": true
+        },
+        "textureLayout": {
+          "back": {
+            "offset": {"x": 48, "y": 6},
+            "mirror": {"x": false, "y": false},
+            "angle": 0
+          },
+          "right": {
+            "offset": {"x": 48, "y": 6},
+            "mirror": {"x": false, "y": false},
+            "angle": 0
+          },
+          "front": {
+            "offset": {"x": 48, "y": 6},
+            "mirror": {"x": false, "y": false},
+            "angle": 0
+          },
+          "left": {
+            "offset": {"x": 48, "y": 6},
+            "mirror": {"x": false, "y": false},
+            "angle": 0
+          },
+          "top": {
+            "offset": {"x": 68, "y": 20},
+            "mirror": {"x": false, "y": false},
+            "angle": 0
+          },
+          "bottom": {
+            "offset": {"x": 68, "y": 0},
+            "mirror": {"x": false, "y": false},
+            "angle": 0
+          }
+        },
+        "unwrapMode": "custom",
+        "visible": true,
+        "doubleSided": false,
+        "shadingMode": "flat"
+      }
+    },
+    {
+      "id": "4",
+      "name": "cube",
       "position": {"x": -2, "y": 6, "z": -12},
       "orientation": {"x": 0, "y": 0, "z": 0.10887, "w": 0.99406},
       "shape": {

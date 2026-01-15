@@ -60,16 +60,24 @@
       "Id": "container",
       "Capacity": 1,
       "Definitions": {
-        "CloseWindow": {
-          "InteractionSoundEventId": "SFX_Chest_Wooden_Close",
-          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Close.blockyanim"
+        "0": {
+          "CustomModel": "Items/Blocks/Essence_Jar.blockymodel"
         },
-        "OpenWindow": {
-          "InteractionSoundEventId": "SFX_Chest_Wooden_Open",
-          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Open.blockyanim"
+        "25": {
+          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel"
+        },
+        "50": {
+          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel"
+        },
+        "75": {
+          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel"
+        },
+        "100": {
+          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel"
         }
       }
-    }
+    },
+    "VariantRotation": "NESW"
   },
   "Tags": {
     "Type": [
