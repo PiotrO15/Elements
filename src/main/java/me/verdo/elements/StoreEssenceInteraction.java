@@ -6,11 +6,13 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.entity.EntityUtils;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.entity.movement.MovementStatesComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.SimpleBlockInteraction;
@@ -32,68 +34,106 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
             return;
         }
 
-        System.out.println(vector3i);
         int localX = ChunkUtil.localCoordinate(vector3i.x);
         int localZ = ChunkUtil.localCoordinate(vector3i.z);
         Ref<ChunkStore> chunkStoreRef = chunk.getBlockComponentEntity(localX, vector3i.y, localZ);
-        System.out.println(chunkStoreRef);
 
         if (chunkStoreRef == null) {
-            System.out.println("Attempted interaction for entity " + context.getEntity());
+            ElementsPlugin.LOGGER.atSevere().log("StoreEssenceInteraction failed: Essence Jar has no components.");
             return;
         }
 
-        System.out.println("A");
-
         EssenceStorageComponent c = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage);
-        System.out.println("Storing " + c.getStoredEssenceAmount() + " of " + c.getStoredEssenceType());
-        if (c.canStore(context.getHeldItem())) {
-            System.out.println("B");
 
-            if (context.getHeldItem() == null) {
-                return;
+        if (context.getHeldItem() == null) {
+            Ref<EntityStore> ref = context.getEntity();
+            Entity entity = EntityUtils.getEntity(ref, commandBuffer);
+
+            if (entity instanceof Player player) {
+                MovementStatesComponent component = world.getEntityStore().getStore().getComponent(player.getReference(), MovementStatesComponent.getComponentType());
+                if (component != null && component.getMovementStates().crouching) {
+                    if (c.getStoredEssenceType() == null || c.getStoredEssenceAmount() == 0) {
+                        return;
+                    }
+
+                    ItemStack drop = new ItemStack(c.getStoredEssenceType().id);
+                    drop = drop.withQuantity(c.getStoredEssenceAmount());
+
+                    if (drop == null)
+                        return;
+
+                    if (player.getInventory().getCombinedBackpackStorageHotbar().canAddItemStack(drop)) {
+                        c.setStoredEssenceType(null);
+                        c.setStoredEssenceAmount(0);
+
+                        chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
+
+                        player.getInventory().getCombinedBackpackStorageHotbar().addItemStack(drop);
+                        displayEssence(chunk, vector3i, c);
+                        chunk.markNeedsSaving();
+                    }
+                    return;
+                }
+
+                player.sendMessage(Message.raw("Storage: " + c.getStoredEssenceAmount() + "/100"));
             }
+            return;
+        }
+
+        if (c.canStore(context.getHeldItem())) {
+            int toStore = Math.min(100 - c.getStoredEssenceAmount(), context.getHeldItem().getQuantity());
 
             c.setStoredEssenceType(EssenceType.fromId(context.getHeldItem().getItemId()));
-            c.setStoredEssenceAmount(context.getHeldItem().getQuantity() + c.getStoredEssenceAmount());
+            c.setStoredEssenceAmount(c.getStoredEssenceAmount() + toStore);
 
             chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
-            StringBuilder newState = new StringBuilder();
-            newState.append(c.getStoredEssenceType().id).append("_");
-            switch (c.getStoredEssenceAmount() / 33 + 1) {
-                case 1:
-                    if (c.getStoredEssenceAmount() > 0)
-                        newState.append("25");
-                    else
-                        newState.append("0");
-                    break;
-                case 2:
-                    newState.append("50");
-                    break;
-                case 3:
-                    newState.append("75");
-                    break;
-                case 4:
-                    newState.append("100");
-                    break;
-            }
-            System.out.println(newState);
-            setState(chunk, vector3i, newState.toString());
+            displayEssence(chunk, vector3i, c);
 
             Ref<EntityStore> ref = context.getEntity();
             Entity entity = EntityUtils.getEntity(ref, commandBuffer);
             if (entity instanceof Player player) {
-                player.getInventory().getCombinedHotbarFirst().removeItemStackFromSlot(player.getInventory().getActiveHotbarSlot());
+                player.getInventory().getCombinedHotbarFirst().removeItemStackFromSlot(player.getInventory().getActiveHotbarSlot(), toStore);
             }
             chunk.markNeedsSaving();
-
-            System.out.println("Inserted " + c.getStoredEssenceAmount() + " of " + c.getStoredEssenceType());
         }
     }
 
     @Override
     protected void simulateInteractWithBlock(@Nonnull InteractionType interactionType, @Nonnull InteractionContext interactionContext, @Nullable ItemStack itemStack, @Nonnull World world, @Nonnull Vector3i vector3i) {
 
+    }
+
+    private void displayEssence(WorldChunk chunk, Vector3i targetBlock, EssenceStorageComponent c) {
+        if (c.getStoredEssenceAmount() == 0 || c.getStoredEssenceType() == null) {
+            setState(chunk, targetBlock, "0");
+            return;
+        }
+
+        StringBuilder newState = new StringBuilder();
+        newState.append(c.getStoredEssenceType().id).append("_");
+        switch (c.getStoredEssenceAmount() / 33 + 1) {
+            case 1:
+                if (c.getStoredEssenceAmount() > 0)
+                    newState.append("25");
+                else
+                    newState.append("0");
+                break;
+            case 2:
+                newState.append("50");
+                break;
+            case 3:
+                newState.append("75");
+                break;
+            case 4:
+                if (c.getStoredEssenceAmount() != 100) {
+                    newState.append("75");
+                } else {
+                    newState.append("100");
+                }
+                break;
+        }
+
+        setState(chunk, targetBlock, newState.toString());
     }
 
     private void setState(WorldChunk chunk, Vector3i targetBlock, String newState) {
