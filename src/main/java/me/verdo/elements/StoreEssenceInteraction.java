@@ -58,24 +58,27 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
             c.setStoredEssenceAmount(context.getHeldItem().getQuantity() + c.getStoredEssenceAmount());
 
             chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
-            String newState = "0";
-            switch (c.getStoredEssenceAmount() / 25) {
-                case 0:
+            StringBuilder newState = new StringBuilder();
+            newState.append(c.getStoredEssenceType().id).append("_");
+            switch (c.getStoredEssenceAmount() / 33 + 1) {
                 case 1:
                     if (c.getStoredEssenceAmount() > 0)
-                        newState = "25";
+                        newState.append("25");
+                    else
+                        newState.append("0");
                     break;
                 case 2:
-                    newState = "50";
+                    newState.append("50");
                     break;
                 case 3:
-                    newState = "75";
+                    newState.append("75");
                     break;
                 case 4:
-                    newState = "100";
+                    newState.append("100");
                     break;
             }
-            setState(chunk, vector3i, newState);
+            System.out.println(newState);
+            setState(chunk, vector3i, newState.toString());
 
             Ref<EntityStore> ref = context.getEntity();
             Entity entity = EntityUtils.getEntity(ref, commandBuffer);

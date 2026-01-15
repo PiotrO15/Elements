@@ -41,9 +41,9 @@
       "Soft": {}
     },
     "HitboxType": "Essence_Jar",
-    "Material": "Empty",
+    "Material": "Solid",
     "RandomRotation": "None",
-    "Opacity": "Semitransparent",
+    "Opacity": "Transparent",
     "Support": {
       "Down": [
         {
@@ -63,17 +63,197 @@
         "0": {
           "CustomModel": "Items/Blocks/Essence_Jar.blockymodel"
         },
-        "25": {
-          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel"
+        "Ingredient_Fire_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Fire.png"
+            }
+          ]
         },
-        "50": {
-          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel"
+        "Ingredient_Fire_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Fire.png"
+            }
+          ]
         },
-        "75": {
-          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel"
+        "Ingredient_Fire_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Fire.png"
+            }
+          ]
         },
-        "100": {
-          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel"
+        "Ingredient_Fire_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Fire.png"
+            }
+          ]
+        },
+        "Ingredient_Ice_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Ice.png"
+            }
+          ]
+        },
+        "Ingredient_Ice_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Ice.png"
+            }
+          ]
+        },
+        "Ingredient_Ice_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Ice.png"
+            }
+          ]
+        },
+        "Ingredient_Ice_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Ice.png"
+            }
+          ]
+        },
+        "Ingredient_Life_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Life.png"
+            }
+          ]
+        },
+        "Ingredient_Life_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Life.png"
+            }
+          ]
+        },
+        "Ingredient_Life_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Life.png"
+            }
+          ]
+        },
+        "Ingredient_Life_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Life.png"
+            }
+          ]
+        },
+        "Ingredient_Lightning_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Lightning.png"
+            }
+          ]
+        },
+        "Ingredient_Lightning_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Lightning.png"
+            }
+          ]
+        },
+        "Ingredient_Lightning_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Lightning.png"
+            }
+          ]
+        },
+        "Ingredient_Lightning_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Lightning.png"
+            }
+          ]
+        },
+        "Ingredient_Void_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Void.png"
+            }
+          ]
+        },
+        "Ingredient_Void_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Void.png"
+            }
+          ]
+        },
+        "Ingredient_Void_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Void.png"
+            }
+          ]
+        },
+        "Ingredient_Void_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Void.png"
+            }
+          ]
+        },
+        "Ingredient_Water_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Water.png"
+            }
+          ]
+        },
+        "Ingredient_Water_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Water.png"
+            }
+          ]
+        },
+        "Ingredient_Water_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Water.png"
+            }
+          ]
+        },
+        "Ingredient_Water_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar_Water.png"
+            }
+          ]
         }
       }
     },
