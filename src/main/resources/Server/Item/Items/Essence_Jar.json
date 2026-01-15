@@ -67,13 +67,6 @@
     "Material": "Solid",
     "RandomRotation": "None",
     "Opacity": "Transparent",
-    "Support": {
-      "Down": [
-        {
-          "FaceType": "Full"
-        }
-      ]
-    },
     "ParticleColor": "#eaf4f6",
     "Interactions": {
       "Primary": "Break_Container",
