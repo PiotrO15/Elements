@@ -1,4 +1,4 @@
-package me.verdo.elements;
+package me.verdo.elements.component;
 
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
@@ -6,6 +6,7 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
+import me.verdo.elements.EssenceType;
 
 import java.util.Objects;
 
@@ -56,13 +57,13 @@ public class EssenceStorageComponent implements Component<ChunkStore> {
         if (storedEssenceType == null)
             return true;
 
-        return Objects.equals(storedEssenceType.id, itemStack.getItemId());
+        return Objects.equals(storedEssenceType.getItemId(), itemStack.getItemId());
     }
 
     static {
         CODEC = BuilderCodec.builder(EssenceStorageComponent.class, EssenceStorageComponent::new)
                 .addField(new KeyedCodec<>("StoredEssenceAmount", Codec.INTEGER, true), (s, o) -> s.storedEssenceAmount = o, (s) -> s.storedEssenceAmount)
-                .addField(new KeyedCodec<>("StoredEssenceType", Codec.STRING, true), (s, o) -> s.storedEssenceType = EssenceType.fromId(o), (s) -> s.storedEssenceType != null ? s.storedEssenceType.id : null)
+                .addField(new KeyedCodec<>("StoredEssenceType", Codec.STRING, true), (s, o) -> s.storedEssenceType = EssenceType.fromId(o), (s) -> s.storedEssenceType != null ? s.storedEssenceType.getItemId() : null)
                 .build();
     }
 }

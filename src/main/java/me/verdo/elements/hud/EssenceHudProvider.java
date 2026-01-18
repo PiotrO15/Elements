@@ -1,14 +1,12 @@
 package me.verdo.elements.hud;
 
-import com.hypixel.hytale.server.core.asset.util.ColorParseUtil;
 import com.hypixel.hytale.server.core.entity.entities.player.hud.CustomUIHud;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
-import me.verdo.elements.ComplexEssenceStorageComponent;
+import me.verdo.elements.component.ComplexEssenceStorageComponent;
 import me.verdo.elements.EssenceType;
 
 import javax.annotation.Nonnull;
-import java.awt.*;
 
 public class EssenceHudProvider extends CustomUIHud {
 

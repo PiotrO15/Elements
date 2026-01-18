@@ -12,8 +12,7 @@ import com.hypixel.hytale.server.core.entity.entities.player.hud.CustomUIHud;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import me.verdo.elements.ComplexEssenceStorageComponent;
-import me.verdo.elements.EssenceType;
+import me.verdo.elements.component.ComplexEssenceStorageComponent;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

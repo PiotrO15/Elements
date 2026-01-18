@@ -20,6 +20,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import me.verdo.elements.component.EssenceStorageComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,7 +57,7 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
                         return;
                     }
 
-                    ItemStack drop = new ItemStack(c.getStoredEssenceType().id);
+                    ItemStack drop = new ItemStack(c.getStoredEssenceType().getItemId());
                     drop = drop.withQuantity(c.getStoredEssenceAmount());
 
                     if (drop == null)
@@ -110,7 +111,7 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
         }
 
         StringBuilder newState = new StringBuilder();
-        newState.append(c.getStoredEssenceType().id).append("_");
+        newState.append(c.getStoredEssenceType().getItemId()).append("_");
         switch (c.getStoredEssenceAmount() / 33 + 1) {
             case 1:
                 if (c.getStoredEssenceAmount() > 0)
