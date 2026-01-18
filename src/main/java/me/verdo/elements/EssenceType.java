@@ -1,5 +1,7 @@
 package me.verdo.elements;
 
+import java.util.List;
+
 public enum EssenceType {
     FIRE("Ingredient_Fire_Essence", "Fire", 0xFF4500),
     ICE("Ingredient_Ice_Essence", "Ice", 0x87CEEB),
@@ -8,19 +10,21 @@ public enum EssenceType {
     VOID("Ingredient_Void_Essence", "Void", 0x2E0854),
     WATER("Ingredient_Water_Essence", "Water", 0x1E90FF);
 
-    private final String id;
+    private static final List<EssenceType> baseEssenceTypes = List.of(FIRE, ICE, LIFE, LIGHTNING, VOID, WATER);
+
+    private final String itemId;
     private final String friendlyName;
     private final int color;
 
     EssenceType(String itemId, String friendlyName, int color) {
-        this.id = itemId;
+        this.itemId = itemId;
         this.friendlyName = friendlyName;
         this.color = color;
     }
 
     public static EssenceType fromId(String id) {
         for (EssenceType type : values()) {
-            if (type.id.equals(id)) {
+            if (type.itemId.equals(id)) {
                 return type;
             }
         }
@@ -28,7 +32,7 @@ public enum EssenceType {
     }
 
     public String getItemId() {
-        return id;
+        return itemId;
     }
 
     public String getFriendlyName() {
@@ -37,5 +41,9 @@ public enum EssenceType {
 
     public int getColor() {
         return color;
+    }
+
+    public static List<EssenceType> getBaseEssenceTypes() {
+        return baseEssenceTypes;
     }
 }

@@ -21,6 +21,13 @@ public class EssenceHudProvider extends CustomUIHud {
     protected void build(@Nonnull UICommandBuilder uiCommandBuilder) {
         uiCommandBuilder.append("Hud/EssenceDisplay.ui");
 
-        uiCommandBuilder.set("#Fire #Fire.Value", (double) component.getStoredEssence(EssenceType.FIRE) / component.getMaxStorage());
+        EssenceType.getBaseEssenceTypes().forEach(
+                essenceType -> {
+                    String elementName = "#" + essenceType.getFriendlyName();
+                    uiCommandBuilder.set(elementName + " " + elementName + ".Value",
+                            (double) component.getStoredEssence(essenceType) / component.getMaxStorage());
+
+                }
+        );
     }
 }

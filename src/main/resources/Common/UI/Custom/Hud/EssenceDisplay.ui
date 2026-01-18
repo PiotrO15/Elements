@@ -20,7 +20,7 @@ Group {
 
   Group #Ice {
     Anchor: (Width: 40, Height: 40, Left: 10);
-    ProgressBar #Life {
+    ProgressBar #Ice {
       BarTexturePath: "Essence_Ice.png";
 
       Value: 0.6;
@@ -52,7 +52,7 @@ Group {
 
   Group #Lightning {
     Anchor: (Width: 40, Height: 40, Left: 5, Right: 10);
-    ProgressBar #Life {
+    ProgressBar #Lightning {
       BarTexturePath: "Essence_Lightning.png";
 
       Value: 0.2;
@@ -68,7 +68,7 @@ Group {
 
   Group #Void {
     Anchor: (Width: 40, Height: 40, Right: 10);
-    ProgressBar #Life {
+    ProgressBar #Void {
       BarTexturePath: "Essence_Void.png";
 
       Value: 0.7;
@@ -84,7 +84,7 @@ Group {
 
   Group #Water {
     Anchor: (Width: 40, Height: 40, Right: 10);
-    ProgressBar #Life {
+    ProgressBar #Water {
       BarTexturePath: "Essence_Water.png";
 
       Value: 0.5;
