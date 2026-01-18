@@ -1,0 +1,100 @@
+Group {
+  LayoutMode: Center;
+  Anchor: (Top: 20, Height: 60);
+
+  Group #Fire {
+    Anchor: (Width: 40, Height: 40, Left: 10);
+    ProgressBar #Fire {
+      BarTexturePath: "Essence_Fire.png";
+
+      Value: 0.4;
+      Alignment: Vertical;
+      Direction: Start;
+    }
+
+    Group {
+      MaskTexturePath: "Essence_Empty.png";
+      Background: #FF4500;
+    }
+  }
+
+  Group #Ice {
+    Anchor: (Width: 40, Height: 40, Left: 10);
+    ProgressBar #Life {
+      BarTexturePath: "Essence_Ice.png";
+
+      Value: 0.6;
+      Alignment: Vertical;
+      Direction: Start;
+    }
+
+    Group {
+      MaskTexturePath: "Essence_Empty.png";
+      Background: #87CEEB;
+    }
+  }
+
+  Group #Life {
+    Anchor: (Width: 40, Height: 40, Left: 10, Right: 5);
+    ProgressBar #Life {
+      BarTexturePath: "Essence_Life.png";
+
+      Value: 0.9;
+      Alignment: Vertical;
+      Direction: Start;
+    }
+
+    Group {
+      MaskTexturePath: "Essence_Empty.png";
+      Background: #32CD32;
+    }
+  }
+
+  Group #Lightning {
+    Anchor: (Width: 40, Height: 40, Left: 5, Right: 10);
+    ProgressBar #Life {
+      BarTexturePath: "Essence_Lightning.png";
+
+      Value: 0.2;
+      Alignment: Vertical;
+      Direction: Start;
+    }
+
+    Group {
+      MaskTexturePath: "Essence_Empty.png";
+      Background: #FFD700;
+    }
+  }
+
+  Group #Void {
+    Anchor: (Width: 40, Height: 40, Right: 10);
+    ProgressBar #Life {
+      BarTexturePath: "Essence_Void.png";
+
+      Value: 0.7;
+      Alignment: Vertical;
+      Direction: Start;
+    }
+
+    Group {
+      MaskTexturePath: "Essence_Empty.png";
+      Background: #2E0854;
+    }
+  }
+
+  Group #Water {
+    Anchor: (Width: 40, Height: 40, Right: 10);
+    ProgressBar #Life {
+      BarTexturePath: "Essence_Water.png";
+
+      Value: 0.5;
+      Alignment: Vertical;
+      Direction: Start;
+    }
+
+    Group {
+      MaskTexturePath: "Essence_Empty.png";
+      Background: #1E90FF;
+    }
+  }
+}
