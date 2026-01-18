@@ -62,13 +62,13 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
                     if (drop == null)
                         return;
 
-                    if (player.getInventory().getCombinedBackpackStorageHotbar().canAddItemStack(drop)) {
+                    if (player.getInventory().getCombinedHotbarFirst().canAddItemStack(drop)) {
                         c.setStoredEssenceType(null);
                         c.setStoredEssenceAmount(0);
 
                         chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
 
-                        player.getInventory().getCombinedBackpackStorageHotbar().addItemStack(drop);
+                        player.getInventory().getCombinedHotbarFirst().addItemStack(drop);
                         displayEssence(chunk, vector3i, c);
                         chunk.markNeedsSaving();
                     }
