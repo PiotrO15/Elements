@@ -10,6 +10,8 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.component.ComplexEssenceStorageComponent;
 import me.verdo.elements.component.EssenceStorageComponent;
+import me.verdo.elements.component.RenderedItemComponent;
+import me.verdo.elements.display.BlockBreakDisplayEventSystem;
 import me.verdo.elements.hud.PlayerHudSystem;
 
 import javax.annotation.Nonnull;
@@ -25,6 +27,7 @@ public class ElementsPlugin extends JavaPlugin {
 
     public ComponentType<ChunkStore, EssenceStorageComponent> essenceStorage;
     public ComponentType<EntityStore, ComplexEssenceStorageComponent> storedEssence;
+    public ComponentType<ChunkStore, RenderedItemComponent> renderedItem;
 
     public ElementsPlugin(@Nonnull JavaPluginInit init) {
         super(init);
@@ -41,11 +44,15 @@ public class ElementsPlugin extends JavaPlugin {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
 
         essenceStorage = getChunkStoreRegistry().registerComponent(EssenceStorageComponent.class, "EssenceStorage", EssenceStorageComponent.CODEC);
+        storedEssence = getEntityStoreRegistry().registerComponent(ComplexEssenceStorageComponent.class, "StoredEssence", ComplexEssenceStorageComponent.CODEC);
+        renderedItem = getChunkStoreRegistry().registerComponent(RenderedItemComponent.class, "RenderedItem", RenderedItemComponent.CODEC);
+
         this.getCodecRegistry(Interaction.CODEC).register("StoreEssence", StoreEssenceInteraction.class, StoreEssenceInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("NexusInteraction", NexusInteraction.class, NexusInteraction.CODEC);
 
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new EssencePickupSystem());
         getEntityStoreRegistry().registerSystem(new PlayerHudSystem());
-        storedEssence = getEntityStoreRegistry().registerComponent(ComplexEssenceStorageComponent.class, "StoredEssence", ComplexEssenceStorageComponent.CODEC);
+        getEntityStoreRegistry().registerSystem(new BlockBreakDisplayEventSystem(BreakBlockEvent.class));
     }
 }

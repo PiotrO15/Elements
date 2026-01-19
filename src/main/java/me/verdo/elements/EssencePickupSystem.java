@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
+import com.hypixel.hytale.server.core.modules.entity.item.PreventPickup;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.component.ComplexEssenceStorageComponent;
 
@@ -56,6 +57,12 @@ public class EssencePickupSystem extends EntityTickingSystem<EntityStore> {
 
                     if (itemComponent == null) {
                         continue; // Not an item entity
+                    }
+
+                    PreventPickup preventPickup = commandBuffer.getComponent(itemEntityRef, PreventPickup.getComponentType());
+
+                    if (preventPickup != null) {
+                        continue;
                     }
 
                     ItemStack itemStackOnGround = itemComponent.getItemStack();
