@@ -64,6 +64,7 @@
       "Soft": {}
     },
     "HitboxType": "Essence_Jar",
+    "InteractionHint": "server.interactionHints.Essence_Jar",
     "Material": "Solid",
     "RandomRotation": "None",
     "Opacity": "Transparent",
