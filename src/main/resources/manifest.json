@@ -1,8 +1,8 @@
 {
     "Group": "Elements",
     "Name": "Elements",
-    "Version": "0.0.2",
-    "Description": "An example plugin for HyTale!",
+    "Version": "0.0.3",
+    "Description": "Magic expansion to Hytale!",
     "Authors": [
         {
             "Name": "Verdo"

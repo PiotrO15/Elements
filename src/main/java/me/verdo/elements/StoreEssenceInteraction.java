@@ -46,13 +46,25 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
 
         EssenceStorageComponent c = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage);
 
-        if (context.getHeldItem() == null) {
-            Ref<EntityStore> ref = context.getEntity();
-            Entity entity = EntityUtils.getEntity(ref, commandBuffer);
+        Ref<EntityStore> ref = context.getEntity();
+        Entity entity = EntityUtils.getEntity(ref, commandBuffer);
 
-            if (entity instanceof Player player) {
+        if (entity instanceof Player player) {
+            ItemStack heldItem = context.getHeldItem();
+            if (heldItem != null && c.canStore(heldItem)) {
+                int toStore = Math.min(100 - c.getStoredEssenceAmount(), heldItem.getQuantity());
+
+                c.setStoredEssenceType(EssenceType.fromId(heldItem.getItemId()));
+                c.setStoredEssenceAmount(c.getStoredEssenceAmount() + toStore);
+
+                chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
+                displayEssence(chunk, vector3i, c);
+
+                player.getInventory().getCombinedHotbarFirst().removeItemStackFromSlot(player.getInventory().getActiveHotbarSlot(), toStore);
+                chunk.markNeedsSaving();
+            } else {
                 MovementStatesComponent component = world.getEntityStore().getStore().getComponent(player.getReference(), MovementStatesComponent.getComponentType());
-                if (component != null && component.getMovementStates().crouching) {
+                if (component != null && !component.getMovementStates().crouching) {
                     if (c.getStoredEssenceType() == null || c.getStoredEssenceAmount() == 0) {
                         return;
                     }
@@ -63,13 +75,13 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
                     if (drop == null)
                         return;
 
-                    if (player.getInventory().getCombinedBackpackStorageHotbar().canAddItemStack(drop)) {
+                    if (player.getInventory().getCombinedHotbarFirst().canAddItemStack(drop)) {
                         c.setStoredEssenceType(null);
                         c.setStoredEssenceAmount(0);
 
                         chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
 
-                        player.getInventory().getCombinedBackpackStorageHotbar().addItemStack(drop);
+                        player.getInventory().getCombinedHotbarFirst().addItemStack(drop);
                         displayEssence(chunk, vector3i, c);
                         chunk.markNeedsSaving();
                     }
@@ -78,24 +90,6 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
 
                 player.sendMessage(Message.raw("Storage: " + c.getStoredEssenceAmount() + "/100"));
             }
-            return;
-        }
-
-        if (c.canStore(context.getHeldItem())) {
-            int toStore = Math.min(100 - c.getStoredEssenceAmount(), context.getHeldItem().getQuantity());
-
-            c.setStoredEssenceType(EssenceType.fromId(context.getHeldItem().getItemId()));
-            c.setStoredEssenceAmount(c.getStoredEssenceAmount() + toStore);
-
-            chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
-            displayEssence(chunk, vector3i, c);
-
-            Ref<EntityStore> ref = context.getEntity();
-            Entity entity = EntityUtils.getEntity(ref, commandBuffer);
-            if (entity instanceof Player player) {
-                player.getInventory().getCombinedHotbarFirst().removeItemStackFromSlot(player.getInventory().getActiveHotbarSlot(), toStore);
-            }
-            chunk.markNeedsSaving();
         }
     }
 
@@ -139,6 +133,9 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
 
     private void setState(WorldChunk chunk, Vector3i targetBlock, String newState) {
         BlockType current = chunk.getBlockType(targetBlock);
+        if (current == null)
+            return;
+
         String newBlock = current.getBlockKeyForState(newState);
 
         if (newBlock != null) {
@@ -149,6 +146,9 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
             }
 
             BlockType newBlockType = BlockType.getAssetMap().getAsset(newBlockId);
+            if (newBlockType == null)
+                return;
+
             int rotation = chunk.getRotationIndex(targetBlock.x, targetBlock.y, targetBlock.z);
 
             chunk.setBlock(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ(), newBlockId, newBlockType, rotation, 0, 130);
