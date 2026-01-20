@@ -55,19 +55,24 @@ public class NexusInteraction extends SimpleBlockInteraction {
             Entity entity = EntityUtils.getEntity(ref, commandBuffer);
 
             if (entity instanceof Player player) {
+                ItemStack heldItem = context.getHeldItem();
+                if (heldItem != null && heldItem.getItemId().equals("Copper_Wand")) {
+                    return;
+                }
+
                 if (context.getHeldItem() != null && containerState.getItemContainer().canAddItemStack(context.getHeldItem())) {
                     containerState.getItemContainer().addItemStack(context.getHeldItem());
 
                     player.getInventory().getCombinedHotbarFirst().removeItemStackFromSlot(player.getInventory().getActiveHotbarSlot());
 
-                    commandBuffer.run(s -> ItemDisplayManager.createOrUpdateDisplay(containerState, world, targetBlock.x + shift, targetBlock.y, targetBlock.z + shift, chunkStoreRef));
+                    commandBuffer.run(s -> ItemDisplayManager.createOrUpdateDisplay(containerState, world, targetBlock.x + shift, targetBlock.y + (shift == 1 ? 0 : 0.25), targetBlock.z + shift, chunkStoreRef));
                 } else {
                     ItemStack stored = containerState.getItemContainer().getItemStack((short) 0);
                     if (stored != null) {
                         if (player.getInventory().getCombinedHotbarFirst().canAddItemStack(stored)) {
                             player.getInventory().getCombinedHotbarFirst().addItemStack(stored);
                             containerState.getItemContainer().removeItemStack(stored);
-                            commandBuffer.run(s -> ItemDisplayManager.createOrUpdateDisplay(containerState, world, targetBlock.x + shift, targetBlock.y, targetBlock.z + shift, chunkStoreRef));
+                            commandBuffer.run(s -> ItemDisplayManager.createOrUpdateDisplay(containerState, world, targetBlock.x + shift, targetBlock.y + (shift == 1 ? 0 : 0.25), targetBlock.z + shift, chunkStoreRef));
                         }
                     }
                 }

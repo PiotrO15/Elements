@@ -27,7 +27,7 @@ public class ItemDisplayManager {
     public static void createOrUpdateDisplay(
             ItemContainerState state,
             World world,
-            int blockX, int blockY, int blockZ,
+            double blockX, double blockY, double blockZ,
             Ref<ChunkStore> chunkStoreRef
     ) {
         WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(blockX, blockZ));
@@ -97,6 +97,10 @@ public class ItemDisplayManager {
     public static void removeDisplayEntity(World world, UUID uuid) {
         EntityStore entityStore = world.getEntityStore();
         Store<EntityStore> store = entityStore.getStore();
+
+        if (uuid == null) {
+            return;
+        }
 
         Ref<EntityStore> entityRef = entityStore.getRefFromUUID(uuid);
 

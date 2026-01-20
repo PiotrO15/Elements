@@ -1,15 +1,15 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Rock_Marble_Brick_Pillar_Middle.name"
+    "Name": "server.items.Rootbound_Pedestal.name"
   },
-  "Icon": "Icons/ItemsGenerated/Rock_Marble_Brick_Pillar_Middle.png",
+  "Icon": "Icons/ItemsGenerated/Rootbound_Pedestal.png",
   "Set": "Rock_Marble_Brick",
   "BlockType": {
     "Opacity": "Transparent",
     "CustomModelTexture": [
       {
-        "Texture": "Blocks/Structures/Pillars/Pillar_Base_Textures/Marble_Brick.png",
-        "Weight": 1
+        "Weight": 1,
+        "Texture": "Items/Blocks/Rootbound_Pedestal.png"
       }
     ],
     "Gathering": {
@@ -30,9 +30,14 @@
       ]
     },
     "ParticleColor": "#d5d5c8",
+    "HitboxType": "Rootbound_Pedestal",
     "Interactions": {
       "Use": "NexusInteraction"
-    }
+    },
+    "CustomModel": "Items/Blocks/Rootbound_Pedestal.blockymodel",
+    "Material": "Solid",
+    "VariantRotation": "NESW",
+    "RandomRotation": "None"
   },
   "Tags": {
     "Type": [
@@ -61,5 +66,17 @@
     ],
     "OutputQuantity": 1,
     "TimeSeconds": 0
+  },
+  "IconProperties": {
+    "Scale": 0.55,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -17
+    ]
   }
 }

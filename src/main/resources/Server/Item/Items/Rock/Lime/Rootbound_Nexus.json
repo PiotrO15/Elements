@@ -1,10 +1,13 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Rock_Limestone_Brick.name"
+    "Name": "server.items.Rootbound_Nexus.name"
   },
-  "Icon": "Icons/ItemsGenerated/Rock_Limestone_Brick.png",
+  "Icon": "Icons/ItemsGenerated/Rootbound_Nexus.png",
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": "Block_Secondary"
+  },
   "Set": "Rock_Limestone_Brick",
-  "Parent": "Rock_Stone_Brick",
   "Recipe": {
     "Input": [
       {
@@ -25,20 +28,14 @@
     "TimeSeconds": 0
   },
   "BlockType": {
-    "Textures": [
+    "CustomModel": "Items/Blocks/Rootbound_Nexus.blockymodel",
+    "CustomModelTexture": [
       {
-        "Weight": 5,
-        "All": "BlockTextures/Rock_Limestone_Brick_Side.png"
-      },
-      {
-        "All": "BlockTextures/Rock_Limestone_Brick_Side2.png"
+        "Texture": "BlockTextures/Rock_Marble.png",
+        "Weight": 1
       }
     ],
     "ParticleColor": "#dccd97",
-    "TransitionToGroups": [
-      "Dirt"
-    ],
-    "TransitionTexture": "BlockTextures/Transition_Rock_Limestone_Brick.png",
     "HitboxType": "Rootbound_Nexus",
     "Opacity": "Transparent",
     "State": {
@@ -47,17 +44,19 @@
     },
     "Interactions": {
       "Use": "NexusInteraction"
-    }
+    },
+    "DrawType": "Model",
+    "Material": "Solid"
   },
   "IconProperties": {
-    "Scale": 0.58823,
+    "Scale": 0.23,
     "Rotation": [
       22.5,
       45,
       22.5
     ],
     "Translation": [
-      0,
+      -45,
       -13.5
     ]
   },

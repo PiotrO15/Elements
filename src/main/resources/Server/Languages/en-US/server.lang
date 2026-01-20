@@ -1,2 +1,5 @@
 items.Essence_Jar.name = Essence Jar
 interactionHints.Essence_Jar = Press [{key}] to store or extract essence
+
+items.Rootbound_Nexus.name = Rootbound Nexus
+items.Rootbound_Pedestal.name = Rootbound Pedestal
