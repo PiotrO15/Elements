@@ -1,4 +1,4 @@
-package me.verdo.elements;
+package me.verdo.elements.system;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
@@ -14,6 +14,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.component.EssenceStorageComponent;
 
 import javax.annotation.Nonnull;
@@ -21,7 +22,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class BlockBreakEventSystem extends EntityEventSystem<EntityStore, BreakBlockEvent> {
-    protected BlockBreakEventSystem(@Nonnull Class<BreakBlockEvent> eventType) {
+    public BlockBreakEventSystem(@Nonnull Class<BreakBlockEvent> eventType) {
         super(eventType);
     }
 

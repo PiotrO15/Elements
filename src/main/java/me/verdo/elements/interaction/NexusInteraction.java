@@ -1,4 +1,4 @@
-package me.verdo.elements;
+package me.verdo.elements.interaction;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -16,27 +16,29 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.cli
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
-import com.hypixel.hytale.server.core.universe.world.meta.state.ItemContainerState;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import me.verdo.elements.ElementsPlugin;
+import me.verdo.elements.component.StoredItemComponent;
 import me.verdo.elements.display.ItemDisplayManager;
+import me.verdo.elements.item.ItemPedestalState;
+import me.verdo.elements.recipe.RootboundCraftingRecipe;
+import me.verdo.elements.util.ModChunkUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class NexusInteraction extends SimpleBlockInteraction {
     public static final BuilderCodec<NexusInteraction> CODEC = BuilderCodec.builder(NexusInteraction.class, NexusInteraction::new).documentation("Interact with Rootbound Nexus").build();
 
     @Override
     protected void interactWithBlock(@Nonnull World world, @Nonnull CommandBuffer<EntityStore> commandBuffer, @Nonnull InteractionType interactionType, @Nonnull InteractionContext context, @Nullable ItemStack itemStack, @Nonnull Vector3i targetBlock, @Nonnull CooldownHandler cooldownHandler) {
+        Ref<ChunkStore> chunkStoreRef = ModChunkUtil.getBlockComponentEntity(world, targetBlock);
         WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(targetBlock.x, targetBlock.z));
-        if (chunk == null) {
-            return;
-        }
 
-        int localX = ChunkUtil.localCoordinate(targetBlock.x);
-        int localZ = ChunkUtil.localCoordinate(targetBlock.z);
-        Ref<ChunkStore> chunkStoreRef = chunk.getBlockComponentEntity(localX, targetBlock.y, localZ);
+        if (chunk == null)
+            return;
 
         if (world.getBlockType(targetBlock) == null)
             return;
@@ -50,30 +52,37 @@ public class NexusInteraction extends SimpleBlockInteraction {
 
         BlockState nexusState = world.getState(targetBlock.x, targetBlock.y, targetBlock.z, true);
 
-        if (nexusState instanceof ItemContainerState containerState) {
-            Ref<EntityStore> ref = context.getEntity();
-            Entity entity = EntityUtils.getEntity(ref, commandBuffer);
+        List<String> supportedBlocks = List.of("Rootbound_Nexus", "Rootbound_Pedestal");
+        if (!supportedBlocks.contains(world.getBlockType(targetBlock).getId())) {
+            return;
+        }
 
-            if (entity instanceof Player player) {
-                ItemStack heldItem = context.getHeldItem();
-                if (heldItem != null && heldItem.getItemId().equals("Copper_Wand")) {
-                    return;
-                }
+        StoredItemComponent storedItem = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef, ElementsPlugin.get().storedItem);
 
-                if (context.getHeldItem() != null && containerState.getItemContainer().canAddItemStack(context.getHeldItem())) {
-                    containerState.getItemContainer().addItemStack(context.getHeldItem());
+        Ref<EntityStore> ref = context.getEntity();
+        Entity entity = EntityUtils.getEntity(ref, commandBuffer);
 
-                    player.getInventory().getCombinedHotbarFirst().removeItemStackFromSlot(player.getInventory().getActiveHotbarSlot());
+        if (entity instanceof Player player) {
+            ItemStack heldItem = context.getHeldItem();
+            if (heldItem != null && heldItem.getItemId().equals("Copper_Wand")) {
+                RootboundCraftingRecipe.craft(nexusState, commandBuffer);
+                return;
+            }
 
-                    commandBuffer.run(s -> ItemDisplayManager.createOrUpdateDisplay(containerState, world, targetBlock.x + shift, targetBlock.y + (shift == 1 ? 0 : 0.25), targetBlock.z + shift, chunkStoreRef));
-                } else {
-                    ItemStack stored = containerState.getItemContainer().getItemStack((short) 0);
-                    if (stored != null) {
-                        if (player.getInventory().getCombinedHotbarFirst().canAddItemStack(stored)) {
-                            player.getInventory().getCombinedHotbarFirst().addItemStack(stored);
-                            containerState.getItemContainer().removeItemStack(stored);
-                            commandBuffer.run(s -> ItemDisplayManager.createOrUpdateDisplay(containerState, world, targetBlock.x + shift, targetBlock.y + (shift == 1 ? 0 : 0.25), targetBlock.z + shift, chunkStoreRef));
-                        }
+            if (context.getHeldItem() != null && storedItem.getStoredItem().isEmpty()) {
+                storedItem.setStoredItem(context.getHeldItem().withQuantity(1));
+                commandBuffer.run(_ -> ItemDisplayManager.createOrUpdateDisplay(storedItem, world, targetBlock.x, targetBlock.y, targetBlock.z, chunkStoreRef));
+                chunk.markNeedsSaving();
+
+                player.getInventory().getCombinedHotbarFirst().removeItemStackFromSlot(player.getInventory().getActiveHotbarSlot(), 1);
+            } else {
+                ItemStack stored = storedItem.getStoredItem();
+                if (stored != null) {
+                    if (player.getInventory().getCombinedHotbarFirst().canAddItemStack(stored)) {
+                        player.getInventory().getCombinedHotbarFirst().addItemStack(stored);
+                        storedItem.setStoredItem(ItemStack.EMPTY);
+                        System.out.println("Removing display for item UUID: " + storedItem.getDisplayedItemUUID());
+                        commandBuffer.run(_ -> ItemDisplayManager.removeDisplayEntity(world, chunkStoreRef, chunk));
                     }
                 }
             }

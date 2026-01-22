@@ -1,23 +1,24 @@
 package me.verdo.elements.display;
 
-import com.hypixel.hytale.component.ArchetypeChunk;
-import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
-import com.hypixel.hytale.math.util.ChunkUtil;
+import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
-import me.verdo.elements.component.RenderedItemComponent;
+import me.verdo.elements.component.StoredItemComponent;
+import me.verdo.elements.util.ModChunkUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class BlockBreakDisplayEventSystem extends EntityEventSystem<EntityStore, BreakBlockEvent> {
     public BlockBreakDisplayEventSystem(@Nonnull Class<BreakBlockEvent> eventType) {
@@ -34,29 +35,21 @@ public class BlockBreakDisplayEventSystem extends EntityEventSystem<EntityStore,
 
         World world = player.getWorld();
 
-        if (world == null)
-            return;
-
-        WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(event.getTargetBlock().x, event.getTargetBlock().z));
-
-        if (chunk == null) {
-            return;
-        }
-
-        int localX = ChunkUtil.localCoordinate(event.getTargetBlock().x);
-        int localZ = ChunkUtil.localCoordinate(event.getTargetBlock().z);
-        Ref<ChunkStore> chunkStoreRef = chunk.getBlockComponentEntity(localX, event.getTargetBlock().y, localZ);
+        Ref<ChunkStore> chunkStoreRef = ModChunkUtil.getBlockComponentEntity(world, event.getTargetBlock());
 
         if (chunkStoreRef == null)
             return;
 
-        RenderedItemComponent c = chunkStoreRef.getStore().getComponent(chunkStoreRef, ElementsPlugin.get().renderedItem);
-
-        if (c == null) {
-            return;
+        StoredItemComponent storedItem = chunkStoreRef.getStore().getComponent(chunkStoreRef, ElementsPlugin.get().storedItem);
+        if (storedItem != null) {
+            System.out.println(storedItem.getStoredItem().getItemId());
+            System.out.println(storedItem.getDisplayedItemUUID());
+            List<ItemStack> allItemStacks = List.of(storedItem.getStoredItem());
+            Vector3d dropPosition = event.getTargetBlock().toVector3d().add(0.5F, 0.0F, 0.5F);
+            Holder<EntityStore>[] itemEntityHolders = ItemComponent.generateItemDrops(store, allItemStacks, dropPosition, Vector3f.ZERO);
+            commandBuffer.run(_ -> ItemDisplayManager.removeDisplayEntity(world, storedItem.getDisplayedItemUUID()));
+            world.execute(() -> store.addEntities(itemEntityHolders, AddReason.SPAWN));
         }
-
-        commandBuffer.run(s -> ItemDisplayManager.removeDisplayEntity(world, c.getStoredUUID()));
     }
 
     @Nullable

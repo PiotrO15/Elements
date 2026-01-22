@@ -7,7 +7,7 @@
     "Primary": "Block_Primary",
     "Secondary": "Block_Secondary"
   },
-  "Set": "Rock_Limestone_Brick",
+  "Set": "",
   "Recipe": {
     "Input": [
       {
@@ -59,13 +59,5 @@
       -45,
       -13.5
     ]
-  },
-  "ResourceTypes": [
-    {
-      "Id": "Bricks"
-    },
-    {
-      "Id": "Rock_Lime_Brick"
-    }
-  ]
+  }
 }

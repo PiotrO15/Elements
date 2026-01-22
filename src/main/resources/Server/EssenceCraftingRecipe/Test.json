@@ -1,0 +1,24 @@
+{
+  "PedestalInputs": [
+    {
+      "ItemId": "Wood_Amber_Trunk",
+      "Quantity": 4
+    },
+    {
+      "ItemId": "Ingredient_Bar_Onyxium",
+      "Quantity": 4
+    }
+  ],
+  "MainInput": {
+    "ItemId": "Rock_Gem_Sapphire"
+  },
+  "EssenceInputs": [
+    {
+      "StoredEssenceType": "Ingredient_Life_Essence",
+      "StoredEssenceAmount": 10
+    }
+  ],
+  "Output": {
+    "ItemId": "Weapon_Staff_Crystal_Ice"
+  }
+}

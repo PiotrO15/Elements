@@ -1,4 +1,4 @@
-package me.verdo.elements.hud;
+package me.verdo.elements.system.hud;
 
 import com.hypixel.hytale.component.ArchetypeChunk;
 import com.hypixel.hytale.component.CommandBuffer;

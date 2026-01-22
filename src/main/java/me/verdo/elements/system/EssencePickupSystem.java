@@ -1,4 +1,4 @@
-package me.verdo.elements;
+package me.verdo.elements.system;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;

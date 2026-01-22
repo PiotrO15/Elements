@@ -10,22 +10,22 @@ import com.hypixel.hytale.server.core.modules.entity.DespawnComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.Intangible;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
+import com.hypixel.hytale.server.core.modules.entity.item.PreventItemMerging;
 import com.hypixel.hytale.server.core.modules.entity.item.PreventPickup;
 import com.hypixel.hytale.server.core.modules.physics.component.PhysicsValues;
 import com.hypixel.hytale.server.core.modules.time.TimeResource;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
-import com.hypixel.hytale.server.core.universe.world.meta.state.ItemContainerState;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
-import me.verdo.elements.component.RenderedItemComponent;
+import me.verdo.elements.component.StoredItemComponent;
 
 import java.util.UUID;
 
 public class ItemDisplayManager {
     public static void createOrUpdateDisplay(
-            ItemContainerState state,
+            StoredItemComponent state,
             World world,
             double blockX, double blockY, double blockZ,
             Ref<ChunkStore> chunkStoreRef
@@ -34,11 +34,22 @@ public class ItemDisplayManager {
 
         if (chunk == null)
             return;
-        removeDisplayEntity(world, chunkStoreRef, chunk);
+
+        if (state.getStoredItem() != null || state.getDisplayedItemUUID() != null)
+            removeDisplayEntity(world, chunkStoreRef, chunk);
 
         String displayItemId = null;
 
-        ItemStack storedItem = state.getItemContainer().getItemStack((short) 0);
+        ItemStack storedItem = state.getStoredItem();
+
+        String blockId = world.getBlockType((int)blockX, (int)blockY, (int)blockZ).getId();
+
+        if (blockId.equals("Rootbound_Nexus")) {
+            blockX += 1;
+            blockZ += 1;
+        } else if (blockId.equals("Rootbound_Pedestal")) {
+            blockY += 0.25;
+        }
 
         if (storedItem != null) {
             displayItemId = storedItem.getItemId();
@@ -70,27 +81,30 @@ public class ItemDisplayManager {
         if (displayHolder != null) {
             world.getEntityStore().getStore().addEntity(displayHolder, AddReason.SPAWN);
 
-            RenderedItemComponent c = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef, ElementsPlugin.get().renderedItem);
+//            RenderedItemComponent c = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef, ElementsPlugin.get().renderedItem);
 
             UUIDComponent uuidComponent = displayHolder.getComponent(UUIDComponent.getComponentType());
             if (uuidComponent != null) {
-                c.setStoredUUID(uuidComponent.getUuid());
-                chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().renderedItem, c);
+//                c.setStoredUUID(uuidComponent.getUuid());
+//                chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().renderedItem, c);
+                state.setDisplayedItemUUID(uuidComponent.getUuid());
+                System.out.println("storing " + state.getDisplayedItemUUID());
+                chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().storedItem, state);
                 chunk.markNeedsSaving();
             }
         }
     }
     public static void removeDisplayEntity(World world, Ref<ChunkStore> chunkStoreRef, WorldChunk chunk) {
-        RenderedItemComponent c = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef, ElementsPlugin.get().renderedItem);
-        UUID displayUUID = c.getStoredUUID();
+        StoredItemComponent c = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef, ElementsPlugin.get().storedItem);
+        UUID displayUUID = c.getDisplayedItemUUID();
         if (displayUUID == null) {
             return;
         }
 
         removeDisplayEntity(world, displayUUID);
 
-        c.setStoredUUID(null);
-        chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().renderedItem, c);
+        c.setDisplayedItemUUID(null);
+        chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().storedItem, c);
         chunk.markNeedsSaving();
     }
 
@@ -129,6 +143,7 @@ public class ItemDisplayManager {
         holder.ensureComponent(PreventPickup.getComponentType());
         holder.ensureComponent(UUIDComponent.getComponentType());
         holder.ensureComponent(PhysicsValues.getComponentType());
+        holder.ensureComponent(PreventItemMerging.getComponentType());
 
         TimeResource timeResource = accessor.getResource(TimeResource.getResourceType());
         holder.addComponent(DespawnComponent.getComponentType(),

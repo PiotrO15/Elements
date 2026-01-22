@@ -62,8 +62,8 @@ public class EssenceStorageComponent implements Component<ChunkStore> {
 
     static {
         CODEC = BuilderCodec.builder(EssenceStorageComponent.class, EssenceStorageComponent::new)
-                .addField(new KeyedCodec<>("StoredEssenceAmount", Codec.INTEGER, true), (s, o) -> s.storedEssenceAmount = o, (s) -> s.storedEssenceAmount)
-                .addField(new KeyedCodec<>("StoredEssenceType", Codec.STRING, true), (s, o) -> s.storedEssenceType = EssenceType.fromId(o), (s) -> s.storedEssenceType != null ? s.storedEssenceType.getItemId() : null)
+                .append(new KeyedCodec<>("StoredEssenceAmount", Codec.INTEGER, true), (s, o) -> s.storedEssenceAmount = o, (s) -> s.storedEssenceAmount).add()
+                .append(new KeyedCodec<>("StoredEssenceType", Codec.STRING, true), (s, o) -> s.storedEssenceType = EssenceType.fromId(o), (s) -> s.storedEssenceType != null ? s.storedEssenceType.getItemId() : null).add()
                 .build();
     }
 }

@@ -3,7 +3,7 @@
     "Name": "server.items.Rootbound_Pedestal.name"
   },
   "Icon": "Icons/ItemsGenerated/Rootbound_Pedestal.png",
-  "Set": "Rock_Marble_Brick",
+  "Set": "",
   "BlockType": {
     "Opacity": "Transparent",
     "CustomModelTexture": [

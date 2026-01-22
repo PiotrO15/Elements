@@ -1,4 +1,4 @@
-package me.verdo.elements;
+package me.verdo.elements.interaction;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -20,6 +20,8 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import me.verdo.elements.ElementsPlugin;
+import me.verdo.elements.EssenceType;
 import me.verdo.elements.component.EssenceStorageComponent;
 
 import javax.annotation.Nonnull;
@@ -98,7 +100,7 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
 
     }
 
-    private void displayEssence(WorldChunk chunk, Vector3i targetBlock, EssenceStorageComponent c) {
+    public static void displayEssence(WorldChunk chunk, Vector3i targetBlock, EssenceStorageComponent c) {
         if (c.getStoredEssenceAmount() == 0 || c.getStoredEssenceType() == null) {
             setState(chunk, targetBlock, "0");
             return;
@@ -131,7 +133,7 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
         setState(chunk, targetBlock, newState.toString());
     }
 
-    private void setState(WorldChunk chunk, Vector3i targetBlock, String newState) {
+    private static void setState(WorldChunk chunk, Vector3i targetBlock, String newState) {
         BlockType current = chunk.getBlockType(targetBlock);
         if (current == null)
             return;

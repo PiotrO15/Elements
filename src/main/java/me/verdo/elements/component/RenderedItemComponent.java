@@ -11,7 +11,6 @@ import java.util.UUID;
 
 public class RenderedItemComponent implements Component<ChunkStore> {
     public static final BuilderCodec<RenderedItemComponent> CODEC;
-
     private UUID storedUUID;
 
     public RenderedItemComponent() {
@@ -38,8 +37,7 @@ public class RenderedItemComponent implements Component<ChunkStore> {
 
     static {
         CODEC = BuilderCodec.builder(RenderedItemComponent.class, RenderedItemComponent::new)
-                .addField(new KeyedCodec<>("StoredUUID", Codec.UUID_STRING, true), (c, u) -> c.storedUUID = u, (c) -> c.storedUUID)
+                .append(new KeyedCodec<>("StoredUUID", Codec.UUID_STRING, true), (c, u) -> c.storedUUID = u, (c) -> c.storedUUID).add()
                 .build();
-
     }
 }
