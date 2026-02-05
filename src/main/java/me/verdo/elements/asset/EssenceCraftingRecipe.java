@@ -39,7 +39,7 @@ public class EssenceCraftingRecipe implements JsonAssetWithMap<String, DefaultAs
 
     @Override
     public String getId() {
-        return "";
+        return id;
     }
 
     public MaterialQuantity[] getPedestalInputs() {

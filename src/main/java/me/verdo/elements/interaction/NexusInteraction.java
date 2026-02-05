@@ -21,7 +21,6 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.component.StoredItemComponent;
 import me.verdo.elements.display.ItemDisplayManager;
-import me.verdo.elements.item.ItemPedestalState;
 import me.verdo.elements.recipe.RootboundCraftingRecipe;
 import me.verdo.elements.util.ModChunkUtil;
 
@@ -42,8 +41,6 @@ public class NexusInteraction extends SimpleBlockInteraction {
 
         if (world.getBlockType(targetBlock) == null)
             return;
-
-        int shift = world.getBlockType(targetBlock).getId().equals("Rootbound_Nexus") ? 1 : 0;
 
         if (chunkStoreRef == null) {
             ElementsPlugin.LOGGER.atSevere().log("StoreEssenceInteraction failed: Essence Jar has no components.");

@@ -1,4 +1,9 @@
+items.Alchemical_Furnace.name = Alchemical Furnace
+items.Alchemical_Furnace.description = A furnace that breaks down items into essence fumes, which can be collected with an Essence Filter.
+items.Essence_Filter.name = Essence Filter
+items.Essence_Filter.description = Can be placed above an Alchemical Furnace to collect essence into Essence Jars.
 items.Essence_Jar.name = Essence Jar
+items.Essence_Pipe.name = Essence Pipe
 interactionHints.Essence_Jar = Press [{key}] to store or extract essence
 
 items.Rootbound_Nexus.name = Rootbound Nexus
