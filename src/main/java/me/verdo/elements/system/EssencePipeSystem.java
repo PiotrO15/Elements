@@ -19,7 +19,6 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 public class EssencePipeSystem {
@@ -95,20 +94,24 @@ public class EssencePipeSystem {
     }
 
     public static void updateNeighborPipes(World world, Vector3i pos) {
-        updatePipeShape(world, pos);
-        updatePipeShape(world, new Vector3i(pos).add(Vector3i.NORTH));
-        updatePipeShape(world, new Vector3i(pos).add(Vector3i.SOUTH));
-        updatePipeShape(world, new Vector3i(pos).add(Vector3i.EAST));
-        updatePipeShape(world, new Vector3i(pos).add(Vector3i.WEST));
-        updatePipeShape(world, new Vector3i(pos).add(Vector3i.UP));
-        updatePipeShape(world, new Vector3i(pos).add(Vector3i.DOWN));
+        updatePipeShape(world, null, pos);
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.NORTH));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.SOUTH));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.EAST));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.WEST));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.UP));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.DOWN));
     }
 
-    public static void updatePipeShape(World world, Vector3i pos) {
-        if (!Objects.requireNonNull(world.getBlockType(pos)).getId().contains("Essence_Pipe"))
+    public static void updatePipeShape(World world, Vector3i from, Vector3i to) {
+        BlockType toBlockType = world.getBlockType(to);
+        if (toBlockType == null)
             return;
 
-        WorldChunk chunk = world.getChunkIfLoaded(ChunkUtil.indexChunkFromBlock(pos.x, pos.z));
+        if (!toBlockType.getId().contains("Essence_Pipe"))
+            return;
+
+        WorldChunk chunk = world.getChunkIfLoaded(ChunkUtil.indexChunkFromBlock(to.x, to.z));
 
         if (chunk == null) {
             return;
@@ -116,22 +119,22 @@ public class EssencePipeSystem {
 
         Set<Vector3i> connections = new HashSet<>();
 
-        if (canPipeConnect(world, pos, new Vector3i(pos).add(Vector3i.NORTH))) {
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.NORTH))) {
             connections.add(Vector3i.NORTH);
         }
-        if (canPipeConnect(world, pos, new Vector3i(pos).add(Vector3i.SOUTH))) {
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.SOUTH))) {
             connections.add(Vector3i.SOUTH);
         }
-        if (canPipeConnect(world, pos, new Vector3i(pos).add(Vector3i.EAST))) {
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.EAST))) {
             connections.add(Vector3i.EAST);
         }
-        if (canPipeConnect(world, pos, new Vector3i(pos).add(Vector3i.WEST))) {
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.WEST))) {
             connections.add(Vector3i.WEST);
         }
-        if (canPipeConnect(world, pos, new Vector3i(pos).add(Vector3i.UP))) {
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.UP))) {
             connections.add(Vector3i.UP);
         }
-        if (canPipeConnect(world, pos, new Vector3i(pos).add(Vector3i.DOWN))) {
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.DOWN))) {
             connections.add(Vector3i.DOWN);
         }
 
@@ -143,7 +146,7 @@ public class EssencePipeSystem {
         }
 
         String blockType = essencePipe.getBlockKeyForState(newShape.name);
-        chunk.setBlock(pos.x, pos.y, pos.z, BlockType.getAssetMap().getIndex(blockType), essencePipe, PipeShape.getRotation(newShape, connections), 0, 0);
+        chunk.setBlock(to.x, to.y, to.z, BlockType.getAssetMap().getIndex(blockType), essencePipe, PipeShape.getRotation(newShape, connections), 0, 0);
     }
 
     private static boolean canPipeConnect(World world, Vector3i from, Vector3i to) {
@@ -151,7 +154,7 @@ public class EssencePipeSystem {
         if (blockType == null)
             return false;
 
-        return blockType.getId().contains("Essence_Pipe") || (blockType.getId().contains("Essence_Jar") && from.y > to.y);
+        return blockType.getId().contains("Essence_Pipe") || (blockType.getId().contains("Essence_Jar") && from.y > to.y) || (blockType.getId().contains("Alchemical_Furnace") && from.y > to.y);
     }
 
     public static class PipePlaceEvent extends EntityEventSystem<EntityStore, PlaceBlockEvent> {
@@ -162,6 +165,14 @@ public class EssencePipeSystem {
         @Override
         public void handle(int i, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer, @NonNullDecl PlaceBlockEvent placeBlockEvent) {
             commandBuffer.run(_ -> updateNeighborPipes(store.getExternalData().getWorld(), placeBlockEvent.getTargetBlock()));
+            new Thread(() -> {
+                try {
+                    Thread.sleep(1);
+                    updateNeighborPipes(store.getExternalData().getWorld(), placeBlockEvent.getTargetBlock());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
 
         @NullableDecl
@@ -178,7 +189,11 @@ public class EssencePipeSystem {
 
         @Override
         public void handle(int i, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer, @NonNullDecl BreakBlockEvent placeBlockEvent) {
-            commandBuffer.run(_ -> updateNeighborPipes(store.getExternalData().getWorld(), placeBlockEvent.getTargetBlock()));
+            Vector3i target = placeBlockEvent.getTargetBlock();
+            if (placeBlockEvent.getBlockType().getId().contains("Alchemical_Furnace"))
+                target.add(Vector3i.UP);
+
+            commandBuffer.run(_ -> updateNeighborPipes(store.getExternalData().getWorld(), target));
         }
 
         @NullableDecl
