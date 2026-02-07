@@ -1,14 +1,11 @@
 {
-    "Group": "Elements",
+    "Group": "me.verdo",
     "Name": "Elements",
     "Version": "0.0.3",
     "Description": "Magic expansion to Hytale!",
     "Authors": [
         {
             "Name": "Verdo"
-        },
-        {
-            "Name": "Luxer"
         }
     ],
     "ServerVersion": "*",

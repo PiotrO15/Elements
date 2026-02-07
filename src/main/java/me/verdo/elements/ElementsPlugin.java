@@ -36,6 +36,8 @@ public class ElementsPlugin extends JavaPlugin {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private static ElementsPlugin instance;
 
+    private final Config<CommonConfig> config;
+
     public ComponentType<ChunkStore, EssenceStorageComponent> essenceStorage;
     public ComponentType<EntityStore, ComplexEssenceStorageComponent> storedEssence;
     public ComponentType<ChunkStore, RenderedItemComponent> renderedItem;
@@ -43,7 +45,7 @@ public class ElementsPlugin extends JavaPlugin {
 
     public ElementsPlugin(@Nonnull JavaPluginInit init) {
         super(init);
-        LOGGER.atInfo().log("Hello from " + this.getName() + " version " + this.getManifest().getVersion().toString());
+        this.config = this.withConfig("CommonConfig", CommonConfig.CODEC);
         instance = this;
     }
 
@@ -53,6 +55,7 @@ public class ElementsPlugin extends JavaPlugin {
 
     @Override
     protected void setup() {
+        config.save();
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
 
         essenceStorage = getChunkStoreRegistry().registerComponent(EssenceStorageComponent.class, "EssenceStorage", EssenceStorageComponent.CODEC);
@@ -81,5 +84,9 @@ public class ElementsPlugin extends JavaPlugin {
                 .setCodec(EssenceDistillationRecipe.CODEC)
                 .setKeyFunction(EssenceDistillationRecipe::getId)
                 .build());
+    }
+
+    public Config<CommonConfig> getCommonConfig() {
+        return config;
     }
 }
