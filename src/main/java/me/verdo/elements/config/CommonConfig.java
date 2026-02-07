@@ -11,7 +11,7 @@ public class CommonConfig {
                     (config) -> config.maxEssenceStorage).add()
             .build();
 
-    private int maxEssenceStorage = 100;
+    private int maxEssenceStorage = 250;
 
     public CommonConfig() {}
 
