@@ -9,23 +9,26 @@
   },
   "Set": "",
   "Recipe": {
+    "TimeSeconds": 10,
     "Input": [
       {
-        "ResourceTypeId": "Rock_Lime",
-        "Quantity": 1
+        "ResourceTypeId": "Rock_Marble",
+        "Quantity": 20
+      },
+      {
+        "ItemId": "Ingredient_Bar_Copper",
+        "Quantity": 4
       }
     ],
     "BenchRequirement": [
       {
-        "Id": "Builders",
-        "Type": "StructuralCrafting",
+        "Id": "Arcanebench",
+        "Type": "Crafting",
         "Categories": [
-          "Bricks"
+          "Arcane_Misc"
         ]
       }
-    ],
-    "OutputQuantity": 1,
-    "TimeSeconds": 0
+    ]
   },
   "BlockType": {
     "CustomModel": "Items/Blocks/Rootbound_Nexus.blockymodel",

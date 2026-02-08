@@ -47,10 +47,7 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
         blockStateSpatialStructure.getSpatialStructure().ordered3DAxis(blockPos, searchRadius.x, searchRadius.y, searchRadius.z, results);
 
         if (!results.isEmpty()) {
-            ObjectListIterator<Ref<ChunkStore>> iterator = results.iterator();
-
-            while (iterator.hasNext()) {
-                Ref<ChunkStore> ref = iterator.next();
+            for (Ref<ChunkStore> ref : results) {
                 BlockState state = BlockState.getBlockState(ref, ref.getStore());
                 if (state.getBlockType().getId().equals("Rootbound_Pedestal")) {
                     StoredItemComponent component = ref.getStore().ensureAndGetComponent(ref, ElementsPlugin.get().storedItem);
@@ -79,26 +76,18 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
             if (mainInput.getStoredItem() == null || mainInput.getStoredItem().isEmpty())
                 return false;
 
-            essenceContainers.stream().filter(s -> s.component.getStoredEssenceType() != null).forEach(c -> System.out.println(c.component.getStoredEssenceType() + " " + c.component.getStoredEssenceAmount()));
-            pedestalData.stream().filter(s -> !s.component.getStoredItem().isEmpty()).forEach(c -> System.out.println(c.component.getStoredItem()));
-
             for (EssenceCraftingRecipe recipe : EssenceCraftingRecipe.getAssetMap().getAssetMap().values()) {
                 if (!recipe.getMainInput().getItemId().equals(mainInput.getStoredItem().getItemId())) {
-                    System.out.println("Failed main check!" + recipe.getMainInput().getItemId() + " != " + mainInput.getStoredItem().getItemId());
                     continue;
                 }
 
                 if (!RecipeUtil.hasRequiredEssence(essenceContainers, recipe.getEssenceInputs())) {
-                    System.out.println("Failed essence check");
                     continue;
                 }
 
                 if (!RecipeUtil.hasRequiredMaterials(pedestalData, recipe.getPedestalInputs())) {
-                    System.out.println("Failed pedestal check");
                     continue;
                 }
-
-                ParticleUtil.spawnParticleEffect("Beam_Lightning2", blockPos, world.getEntityStore().getStore());
 
                 mainInput.setStoredItem(ItemStack.EMPTY);
 
@@ -109,6 +98,8 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
                 ItemStack output = recipe.getOutput().toItemStack();
                 if (output != null)
                     mainInput.setStoredItem(output);
+
+                ParticleUtil.spawnParticleEffect("GreenOrbImpact", blockPos.clone().add(1.5, 1.25, 1.5), world.getEntityStore().getStore());
 
                 commandBuffer.run(_ -> ItemDisplayManager.createOrUpdateDisplay(mainInput, world, blockPos.x, blockPos.y, blockPos.z, blockRef));
                 break;

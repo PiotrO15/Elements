@@ -148,7 +148,6 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
         if (newBlock != null) {
             int newBlockId = BlockType.getAssetMap().getIndex(newBlock);
             if (newBlockId == Integer.MIN_VALUE) {
-                System.out.println("State change failed");
                 return;
             }
 

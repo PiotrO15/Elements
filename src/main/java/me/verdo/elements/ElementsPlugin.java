@@ -77,7 +77,7 @@ public class ElementsPlugin extends JavaPlugin {
         getEntityStoreRegistry().registerSystem(new EssencePipeSystem.PipeBreakEvent(BreakBlockEvent.class));
 
         getAssetRegistry().register(HytaleAssetStore.builder(EssenceCraftingRecipe.class, new DefaultAssetMap<>())
-                .setPath("EssenceCraftingRecipe")
+                .setPath("Item/RootboundNexusRecipe")
                 .setCodec(EssenceCraftingRecipe.CODEC)
                 .setKeyFunction(EssenceCraftingRecipe::getId)
                 .build());

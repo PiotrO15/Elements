@@ -81,14 +81,9 @@ public class ItemDisplayManager {
         if (displayHolder != null) {
             world.getEntityStore().getStore().addEntity(displayHolder, AddReason.SPAWN);
 
-//            RenderedItemComponent c = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef, ElementsPlugin.get().renderedItem);
-
             UUIDComponent uuidComponent = displayHolder.getComponent(UUIDComponent.getComponentType());
             if (uuidComponent != null) {
-//                c.setStoredUUID(uuidComponent.getUuid());
-//                chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().renderedItem, c);
                 state.setDisplayedItemUUID(uuidComponent.getUuid());
-                System.out.println("storing " + state.getDisplayedItemUUID());
                 chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().storedItem, state);
                 chunk.markNeedsSaving();
             }
@@ -128,7 +123,6 @@ public class ItemDisplayManager {
             Vector3d position
     ) {
         if (itemStack == null || itemStack.isEmpty() || !itemStack.isValid()) {
-            System.out.println("No valid item");
             return null;
         }
 

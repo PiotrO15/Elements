@@ -3,6 +3,29 @@
     "Name": "server.items.Essence_Pipe.name"
   },
   "PlayerAnimationsId": "Item",
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 8
+      },
+      {
+        "ItemId": "Ingredient_Bar_Copper",
+        "Quantity": 1
+      }
+    ],
+    "OutputQuantity": 8,
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Misc"
+        ]
+      }
+    ]
+  },
   "Interactions": {
     "Primary": "Block_Primary",
     "Secondary": "Block_Secondary"

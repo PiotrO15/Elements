@@ -2,71 +2,28 @@ package me.verdo.elements.util;
 
 import com.hypixel.hytale.builtin.crafting.component.CraftingManager;
 import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.math.shape.Box;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.asset.type.blockhitbox.BlockBoundingBoxes;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.MaterialQuantity;
-import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule;
-import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
-import it.unimi.dsi.fastutil.objects.ObjectListIterator;
-import me.verdo.elements.component.StoredItemComponent;
 import me.verdo.elements.display.ItemDisplayManager;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
-import me.verdo.elements.item.ItemPedestalState;
-import me.verdo.elements.item.PedestalItemContainer;
 import me.verdo.elements.component.EssenceStorageComponent;
 import me.verdo.elements.recipe.RootboundCraftingRecipe;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class RecipeUtil {
-    protected static List<ItemContainer> getContainersAroundBench(@Nonnull BlockState blockState, List<String> searchedBlockTypes) {
-        List<ItemContainer> containers = new ObjectArrayList();
-        World world = blockState.getChunk().getWorld();
-        Store<ChunkStore> store = world.getChunkStore().getStore();
-        int limit = world.getGameplayConfig().getCraftingConfig().getBenchMaterialChestLimit();
-        Vector3d blockPos = blockState.getBlockPosition().toVector3d();
-        Vector3d searchRadius = getSearchRadius(world, blockState);
-        SpatialResource<Ref<ChunkStore>, ChunkStore> blockStateSpatialStructure = store.getResource(BlockStateModule.get().getItemContainerSpatialResourceType());
-        ObjectList<Ref<ChunkStore>> results = SpatialResource.getThreadLocalReferenceList();
-        blockStateSpatialStructure.getSpatialStructure().ordered3DAxis(blockPos, searchRadius.x, searchRadius.y, searchRadius.z, results);
-        if (!results.isEmpty()) {
-            ObjectListIterator var35 = results.iterator();
-
-            while(var35.hasNext()) {
-                Ref<ChunkStore> ref = (Ref)var35.next();
-                BlockState state = BlockState.getBlockState(ref, ref.getStore());
-                if (state instanceof ItemPedestalState chest) {
-                    if (searchedBlockTypes.contains(state.getBlockType().getId())) {
-                        containers.add(chest.getItemContainer());
-                        if (containers.size() >= limit) {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        return containers;
-    }
-
     public static Vector3d getSearchRadius(World world, BlockState blockState) {
         double horizontalRadius = world.getGameplayConfig().getCraftingConfig().getBenchMaterialHorizontalChestSearchRadius();
         double verticalRadius = world.getGameplayConfig().getCraftingConfig().getBenchMaterialVerticalChestSearchRadius();
-        Vector3d blockPos = blockState.getBlockPosition().toVector3d();
         BlockBoundingBoxes hitboxAsset = BlockBoundingBoxes.getAssetMap().getAsset(blockState.getBlockType().getHitboxTypeIndex());
         BlockBoundingBoxes.RotatedVariantBoxes rotatedHitbox = hitboxAsset.get(blockState.getRotationIndex());
         Box boundingBox = rotatedHitbox.getBoundingBox();
@@ -90,8 +47,6 @@ public class RecipeUtil {
                     .mapToInt(container -> container.component().getStoredEssenceAmount())
                     .sum();
 
-            System.out.println("Required: " + required.getStoredEssenceType() + " Amount: " + required.getStoredEssenceAmount() + " | Total Available: " + totalAmount);
-
             if (totalAmount < required.getStoredEssenceAmount()) {
                 return false;
             }
@@ -110,8 +65,6 @@ public class RecipeUtil {
                     .filter(container -> !container.component().getStoredItem().isEmpty() && container.component().getStoredItem().getItemId().equals(required.getItemId()))
                     .mapToInt(container -> container.component().getStoredItem().getQuantity())
                     .sum();
-
-            System.out.println("Required: " + required.getItemId() + " Amount: " + required.getQuantity() + " | Total Available: " + totalAmount);
 
             if (totalAmount < required.getQuantity()) {
                 return false;
@@ -170,6 +123,8 @@ public class RecipeUtil {
                     WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(container.pos().x, container.pos().z));
                     commandBuffer.run(_ -> ItemDisplayManager.removeDisplayEntity(world, container.ref(), chunk));
                     remaining -= toConsume;
+
+                    ParticleUtil.spawnParticleEffect("GreenOrbImpact", container.pos().toVector3d().add(0.5, 1.25, 0.5), world.getEntityStore().getStore());
                 }
             }
         }

@@ -1,7 +1,7 @@
 {
   "PedestalInputs": [
     {
-      "ItemId": "Wood_Amber_Trunk",
+      "ItemId": "Essence_Pipe",
       "Quantity": 4
     },
     {
@@ -10,15 +10,15 @@
     }
   ],
   "MainInput": {
-    "ItemId": "Rock_Gem_Sapphire"
+    "ItemId": "Bench_Furnace"
   },
   "EssenceInputs": [
     {
-      "StoredEssenceType": "Ingredient_Life_Essence",
+      "StoredEssenceType": "Ingredient_Fire_Essence",
       "StoredEssenceAmount": 10
     }
   ],
   "Output": {
-    "ItemId": "Weapon_Staff_Crystal_Ice"
+    "ItemId": "Alchemical_Furnace"
   }
 }

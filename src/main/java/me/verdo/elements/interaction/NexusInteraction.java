@@ -43,7 +43,6 @@ public class NexusInteraction extends SimpleBlockInteraction {
             return;
 
         if (chunkStoreRef == null) {
-            ElementsPlugin.LOGGER.atSevere().log("StoreEssenceInteraction failed: Essence Jar has no components.");
             return;
         }
 
@@ -61,7 +60,7 @@ public class NexusInteraction extends SimpleBlockInteraction {
 
         if (entity instanceof Player player) {
             ItemStack heldItem = context.getHeldItem();
-            if (heldItem != null && heldItem.getItemId().equals("Copper_Wand")) {
+            if (heldItem != null && heldItem.isEmpty()) {
                 RootboundCraftingRecipe.craft(nexusState, commandBuffer);
                 return;
             }
@@ -78,7 +77,6 @@ public class NexusInteraction extends SimpleBlockInteraction {
                     if (player.getInventory().getCombinedHotbarFirst().canAddItemStack(stored)) {
                         player.getInventory().getCombinedHotbarFirst().addItemStack(stored);
                         storedItem.setStoredItem(ItemStack.EMPTY);
-                        System.out.println("Removing display for item UUID: " + storedItem.getDisplayedItemUUID());
                         commandBuffer.run(_ -> ItemDisplayManager.removeDisplayEntity(world, chunkStoreRef, chunk));
                     }
                 }
