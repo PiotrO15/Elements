@@ -1,5 +1,5 @@
 {
-    "Group": "me.verdo",
+    "Group": "Elements",
     "Name": "Elements",
     "Version": "0.0.3",
     "Description": "Magic expansion to Hytale!",
@@ -10,7 +10,7 @@
     ],
     "ServerVersion": "*",
     "Dependencies": {
-        
+        "Hytale:BlockStateModule": "*"
     },
     "OptionalDependencies": {
         

@@ -6,6 +6,7 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
+import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.EssenceType;
 
 import java.util.Objects;
@@ -43,6 +44,39 @@ public class EssenceStorageComponent implements Component<ChunkStore> {
 
     public void setStoredEssenceType(EssenceType storedEssenceType) {
         this.storedEssenceType = storedEssenceType;
+    }
+
+    public boolean storeEssence(EssenceType essenceType, int amount) {
+        if (storedEssenceType != null && storedEssenceType != essenceType) {
+            return false;
+        }
+
+        if (storedEssenceAmount + amount > ElementsPlugin.get().getCommonConfig().get().getMaxEssenceStorage()) {
+            return false;
+        }
+
+        storedEssenceType = essenceType;
+        storedEssenceAmount += amount;
+
+        return true;
+    }
+
+    public boolean extractEssence(int amount) {
+        if (storedEssenceType == null || storedEssenceAmount <= 0) {
+            return false;
+        }
+
+        if (amount > storedEssenceAmount) {
+            return false;
+        }
+
+        storedEssenceAmount -= amount;
+
+        if (storedEssenceAmount == 0) {
+            storedEssenceType = null;
+        }
+
+        return true;
     }
 
     public boolean canStore(ItemStack itemStack) {

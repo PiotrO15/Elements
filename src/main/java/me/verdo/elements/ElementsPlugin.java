@@ -11,6 +11,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.Config;
 import me.verdo.elements.asset.EssenceCraftingRecipe;
 import me.verdo.elements.asset.EssenceDistillationRecipe;
 import me.verdo.elements.component.*;
@@ -37,9 +38,10 @@ public class ElementsPlugin extends JavaPlugin {
     private final Config<CommonConfig> config;
 
     public ComponentType<ChunkStore, EssenceStorageComponent> essenceStorage;
-    public ComponentType<EntityStore, ComplexEssenceStorageComponent> storedEssence;
     public ComponentType<ChunkStore, RenderedItemComponent> renderedItem;
     public ComponentType<ChunkStore, StoredItemComponent> storedItem;
+
+    public ComponentType<EntityStore, ComplexEssenceStorageComponent> storedEssence;
 
     public ElementsPlugin(@Nonnull JavaPluginInit init) {
         super(init);
@@ -57,12 +59,15 @@ public class ElementsPlugin extends JavaPlugin {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
 
         essenceStorage = getChunkStoreRegistry().registerComponent(EssenceStorageComponent.class, "EssenceStorage", EssenceStorageComponent.CODEC);
-        storedEssence = getEntityStoreRegistry().registerComponent(ComplexEssenceStorageComponent.class, "StoredEssence", ComplexEssenceStorageComponent.CODEC);
         renderedItem = getChunkStoreRegistry().registerComponent(RenderedItemComponent.class, "RenderedItem", RenderedItemComponent.CODEC);
         storedItem = getChunkStoreRegistry().registerComponent(StoredItemComponent.class, "StoredItem", StoredItemComponent.CODEC);
 
-        this.getCodecRegistry(Interaction.CODEC).register("StoreEssence", StoreEssenceInteraction.class, StoreEssenceInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("NexusInteraction", NexusInteraction.class, NexusInteraction.CODEC);
+        getBlockStateRegistry().registerBlockState(ElementalBenchState.class, "ElementalBench", ElementalBenchState.CODEC);
+
+        storedEssence = getEntityStoreRegistry().registerComponent(ComplexEssenceStorageComponent.class, "StoredEssence", ComplexEssenceStorageComponent.CODEC);
+
+        getCodecRegistry(Interaction.CODEC).register("StoreEssence", StoreEssenceInteraction.class, StoreEssenceInteraction.CODEC);
+        getCodecRegistry(Interaction.CODEC).register("NexusInteraction", NexusInteraction.class, NexusInteraction.CODEC);
 
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new EssencePickupSystem());

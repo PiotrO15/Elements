@@ -1,0 +1,69 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Alchemical_Furnace.name",
+    "Description": "server.items.Alchemical_Furnace.description"
+  },
+  "PlayerAnimationsId": "Item",
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": "Block_Secondary"
+  },
+  "BlockType": {
+    "CustomModelTexture": [
+      {
+        "Texture": "Items/Blocks/Alchemical_Furnace.png"
+      }
+    ],
+    "DrawType": "Model",
+    "CustomModel": "Items/Blocks/Alchemical_Furnace.blockymodel",
+    "Material": "Solid",
+    "HitboxType": "Alchemical_Furnace",
+    "VariantRotation": "NESW",
+    "Bench": {
+      "Type": "Processing",
+      "AllowNoInputProcessing": true,
+      "Input": [
+        {
+          "FilterValidIngredients": true
+        },
+        {
+          "FilterValidIngredients": true
+        }
+      ],
+      "Fuel": [
+        {
+          "ResourceTypeId": "Fuel",
+          "Icon": "Icons/Processing/FuelSlotIcon.png"
+        }
+      ],
+      "LocalOpenSoundEventId": "SFX_Furnace_Bench_Open",
+      "LocalCloseSoundEventId": "SFX_Furnace_Bench_Close",
+      "CompletedSoundEventId": "SFX_Furnace_Bench_Processing_Complete",
+      "EndSoundEventId": "SFX_Furnace_Bench_Processing_End",
+      "FailedSoundEventId": "SFX_Furnace_Bench_Processing_Failed",
+      "BenchUpgradeSoundEventId": "SFX_Workbench_Upgrade_Start_Default",
+      "BenchUpgradeCompletedSoundEventId": "SFX_Workbench_Upgrade_Complete_Default",
+      "OutputSlotsCount": 4,
+      "Id": "AlchemicalFurnace"
+    },
+    "Interactions": {
+      "Use": "Open_Processing_Bench"
+    },
+    "State": {
+      "Id": "ElementalBench"
+    }
+  },
+  "Icon": "Icons/ItemsGenerated/Alchemical_Furnace.png",
+  "IconProperties": {
+    "Scale": 0.45,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -25
+    ]
+  }
+}

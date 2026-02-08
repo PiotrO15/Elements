@@ -18,8 +18,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class EssencePipeSystem {
     private enum PipeShape {
@@ -202,4 +201,48 @@ public class EssencePipeSystem {
             return Query.any();
         }
     }
+
+    public static List<Vector3i> findConnectedJars(World world, Vector3i startPos) {
+        List<Vector3i> jarPositions = new ArrayList<>();
+        Set<Vector3i> visited = new HashSet<>();
+        Queue<Vector3i> toVisit = new LinkedList<>();
+
+        toVisit.add(startPos);
+        visited.add(startPos);
+
+        while (!toVisit.isEmpty() && visited.size() < 1000) {
+            Vector3i current = toVisit.poll();
+
+            for (Vector3i direction : DIRECTIONS) {
+                Vector3i neighbor = new Vector3i(current).add(direction);
+
+                if (visited.contains(neighbor)) {
+                    continue;
+                }
+
+                BlockType neighborBlock = world.getBlockType(neighbor);
+                if (neighborBlock == null) {
+                    continue;
+                }
+
+                if (neighborBlock.getId().contains("Essence_Jar") && neighbor.y < current.y) {
+                    jarPositions.add(neighbor);
+                    visited.add(neighbor);
+                }
+
+                else if (neighborBlock.getId().contains("Essence_Pipe")) {
+                    toVisit.add(neighbor);
+                    visited.add(neighbor);
+                }
+            }
+        }
+
+        return jarPositions;
+    }
+
+    private static final Vector3i[] DIRECTIONS = {
+            Vector3i.NORTH, Vector3i.SOUTH,
+            Vector3i.EAST, Vector3i.WEST,
+            Vector3i.UP, Vector3i.DOWN
+    };
 }
