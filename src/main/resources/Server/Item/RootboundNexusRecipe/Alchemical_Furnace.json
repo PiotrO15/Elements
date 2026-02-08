@@ -1,0 +1,20 @@
+{
+  "PedestalInputs": [
+    {
+      "ItemId": "Essence_Pipe",
+      "Quantity": 4
+    }
+  ],
+  "MainInput": {
+    "ItemId": "Bench_Furnace"
+  },
+  "EssenceInputs": [
+    {
+      "StoredEssenceType": "Ingredient_Fire_Essence",
+      "StoredEssenceAmount": 10
+    }
+  ],
+  "Output": {
+    "ItemId": "Alchemical_Furnace"
+  }
+}

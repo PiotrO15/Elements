@@ -1,0 +1,112 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Essence_Pipe.name"
+  },
+  "PlayerAnimationsId": "Item",
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 8
+      },
+      {
+        "ItemId": "Ingredient_Bar_Copper",
+        "Quantity": 1
+      }
+    ],
+    "OutputQuantity": 8,
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Misc"
+        ]
+      }
+    ]
+  },
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": "Block_Secondary"
+  },
+  "BlockType": {
+    "CustomModelTexture": [
+      {
+        "Texture": "Items/Blocks/Essence_Pipe/Essence_Pipe.png"
+      }
+    ],
+    "DrawType": "Model",
+    "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Empty.blockymodel",
+    "HitboxType": "Essence_Pipe_Zero",
+    "Material": "Solid",
+    "Opacity": "Transparent",
+    "State": {
+      "Definitions": {
+        "Pipe_Empty": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Empty.blockymodel",
+          "HitboxType": "Essence_Pipe_Zero"
+        },
+        "Pipe_One": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_One.blockymodel",
+          "HitboxType": "Essence_Pipe_One"
+        },
+        "Pipe_Two_H": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Two_H.blockymodel",
+          "HitboxType": "Essence_Pipe_Two_H"
+        },
+        "Pipe_Two_D": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Two_D.blockymodel",
+          "HitboxType": "Essence_Pipe_Two_D"
+        },
+        "Pipe_Three_H": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Three_H.blockymodel",
+          "HitboxType": "Essence_Pipe_Three_H"
+        },
+        "Pipe_Three_V": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Three_V.blockymodel",
+          "HitboxType": "Essence_Pipe_Three_V"
+        },
+        "Pipe_Three_D": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Three_D.blockymodel",
+          "HitboxType": "Essence_Pipe_Three_D"
+        },
+        "Pipe_Four_Cross": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Four_Cross.blockymodel",
+          "HitboxType": "Essence_Pipe_Four_H"
+        },
+        "Pipe_Four_D": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Four_D.blockymodel",
+          "HitboxType": "Essence_Pipe_Four_D"
+        },
+        "Pipe_Five": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Five.blockymodel",
+          "HitboxType": "Essence_Pipe_Five"
+        },
+        "Pipe_Six": {
+          "CustomModel": "Items/Blocks/Essence_Pipe/Pipe_Six.blockymodel",
+          "HitboxType": "Essence_Pipe_Six"
+        }
+      }
+    },
+    "VariantRotation": "UpDownNESW",
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "SoftBlocks"
+      }
+    }
+  },
+  "Icon": "Icons/ItemsGenerated/Essence_Pipe.png",
+  "IconProperties": {
+    "Scale": 0.8,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -14
+    ]
+  }
+}

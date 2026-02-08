@@ -1,0 +1,86 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Rootbound_Pedestal.name"
+  },
+  "Icon": "Icons/ItemsGenerated/Rootbound_Pedestal.png",
+  "Set": "",
+  "BlockType": {
+    "Opacity": "Transparent",
+    "CustomModelTexture": [
+      {
+        "Weight": 1,
+        "Texture": "Items/Blocks/Rootbound_Pedestal.png"
+      }
+    ],
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Benches"
+      }
+    },
+    "State": {
+      "Id": "container",
+      "Capacity": 1
+    },
+    "Supporting": {
+      "Down": [
+        {}
+      ],
+      "Up": [
+        {}
+      ]
+    },
+    "ParticleColor": "#d5d5c8",
+    "HitboxType": "Rootbound_Pedestal",
+    "Interactions": {
+      "Use": "NexusInteraction"
+    },
+    "CustomModel": "Items/Blocks/Rootbound_Pedestal.blockymodel",
+    "Material": "Solid",
+    "VariantRotation": "NESW",
+    "RandomRotation": "None"
+  },
+  "Tags": {
+    "Type": [
+      "Rock"
+    ],
+    "Family": [
+      "Marble"
+    ]
+  },
+  "Parent": "Rock_Stone_Brick_Pillar_Middle",
+  "Recipe": {
+    "TimeSeconds": 3,
+    "Input": [
+      {
+        "ResourceTypeId": "Rock_Marble",
+        "Quantity": 4
+      },
+      {
+        "ItemId": "Ingredient_Bar_Copper",
+        "Quantity": 1
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Misc"
+        ]
+      }
+    ],
+    "OutputQuantity": 2
+  },
+  "IconProperties": {
+    "Scale": 0.55,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -17
+    ]
+  }
+}

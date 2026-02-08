@@ -1,0 +1,19 @@
+{
+  "Input": [
+    {
+      "ItemId": "Plant_Fruit_Coconut"
+    }
+  ],
+  "PrimaryOutput": {
+    "ItemId": "Ingredient_Life_Essence",
+    "Quantity": 3
+  },
+  "KnowledgeRequired": false,
+  "TimeSeconds": 10,
+  "BenchRequirement": [
+    {
+      "Type": "Processing",
+      "Id": "AlchemicalFurnace"
+    }
+  ]
+}

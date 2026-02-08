@@ -1,4 +1,4 @@
-package me.verdo.elements;
+package me.verdo.elements.system;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
@@ -14,13 +14,15 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import me.verdo.elements.ElementsPlugin;
+import me.verdo.elements.component.EssenceStorageComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class BlockBreakEventSystem extends EntityEventSystem<EntityStore, BreakBlockEvent> {
-    protected BlockBreakEventSystem(@Nonnull Class<BreakBlockEvent> eventType) {
+    public BlockBreakEventSystem(@Nonnull Class<BreakBlockEvent> eventType) {
         super(eventType);
     }
 
@@ -54,7 +56,7 @@ public class BlockBreakEventSystem extends EntityEventSystem<EntityStore, BreakB
             EssenceStorageComponent c = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage);
 
             if (c.getStoredEssenceType() != null && c.getStoredEssenceAmount() > 0) {
-                ItemStack toDrop = new ItemStack(c.getStoredEssenceType().id);
+                ItemStack toDrop = new ItemStack(c.getStoredEssenceType().getItemId());
                 toDrop = toDrop.withQuantity(c.getStoredEssenceAmount());
                 List<ItemStack> allItemStacks = List.of(toDrop);
                 Vector3d dropPosition = event.getTargetBlock().toVector3d().add(0.5F, 0.0F, 0.5F);

@@ -1,0 +1,19 @@
+{
+  "Input": [
+    {
+      "ItemId": "Plant_Crop_Onion_Item"
+    }
+  ],
+  "PrimaryOutput": {
+    "ItemId": "Ingredient_Life_Essence",
+    "Quantity": 4
+  },
+  "KnowledgeRequired": false,
+  "TimeSeconds": 10,
+  "BenchRequirement": [
+    {
+      "Type": "Processing",
+      "Id": "AlchemicalFurnace"
+    }
+  ]
+}
