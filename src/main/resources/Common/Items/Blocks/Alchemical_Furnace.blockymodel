@@ -34,6 +34,11 @@
             "offset": {"x": 32, "y": 51},
             "mirror": {"x": false, "y": false},
             "angle": 0
+          },
+          "bottom": {
+            "offset": {"x": 2, "y": 29},
+            "mirror": {"x": false, "y": false},
+            "angle": 0
           }
         },
         "unwrapMode": "custom",

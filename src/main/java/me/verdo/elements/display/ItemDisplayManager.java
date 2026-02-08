@@ -141,7 +141,7 @@ public class ItemDisplayManager {
 
         TimeResource timeResource = accessor.getResource(TimeResource.getResourceType());
         holder.addComponent(DespawnComponent.getComponentType(),
-                DespawnComponent.despawnInSeconds(timeResource, 86400f));
+                DespawnComponent.despawnInSeconds(timeResource, 3600)); // TODO: Rework the timer or increase it after ensuring there are no issues with despawning
 
         return holder;
     }

@@ -51,6 +51,11 @@
     },
     "State": {
       "Id": "ElementalBench"
+    },
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Benches"
+      }
     }
   },
   "Icon": "Icons/ItemsGenerated/Alchemical_Furnace.png",

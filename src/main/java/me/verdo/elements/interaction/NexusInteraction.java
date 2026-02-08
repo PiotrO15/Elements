@@ -60,7 +60,7 @@ public class NexusInteraction extends SimpleBlockInteraction {
 
         if (entity instanceof Player player) {
             ItemStack heldItem = context.getHeldItem();
-            if (heldItem != null && heldItem.isEmpty()) {
+            if (heldItem != null && heldItem.getItemId().equals("Rootbound_Wand")) {
                 RootboundCraftingRecipe.craft(nexusState, commandBuffer);
                 return;
             }

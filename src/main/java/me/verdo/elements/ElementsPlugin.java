@@ -13,7 +13,6 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.Config;
 import me.verdo.elements.asset.EssenceCraftingRecipe;
-import me.verdo.elements.asset.EssenceDistillationRecipe;
 import me.verdo.elements.component.*;
 import me.verdo.elements.config.CommonConfig;
 import me.verdo.elements.display.BlockBreakDisplayEventSystem;
@@ -38,7 +37,6 @@ public class ElementsPlugin extends JavaPlugin {
     private final Config<CommonConfig> config;
 
     public ComponentType<ChunkStore, EssenceStorageComponent> essenceStorage;
-    public ComponentType<ChunkStore, RenderedItemComponent> renderedItem;
     public ComponentType<ChunkStore, StoredItemComponent> storedItem;
 
     public ComponentType<EntityStore, ComplexEssenceStorageComponent> storedEssence;
@@ -59,7 +57,6 @@ public class ElementsPlugin extends JavaPlugin {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
 
         essenceStorage = getChunkStoreRegistry().registerComponent(EssenceStorageComponent.class, "EssenceStorage", EssenceStorageComponent.CODEC);
-        renderedItem = getChunkStoreRegistry().registerComponent(RenderedItemComponent.class, "RenderedItem", RenderedItemComponent.CODEC);
         storedItem = getChunkStoreRegistry().registerComponent(StoredItemComponent.class, "StoredItem", StoredItemComponent.CODEC);
 
         getBlockStateRegistry().registerBlockState(ElementalBenchState.class, "ElementalBench", ElementalBenchState.CODEC);
@@ -80,12 +77,6 @@ public class ElementsPlugin extends JavaPlugin {
                 .setPath("Item/RootboundNexusRecipe")
                 .setCodec(EssenceCraftingRecipe.CODEC)
                 .setKeyFunction(EssenceCraftingRecipe::getId)
-                .build());
-
-        getAssetRegistry().register(HytaleAssetStore.builder(EssenceDistillationRecipe.class, new DefaultAssetMap<>())
-                .setPath("EssenceDistillationRecipe")
-                .setCodec(EssenceDistillationRecipe.CODEC)
-                .setKeyFunction(EssenceDistillationRecipe::getId)
                 .build());
     }
 

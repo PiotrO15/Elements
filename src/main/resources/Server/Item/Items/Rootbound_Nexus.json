@@ -1,6 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Rootbound_Nexus.name"
+    "Name": "server.items.Rootbound_Nexus.name",
+    "Description": "server.items.Rootbound_Nexus.description"
   },
   "Icon": "Icons/ItemsGenerated/Rootbound_Nexus.png",
   "Interactions": {
@@ -49,7 +50,12 @@
       "Use": "NexusInteraction"
     },
     "DrawType": "Model",
-    "Material": "Solid"
+    "Material": "Solid",
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Benches"
+      }
+    }
   },
   "IconProperties": {
     "Scale": 0.23,

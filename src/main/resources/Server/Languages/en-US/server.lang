@@ -7,4 +7,7 @@ items.Essence_Pipe.name = Essence Pipe
 interactionHints.Essence_Jar = Press [{key}] to store or extract essence
 
 items.Rootbound_Nexus.name = Rootbound Nexus
+items.Rootbound_Nexus.description = An altar capable of creating useful items from items and essence. Used together with Rootbound Pedestals and a Rootbound Wand to trigger crafting.
 items.Rootbound_Pedestal.name = Rootbound Pedestal
+items.Rootbound_Wand.name = Rootbound Wand
+items.Rootbound_Wand.description = Can be used on Rootbound Nexus to trigger crafting.
