@@ -17,7 +17,6 @@ import me.verdo.elements.component.*;
 import me.verdo.elements.config.CommonConfig;
 import me.verdo.elements.display.BlockBreakDisplayEventSystem;
 import me.verdo.elements.system.EssencePipeSystem;
-import me.verdo.elements.system.hud.PlayerHudSystem;
 import me.verdo.elements.interaction.NexusInteraction;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
 import me.verdo.elements.system.BlockBreakEventSystem;
@@ -68,7 +67,6 @@ public class ElementsPlugin extends JavaPlugin {
 
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new EssencePickupSystem());
-        getEntityStoreRegistry().registerSystem(new PlayerHudSystem());
         getEntityStoreRegistry().registerSystem(new BlockBreakDisplayEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new EssencePipeSystem.PipePlaceEvent(PlaceBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new EssencePipeSystem.PipeBreakEvent(BreakBlockEvent.class));

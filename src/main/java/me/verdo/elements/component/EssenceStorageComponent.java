@@ -51,6 +51,10 @@ public class EssenceStorageComponent implements Component<ChunkStore> {
             return false;
         }
 
+        if (amount <= 0) {
+            return false;
+        }
+
         if (storedEssenceAmount + amount > ElementsPlugin.get().getCommonConfig().get().getMaxEssenceStorage()) {
             return false;
         }
