@@ -6,26 +6,27 @@ import com.hypixel.hytale.math.shape.Box;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.asset.type.blockhitbox.BlockBoundingBoxes;
+import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.MaterialQuantity;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.display.ItemDisplayManager;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
 import me.verdo.elements.component.EssenceStorageComponent;
 import me.verdo.elements.recipe.RootboundCraftingRecipe;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class RecipeUtil {
-    public static Vector3d getSearchRadius(World world, BlockState blockState) {
+    public static Vector3d getSearchRadius(@Nonnull World world, @Nonnull BlockType blockType, int rotationIndex) {
         double horizontalRadius = world.getGameplayConfig().getCraftingConfig().getBenchMaterialHorizontalChestSearchRadius();
         double verticalRadius = world.getGameplayConfig().getCraftingConfig().getBenchMaterialVerticalChestSearchRadius();
-        BlockBoundingBoxes hitboxAsset = BlockBoundingBoxes.getAssetMap().getAsset(blockState.getBlockType().getHitboxTypeIndex());
-        BlockBoundingBoxes.RotatedVariantBoxes rotatedHitbox = hitboxAsset.get(blockState.getRotationIndex());
+        BlockBoundingBoxes hitboxAsset = BlockBoundingBoxes.getAssetMap().getAsset(blockType.getHitboxTypeIndex());
+        BlockBoundingBoxes.RotatedVariantBoxes rotatedHitbox = hitboxAsset.get(rotationIndex);
         Box boundingBox = rotatedHitbox.getBoundingBox();
 
         double benchWidth = boundingBox.width();

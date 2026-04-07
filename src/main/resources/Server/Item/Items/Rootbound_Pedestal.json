@@ -17,10 +17,6 @@
         "GatherType": "Benches"
       }
     },
-    "State": {
-      "Id": "container",
-      "Capacity": 1
-    },
     "Supporting": {
       "Down": [
         {}
@@ -37,7 +33,12 @@
     "CustomModel": "Items/Blocks/Rootbound_Pedestal.blockymodel",
     "Material": "Solid",
     "VariantRotation": "NESW",
-    "RandomRotation": "None"
+    "RandomRotation": "None",
+    "BlockEntity": {
+      "Components": {
+        "StoredItem": {}
+      }
+    }
   },
   "Tags": {
     "Type": [

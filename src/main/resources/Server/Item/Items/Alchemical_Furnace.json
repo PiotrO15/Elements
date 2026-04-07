@@ -3,21 +3,21 @@
     "Name": "server.items.Alchemical_Furnace.name",
     "Description": "server.items.Alchemical_Furnace.description"
   },
-  "PlayerAnimationsId": "Item",
-  "Interactions": {
-    "Primary": "Block_Primary",
-    "Secondary": "Block_Secondary"
-  },
+  "Icon": "Icons/ItemsGenerated/Alchemical_Furnace.png",
+  "Categories": [
+    "Furniture.Benches"
+  ],
   "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "Opacity": "Transparent",
+    "CustomModel": "Items/Blocks/Alchemical_Furnace.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "Items/Blocks/Alchemical_Furnace.png"
+        "Texture": "Items/Blocks/Alchemical_Furnace.png",
+        "Weight": 1
       }
     ],
-    "DrawType": "Model",
-    "CustomModel": "Items/Blocks/Alchemical_Furnace.blockymodel",
-    "Material": "Solid",
-    "HitboxType": "Alchemical_Furnace",
     "VariantRotation": "NESW",
     "Bench": {
       "Type": "Processing",
@@ -44,31 +44,90 @@
       "BenchUpgradeSoundEventId": "SFX_Workbench_Upgrade_Start_Default",
       "BenchUpgradeCompletedSoundEventId": "SFX_Workbench_Upgrade_Complete_Default",
       "OutputSlotsCount": 4,
-      "Id": "AlchemicalFurnace"
+      "Id": "AlchemicalFurnace",
+      "TierLevels": [
+        {
+          "CraftingTimeReductionModifier": 0.0
+        }
+      ]
     },
-    "Interactions": {
-      "Use": "Open_Processing_Bench"
+    "BlockEntity": {
+      "Components": {
+        "BenchBlock": {},
+        "ProcessingBenchBlock": {},
+        "EssenceExtractorBlock": {}
+      }
     },
     "State": {
-      "Id": "ElementalBench"
+      "Definitions": {
+        "Processing": {
+          "Looping": true,
+          "Light": {
+            "Color": "#B72"
+          },
+          "Particles": [
+            {
+              "SystemId": "Fire_Furnace_On",
+              "TargetNodeName": "Fire",
+              "Scale": 0.7,
+              "PositionOffset": {
+                "X": 0,
+                "Y": 0.5,
+                "Z": 0.2
+              }
+            }
+          ],
+          "AmbientSoundEventId": "SFX_Furnace_Bench_Processing",
+          "CustomModelAnimation": "Blocks/Benches/Furnace_Smelting.blockyanim"
+        },
+        "ProcessCompleted": {
+          "Light": {
+            "Color": "#B72"
+          },
+          "AmbientSoundEventId": "SFX_Furnace_Bench_Processing",
+          "Looping": true
+        }
+      }
     },
     "Gathering": {
       "Breaking": {
         "GatherType": "Benches"
       }
+    },
+    "HitboxType": "Alchemical_Furnace",
+    "BlockParticleSetId": "Stone",
+    "ParticleColor": "#5C583E",
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full"
+        }
+      ]
+    },
+    "BlockSoundSetId": "Stone",
+    "Interactions": {
+      "Use": "Open_Processing_Bench"
     }
   },
-  "Icon": "Icons/ItemsGenerated/Alchemical_Furnace.png",
+  "PlayerAnimationsId": "Block",
   "IconProperties": {
-    "Scale": 0.45,
+    "Scale": 0.365,
     "Rotation": [
       22.5,
       45,
       22.5
     ],
     "Translation": [
-      0,
-      -25
+      12,
+      -17.4
     ]
-  }
+  },
+  "Tags": {
+    "Type": [
+      "Bench"
+    ]
+  },
+  "MaxStack": 1,
+  "ItemLevel": 1,
+  "ItemSoundSetId": "ISS_Blocks_Stone"
 }

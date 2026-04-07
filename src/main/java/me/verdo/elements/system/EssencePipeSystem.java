@@ -7,6 +7,7 @@ import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.Rotation;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
@@ -19,6 +20,7 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class EssencePipeSystem {
     private enum PipeShape {
@@ -163,15 +165,14 @@ public class EssencePipeSystem {
 
         @Override
         public void handle(int i, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer, @NonNullDecl PlaceBlockEvent placeBlockEvent) {
-            commandBuffer.run(_ -> updateNeighborPipes(store.getExternalData().getWorld(), placeBlockEvent.getTargetBlock()));
-            new Thread(() -> {
-                try {
-                    Thread.sleep(1);
-                    updateNeighborPipes(store.getExternalData().getWorld(), placeBlockEvent.getTargetBlock());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }).start();
+            World world = store.getExternalData().getWorld();
+            Vector3i target = placeBlockEvent.getTargetBlock().clone();
+            if (placeBlockEvent.getItemInHand() != null && placeBlockEvent.getItemInHand().getItemId().contains("Alchemical_Furnace")) {
+                target.add(Vector3i.UP);
+            }
+
+            commandBuffer.run(_ -> updateNeighborPipes(store.getExternalData().getWorld(), target));
+            HytaleServer.SCHEDULED_EXECUTOR.schedule(() -> world.execute(() -> updateNeighborPipes(world, target)), 1, TimeUnit.MILLISECONDS);
         }
 
         @NullableDecl
@@ -189,8 +190,9 @@ public class EssencePipeSystem {
         @Override
         public void handle(int i, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer, @NonNullDecl BreakBlockEvent placeBlockEvent) {
             Vector3i target = placeBlockEvent.getTargetBlock();
-            if (placeBlockEvent.getBlockType().getId().contains("Alchemical_Furnace"))
+            if (placeBlockEvent.getBlockType().getId().contains("Alchemical_Furnace")) {
                 target.add(Vector3i.UP);
+            }
 
             commandBuffer.run(_ -> updateNeighborPipes(store.getExternalData().getWorld(), target));
         }

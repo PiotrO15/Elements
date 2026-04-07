@@ -2,6 +2,11 @@ package me.verdo.elements;
 
 import com.hypixel.hytale.assetstore.map.DefaultAssetMap;
 import com.hypixel.hytale.component.ComponentType;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.ResourceType;
+import com.hypixel.hytale.component.query.Query;
+import com.hypixel.hytale.component.spatial.KDTree;
+import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.asset.HytaleAssetStore;
 import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
@@ -20,7 +25,8 @@ import me.verdo.elements.system.EssencePipeSystem;
 import me.verdo.elements.interaction.NexusInteraction;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
 import me.verdo.elements.system.BlockBreakEventSystem;
-import me.verdo.elements.system.EssencePickupSystem;
+import me.verdo.elements.system.EssenceTransferSystem;
+import me.verdo.elements.util.SpatialRefUtil;
 
 import javax.annotation.Nonnull;
 
@@ -37,8 +43,12 @@ public class ElementsPlugin extends JavaPlugin {
 
     public ComponentType<ChunkStore, EssenceStorageComponent> essenceStorage;
     public ComponentType<ChunkStore, StoredItemComponent> storedItem;
+    public ComponentType<ChunkStore, EssenceExtractorBlock> essenceExtractorBlock;
 
     public ComponentType<EntityStore, ComplexEssenceStorageComponent> storedEssence;
+
+    public ResourceType<ChunkStore, SpatialResource<Ref<ChunkStore>, ChunkStore>> essenceStorageSpatialResourceType;
+    public ResourceType<ChunkStore, SpatialRefUtil.SpatialNeedRebuild> essenceStorageNeedRebuild;
 
     public ElementsPlugin(@Nonnull JavaPluginInit init) {
         super(init);
@@ -57,19 +67,23 @@ public class ElementsPlugin extends JavaPlugin {
 
         essenceStorage = getChunkStoreRegistry().registerComponent(EssenceStorageComponent.class, "EssenceStorage", EssenceStorageComponent.CODEC);
         storedItem = getChunkStoreRegistry().registerComponent(StoredItemComponent.class, "StoredItem", StoredItemComponent.CODEC);
-
-        getBlockStateRegistry().registerBlockState(ElementalBenchState.class, "ElementalBench", ElementalBenchState.CODEC);
+        essenceExtractorBlock = getChunkStoreRegistry().registerComponent(EssenceExtractorBlock.class, "EssenceExtractorBlock", EssenceExtractorBlock.CODEC);
 
         storedEssence = getEntityStoreRegistry().registerComponent(ComplexEssenceStorageComponent.class, "StoredEssence", ComplexEssenceStorageComponent.CODEC);
+
+        essenceStorageNeedRebuild = getChunkStoreRegistry().registerResource(SpatialRefUtil.SpatialNeedRebuild.class, SpatialRefUtil.SpatialNeedRebuild::new);
+        essenceStorageSpatialResourceType = getChunkStoreRegistry().registerSpatialResource(() -> new KDTree<>(Ref::isValid));
+        getChunkStoreRegistry().registerSystem(new SpatialRefUtil.ComponentSpatialSystem(essenceStorageSpatialResourceType, Query.or(essenceStorage, storedItem), essenceStorageNeedRebuild));
+        getChunkStoreRegistry().registerSystem(new SpatialRefUtil.ComponentStateRefSystem(Query.or(essenceStorage, storedItem), essenceStorageNeedRebuild));
 
         getCodecRegistry(Interaction.CODEC).register("StoreEssence", StoreEssenceInteraction.class, StoreEssenceInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("NexusInteraction", NexusInteraction.class, NexusInteraction.CODEC);
 
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
-        getEntityStoreRegistry().registerSystem(new EssencePickupSystem());
         getEntityStoreRegistry().registerSystem(new BlockBreakDisplayEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new EssencePipeSystem.PipePlaceEvent(PlaceBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new EssencePipeSystem.PipeBreakEvent(BreakBlockEvent.class));
+        getChunkStoreRegistry().registerSystem(new EssenceTransferSystem(this.essenceExtractorBlock));
 
         getAssetRegistry().register(HytaleAssetStore.builder(EssenceCraftingRecipe.class, new DefaultAssetMap<>())
                 .setPath("Item/RootboundNexusRecipe")

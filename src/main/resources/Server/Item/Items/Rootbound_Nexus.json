@@ -42,10 +42,6 @@
     "ParticleColor": "#dccd97",
     "HitboxType": "Rootbound_Nexus",
     "Opacity": "Transparent",
-    "State": {
-      "Id": "container",
-      "Capacity": 1
-    },
     "Interactions": {
       "Use": "NexusInteraction"
     },
@@ -54,6 +50,11 @@
     "Gathering": {
       "Breaking": {
         "GatherType": "Benches"
+      }
+    },
+    "BlockEntity": {
+      "Components": {
+        "StoredItem": {}
       }
     }
   },

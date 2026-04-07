@@ -2,6 +2,7 @@ package me.verdo.elements.interaction;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Vector3i;
@@ -10,12 +11,14 @@ import com.hypixel.hytale.server.core.entity.Entity;
 import com.hypixel.hytale.server.core.entity.EntityUtils;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
+import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.SimpleBlockInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
@@ -29,6 +32,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class NexusInteraction extends SimpleBlockInteraction {
+    private final ComponentType<ChunkStore, BlockModule.BlockStateInfo> blockStateInfoComponentType = BlockModule.BlockStateInfo.getComponentType();
+
     public static final BuilderCodec<NexusInteraction> CODEC = BuilderCodec.builder(NexusInteraction.class, NexusInteraction::new).documentation("Interact with Rootbound Nexus").build();
 
     @Override
@@ -46,7 +51,7 @@ public class NexusInteraction extends SimpleBlockInteraction {
             return;
         }
 
-        BlockState nexusState = world.getState(targetBlock.x, targetBlock.y, targetBlock.z, true);
+        BlockModule.BlockStateInfo blockStateInfo = world.getChunkStore().getStore().getComponent(chunkStoreRef, this.blockStateInfoComponentType);
 
         List<String> supportedBlocks = List.of("Rootbound_Nexus", "Rootbound_Pedestal");
         if (!supportedBlocks.contains(world.getBlockType(targetBlock).getId())) {
@@ -58,10 +63,11 @@ public class NexusInteraction extends SimpleBlockInteraction {
         Ref<EntityStore> ref = context.getEntity();
         Entity entity = EntityUtils.getEntity(ref, commandBuffer);
 
-        if (entity instanceof Player player) {
+        if (entity instanceof Player) {
+            CombinedItemContainer inventory = InventoryComponent.getCombined(commandBuffer, ref, InventoryComponent.HOTBAR_FIRST);
             ItemStack heldItem = context.getHeldItem();
             if (heldItem != null && heldItem.getItemId().equals("Rootbound_Wand")) {
-                RootboundCraftingRecipe.craft(nexusState, commandBuffer);
+                RootboundCraftingRecipe.craft(blockStateInfo, targetBlock, commandBuffer);
                 return;
             }
 
@@ -70,12 +76,11 @@ public class NexusInteraction extends SimpleBlockInteraction {
                 commandBuffer.run(_ -> ItemDisplayManager.createOrUpdateDisplay(storedItem, world, targetBlock.x, targetBlock.y, targetBlock.z, chunkStoreRef));
                 chunk.markNeedsSaving();
 
-                player.getInventory().getCombinedHotbarFirst().removeItemStackFromSlot(player.getInventory().getActiveHotbarSlot(), 1);
+                inventory.removeItemStackFromSlot(context.getHeldItemSlot(), 1);
             } else {
                 ItemStack stored = storedItem.getStoredItem();
                 if (stored != null) {
-                    if (player.getInventory().getCombinedHotbarFirst().canAddItemStack(stored)) {
-                        player.getInventory().getCombinedHotbarFirst().addItemStack(stored);
+                    if (inventory.addItemStack(stored, true, false, true).succeeded()) {
                         storedItem.setStoredItem(ItemStack.EMPTY);
                         commandBuffer.run(_ -> ItemDisplayManager.removeDisplayEntity(world, chunkStoreRef, chunk));
                     }
