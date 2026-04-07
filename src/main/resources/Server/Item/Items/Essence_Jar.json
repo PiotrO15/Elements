@@ -70,12 +70,14 @@
     "Opacity": "Transparent",
     "ParticleColor": "#eaf4f6",
     "Interactions": {
-      "Primary": "Break_Container",
       "Use": "StoreEssence"
     },
+    "BlockEntity": {
+      "Components": {
+        "EssenceStorage": {}
+      }
+    },
     "State": {
-      "Id": "container",
-      "Capacity": 1,
       "Definitions": {
         "0": {
           "CustomModel": "Items/Blocks/Essence_Jar.blockymodel"

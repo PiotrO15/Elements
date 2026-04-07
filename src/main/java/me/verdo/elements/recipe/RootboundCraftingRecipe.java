@@ -8,14 +8,11 @@ import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.item.config.CraftingRecipe;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockState;
-import com.hypixel.hytale.server.core.universe.world.meta.BlockStateModule;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import it.unimi.dsi.fastutil.objects.ObjectList;
-import it.unimi.dsi.fastutil.objects.ObjectListIterator;
 import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.component.StoredItemComponent;
 import me.verdo.elements.display.ItemDisplayManager;
@@ -28,36 +25,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RootboundCraftingRecipe extends CraftingRecipe {
-    public static boolean craft(BlockState blockState, CommandBuffer<EntityStore> commandBuffer) {
+    public static boolean craft(BlockModule.BlockStateInfo blockStateInfo, Vector3i blockPos, CommandBuffer<EntityStore> commandBuffer) {
         List<EssenceJarData> essenceContainers = new ArrayList<>();
         List<PedestalData> pedestalData = new ArrayList<>();
 
-        World world = blockState.getChunk().getWorld();
-        Vector3d searchRadius = RecipeUtil.getSearchRadius(world, blockState);
-
-        world.getBlockType(blockState.getBlockPosition());
-
+        World world = blockStateInfo.getChunkRef().getStore().getExternalData().getWorld();
+        Vector3d searchRadius = RecipeUtil.getSearchRadius(world, world.getBlockType(blockPos), world.getBlockRotationIndex(blockPos.x, blockPos.y, blockPos.z));
         int limit = world.getGameplayConfig().getCraftingConfig().getBenchMaterialChestLimit();
 
         Store<ChunkStore> store = world.getChunkStore().getStore();
-        Vector3d blockPos = blockState.getBlockPosition().toVector3d();
 
-        SpatialResource<Ref<ChunkStore>, ChunkStore> blockStateSpatialStructure = store.getResource(BlockStateModule.get().getItemContainerSpatialResourceType());
-        ObjectList<Ref<ChunkStore>> results = SpatialResource.getThreadLocalReferenceList();
-        blockStateSpatialStructure.getSpatialStructure().ordered3DAxis(blockPos, searchRadius.x, searchRadius.y, searchRadius.z, results);
+        SpatialResource<Ref<ChunkStore>, ChunkStore> blockStateSpatialStructure = store.getResource(ElementsPlugin.get().essenceStorageSpatialResourceType);
+        List<Ref<ChunkStore>> results = SpatialResource.getThreadLocalReferenceList();
+        blockStateSpatialStructure.getSpatialStructure().ordered3DAxis(blockPos.toVector3d(), searchRadius.x, searchRadius.y, searchRadius.z, results);
 
         if (!results.isEmpty()) {
             for (Ref<ChunkStore> ref : results) {
-                BlockState state = BlockState.getBlockState(ref, ref.getStore());
-                if (state.getBlockType().getId().equals("Rootbound_Pedestal")) {
+                BlockModule.BlockStateInfo blockStateInfoI = world.getChunkStore().getStore().getComponent(ref, BlockModule.BlockStateInfo.getComponentType());
+                Vector3i blockPosI = ModChunkUtil.getBlockPosFromIndex(blockStateInfoI);
+
+                if (world.getBlockType(blockPosI).getId().equals("Rootbound_Pedestal")) {
                     StoredItemComponent component = ref.getStore().ensureAndGetComponent(ref, ElementsPlugin.get().storedItem);
-                    pedestalData.add(new PedestalData(ref, component, state.getBlockPosition()));
+                    pedestalData.add(new PedestalData(ref, component, blockPosI));
                     if (pedestalData.size() >= limit) {
                         break;
                     }
-                } else if (state.getBlockType().getId().contains("Essence_Jar")) {
+                } else if (world.getBlockType(blockPosI).getId().contains("Essence_Jar")) {
                     EssenceStorageComponent component = ref.getStore().ensureAndGetComponent(ref, ElementsPlugin.get().essenceStorage);
-                    essenceContainers.add(new EssenceJarData(ref, component, state.getBlockPosition()));
+                    essenceContainers.add(new EssenceJarData(component, blockPosI));
                     if (essenceContainers.size() >= limit) {
                         break;
                     }
@@ -65,8 +60,8 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
             }
         }
 
-        if (blockState.getBlockType().getId().equals("Rootbound_Nexus")) {
-            Ref<ChunkStore> blockRef = ModChunkUtil.getBlockComponentEntity(world, blockState.getBlockPosition());
+        if (world.getBlockType(blockPos).getId().equals("Rootbound_Nexus")) {
+            Ref<ChunkStore> blockRef = ModChunkUtil.getBlockComponentEntity(world, blockPos);
 
             if (blockRef == null)
                 return false;
@@ -99,7 +94,7 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
                 if (output != null)
                     mainInput.setStoredItem(output);
 
-                ParticleUtil.spawnParticleEffect("GreenOrbImpact", blockPos.clone().add(1.5, 1.25, 1.5), world.getEntityStore().getStore());
+                ParticleUtil.spawnParticleEffect("GreenOrbImpact", blockPos.clone().toVector3d().add(1.5, 1.25, 1.5), world.getEntityStore().getStore());
 
                 commandBuffer.run(_ -> ItemDisplayManager.createOrUpdateDisplay(mainInput, world, blockPos.x, blockPos.y, blockPos.z, blockRef));
                 break;
@@ -110,5 +105,5 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
     }
 
     public record PedestalData(Ref<ChunkStore> ref, StoredItemComponent component, Vector3i pos) {}
-    public record EssenceJarData(Ref<ChunkStore> ref, EssenceStorageComponent component, Vector3i pos) {}
+    public record EssenceJarData(EssenceStorageComponent component, Vector3i pos) {}
 }
