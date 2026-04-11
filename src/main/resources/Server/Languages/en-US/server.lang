@@ -9,3 +9,6 @@ items.Rootbound_Nexus.description = An altar capable of creating useful items fr
 items.Rootbound_Pedestal.name = Rootbound Pedestal
 items.Rootbound_Wand.name = Rootbound Wand
 items.Rootbound_Wand.description = Can be used on Rootbound Nexus to trigger crafting.
+
+items.Harvesting_Seal.name = Harvesting Seal
+items.Harvesting_Seal.description = Allows your golem to harvest crops

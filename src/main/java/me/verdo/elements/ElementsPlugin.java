@@ -21,6 +21,7 @@ import me.verdo.elements.asset.EssenceCraftingRecipe;
 import me.verdo.elements.component.*;
 import me.verdo.elements.config.CommonConfig;
 import me.verdo.elements.display.BlockBreakDisplayEventSystem;
+import me.verdo.elements.npc.ElementsNPC;
 import me.verdo.elements.system.EssencePipeSystem;
 import me.verdo.elements.interaction.NexusInteraction;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
@@ -46,6 +47,7 @@ public class ElementsPlugin extends JavaPlugin {
     public ComponentType<ChunkStore, EssenceExtractorBlock> essenceExtractorBlock;
 
     public ComponentType<EntityStore, ComplexEssenceStorageComponent> storedEssence;
+    public ComponentType<EntityStore, GolemSealComponent> golemStorage;
 
     public ResourceType<ChunkStore, SpatialResource<Ref<ChunkStore>, ChunkStore>> essenceStorageSpatialResourceType;
     public ResourceType<ChunkStore, SpatialRefUtil.SpatialNeedRebuild> essenceStorageNeedRebuild;
@@ -70,6 +72,7 @@ public class ElementsPlugin extends JavaPlugin {
         essenceExtractorBlock = getChunkStoreRegistry().registerComponent(EssenceExtractorBlock.class, "EssenceExtractorBlock", EssenceExtractorBlock.CODEC);
 
         storedEssence = getEntityStoreRegistry().registerComponent(ComplexEssenceStorageComponent.class, "StoredEssence", ComplexEssenceStorageComponent.CODEC);
+        golemStorage = getEntityStoreRegistry().registerComponent(GolemSealComponent.class, "GolemStorage", GolemSealComponent.CODEC);
 
         essenceStorageNeedRebuild = getChunkStoreRegistry().registerResource(SpatialRefUtil.SpatialNeedRebuild.class, SpatialRefUtil.SpatialNeedRebuild::new);
         essenceStorageSpatialResourceType = getChunkStoreRegistry().registerSpatialResource(() -> new KDTree<>(Ref::isValid));
@@ -78,6 +81,8 @@ public class ElementsPlugin extends JavaPlugin {
 
         getCodecRegistry(Interaction.CODEC).register("StoreEssence", StoreEssenceInteraction.class, StoreEssenceInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("NexusInteraction", NexusInteraction.class, NexusInteraction.CODEC);
+
+        ElementsNPC.registerComponents();
 
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new BlockBreakDisplayEventSystem(BreakBlockEvent.class));
