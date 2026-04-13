@@ -12,3 +12,8 @@ items.Rootbound_Wand.description = Can be used on Rootbound Nexus to trigger cra
 
 items.Harvesting_Seal.name = Harvesting Seal
 items.Harvesting_Seal.description = Allows your golem to harvest crops
+items.Gathering_Seal.name = Gathering Seal
+items.Gathering_Seal.description = Allows your golem to gather items from the ground to store in nearby chests
+
+items.Roots_Of_Knowledge.name = Roots of Knowledge
+items.Roots_Of_Knowledge.description = Your source of knowledge about elemental magic

@@ -9,6 +9,7 @@ import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
+import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import me.verdo.elements.ElementsPlugin;
@@ -26,7 +27,7 @@ public class ApplySealAction extends ActionBase {
     public boolean execute(@NonNullDecl Ref<EntityStore> ref, @NonNullDecl Role role, InfoProvider sensorInfo, double dt, @NonNullDecl Store<EntityStore> store) {
         GolemSealComponent golemSeal = store.ensureAndGetComponent(ref, ElementsPlugin.get().golemStorage);
 
-        if (golemSeal.getStoredSeal() != null) return false;
+        if (!golemSeal.getStoredSeal().isEmpty()) return false;
 
         Ref<EntityStore> playerReference = role.getStateSupport().getInteractionIterationTarget();
         if (playerReference == null) return false;
@@ -46,6 +47,8 @@ public class ApplySealAction extends ActionBase {
         CombinedItemContainer inventory = InventoryComponent.getCombined(store, playerReference, InventoryComponent.HOTBAR_FIRST);
         if (inventory.removeItemStack(heldItem).succeeded()) {
             golemSeal.setStoredSeal(heldItem);
+
+            NPCEntity.setAppearance(ref, "Pig", store);
         }
 
         return true;
