@@ -35,8 +35,8 @@
     "CustomModel": "Items/Blocks/Rootbound_Nexus.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "BlockTextures/Rock_Marble.png",
-        "Weight": 1
+        "Weight": 1,
+        "Texture": "Items/Blocks/Rootbound_Nexus.png"
       }
     ],
     "ParticleColor": "#dccd97",
@@ -59,7 +59,7 @@
     }
   },
   "IconProperties": {
-    "Scale": 0.23,
+    "Scale": 0.27,
     "Rotation": [
       22.5,
       45,
@@ -67,7 +67,7 @@
     ],
     "Translation": [
       -45,
-      -13.5
+      -13
     ]
   }
 }
