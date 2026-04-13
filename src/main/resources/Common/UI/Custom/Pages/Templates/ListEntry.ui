@@ -1,0 +1,19 @@
+Button {
+    Anchor: (Top: 0, Left: 0, Bottom: 10, Width: 580, Height: 90);
+
+    Style: ButtonStyle(
+        Default: (Background: PatchStyle(TexturePath: "../../category_background.png")),
+        Hovered: (Background: PatchStyle(TexturePath: "../../category_background_highlighted.png"))
+    );
+
+    ItemIcon #ItemIcon {
+        Anchor: (Top: 20, Left: 20, Width: 50, Height: 50);
+        ItemId: "Furniture_Construction_Sign";
+    }
+
+    Label #Title {
+        Anchor: (Top: 25, Left: 95, Width: 580, Height: 50);
+        Text: "Coming Soon.....";
+        Style: (TextColor: #000000, FontSize: 32, Wrap: true);
+    }
+}

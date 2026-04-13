@@ -1,0 +1,22 @@
+Group #Content {
+    Anchor: (Top: 0, Left: 0, Width: 580, Height: 760);
+    // OutlineColor: #FFFFFF;
+    // OutlineSize: 1;
+
+    Label #Title {
+        Anchor: (Top: 0, Left: 0, Width: 580, Height: 50);
+        Text: "Placeholder text";
+        Style: (TextColor: #000000, FontSize: 36, FontName: "Secondary", Alignment: Center);
+    }
+
+    Group #Divider {
+        Anchor: (Top: 60, Left: 0, Width: 580, Height: 41);
+        Background: (TexturePath: "../../divider.png");
+    }
+
+    Label #Body {
+        Anchor: (Top: 120, Left: 0, Width: 580, Height: 650);
+        Text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+        Style: (TextColor: #000000, FontSize: 28, Wrap: true);
+    }
+}
