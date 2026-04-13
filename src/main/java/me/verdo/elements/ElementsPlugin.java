@@ -21,6 +21,7 @@ import me.verdo.elements.asset.EssenceCraftingRecipe;
 import me.verdo.elements.component.*;
 import me.verdo.elements.config.CommonConfig;
 import me.verdo.elements.display.BlockBreakDisplayEventSystem;
+import me.verdo.elements.interaction.OpenKnowledgeBookInteraction;
 import me.verdo.elements.npc.ElementsNPC;
 import me.verdo.elements.system.EssencePipeSystem;
 import me.verdo.elements.interaction.NexusInteraction;
@@ -81,6 +82,7 @@ public class ElementsPlugin extends JavaPlugin {
 
         getCodecRegistry(Interaction.CODEC).register("StoreEssence", StoreEssenceInteraction.class, StoreEssenceInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("NexusInteraction", NexusInteraction.class, NexusInteraction.CODEC);
+        getCodecRegistry(Interaction.CODEC).register("OpenKnowledgeBook", OpenKnowledgeBookInteraction.class, OpenKnowledgeBookInteraction.CODEC);
 
         ElementsNPC.registerComponents();
 

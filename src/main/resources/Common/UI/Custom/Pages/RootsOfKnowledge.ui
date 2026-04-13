@@ -1,0 +1,165 @@
+$Common = "../Common.ui";
+
+Group {
+    Anchor: (Width: 1920, Height: 1080);
+    Background: (TexturePath: "../background.png");
+
+    Label #MyInput {
+        Anchor: (Top: 130, Left: 330, Width: 580, Height: 50);
+        Text: "Welcome to Elements!";
+        Style: (TextColor: #000000, FontSize: 36, FontName: "Secondary", Alignment: Center);
+    }
+
+    Group #FirstDivider {
+        Anchor: (Top: 190, Left: 330, Width: 580, Height: 41);
+        Background: (TexturePath: "../divider.png");
+    }
+
+    Label #Text1 {
+        Anchor: (Top: 250, Left: 330, Width: 580, Height: 650);
+        Text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+        Style: (TextColor: #000000, FontSize: 28, Wrap: true);
+    }
+
+    Label #CategoriesLabel {
+        Anchor: (Top: 130, Left: 1030, Width: 580, Height: 50);
+        Text: "Chapters";
+        Style: (TextColor: #000000, FontSize: 36, FontName: "Secondary", Alignment: Center);
+    }
+
+    Group #CategoriesDivider {
+        Anchor: (Top: 190, Left: 1030, Width: 580, Height: 41);
+        Background: (TexturePath: "../divider.png");
+    }
+
+    Group #Categories {
+        Anchor: (Top: 250, Left: 1030, Width: 580, Height: 600);
+
+        Button #Category1 {
+            Anchor: (Top: 0, Left: 0, Width: 580, Height: 90);
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "../category_background.png")),
+                Hovered: (Background: PatchStyle(TexturePath: "../category_background_highlighted.png"))
+            );
+
+            ItemIcon #ItemIcon4e441 {
+                Anchor: (Top: 20, Left: 20, Width: 50, Height: 50);
+                ItemId: "Essence_Jar";
+            }
+
+            Label #Text1 {
+                Anchor: (Top: 25, Left: 95, Width: 580, Height: 50);
+                Text: "Harnessing Essence";
+                Style: (TextColor: #000000, FontSize: 32, Wrap: true);
+            }
+        }
+
+        Button #Category2 {
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "../category_background.png")),
+                Hovered: (Background: PatchStyle(TexturePath: "../category_background_highlighted.png"))
+            );
+            Anchor: (Top: 100, Left: 0, Width: 580, Height: 90);
+
+            ItemIcon #ItemIcon4e441 {
+                Anchor: (Top: 20, Left: 20, Width: 50, Height: 50);
+                ItemId: "Harvesting_Seal";
+            }
+
+            Label #Text1 {
+                Anchor: (Top: 25, Left: 95, Width: 580, Height: 50);
+                Text: "Golemancy";
+                Style: (TextColor: #000000, FontSize: 32, Wrap: true);
+            }
+        }
+
+        Button #Category3 {
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "../category_background.png")),
+                Hovered: (Background: PatchStyle(TexturePath: "../category_background_highlighted.png"))
+            );
+            Anchor: (Top: 200, Left: 0, Width: 580, Height: 90);
+
+            ItemIcon #ItemIcon4e441 {
+                Anchor: (Top: 20, Left: 20, Width: 50, Height: 50);
+                ItemId: "Weapon_Staff_Crystal_Ice";
+            }
+
+            Label #Text1 {
+                Anchor: (Top: 25, Left: 95, Width: 580, Height: 50);
+                Text: "Spellcrafting";
+                Style: (TextColor: #000000, FontSize: 32, Wrap: true);
+            }
+        }
+
+        Button #Category4 {
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "../category_background.png"))
+            );
+            Anchor: (Top: 300, Left: 0, Width: 580, Height: 90);
+
+            ItemIcon #ItemIcon4e441 {
+                Anchor: (Top: 20, Left: 20, Width: 50, Height: 50);
+                ItemId: "Furniture_Construction_Sign";
+            }
+
+            Label #Text1 {
+                Anchor: (Top: 25, Left: 95, Width: 580, Height: 50);
+                Text: "Coming Soon...";
+                Style: (TextColor: #000000, FontSize: 32, Wrap: true);
+            }
+        }
+
+        Button #Category5 {
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "../category_background.png"))
+            );
+            Anchor: (Top: 400, Left: 0, Width: 580, Height: 90);
+
+            ItemIcon #ItemIcon4e441 {
+                Anchor: (Top: 20, Left: 20, Width: 50, Height: 50);
+                ItemId: "Furniture_Construction_Sign";
+            }
+
+            Label #Text1 {
+                Anchor: (Top: 25, Left: 95, Width: 580, Height: 50);
+                Text: "Coming Soon...";
+                Style: (TextColor: #000000, FontSize: 32, Wrap: true);
+            }
+        }
+
+        Button #Category6 {
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "../category_background.png"))
+            );
+            Anchor: (Top: 500, Left: 0, Width: 580, Height: 90);
+
+            ItemIcon #ItemIcon4e441 {
+                Anchor: (Top: 20, Left: 20, Width: 50, Height: 50);
+                ItemId: "Furniture_Construction_Sign";
+            }
+
+            Label #Text1 {
+                Anchor: (Top: 25, Left: 95, Width: 580, Height: 50);
+                Text: "Coming Soon...";
+                Style: (TextColor: #000000, FontSize: 32, Wrap: true);
+            }
+        }
+    }
+
+    Button #ArrowLeft {
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "../arrow_left.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "../arrow_left_highlighted.png"))
+        );
+        Anchor: (Top: 850, Left: 310, Width: 100, Height: 80);
+    }
+
+    Button #ArrowRight {
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "../arrow_right.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "../arrow_right_highlighted.png"))
+        );
+        Anchor: (Top: 850, Left: 1530, Width: 100, Height: 80);
+    }
+}
