@@ -4,7 +4,9 @@ plugins {
 }
 
 ext {
-    hytaleHome = "${System.getProperty("user.home")}/AppData/Roaming/Hytale"
+    hytaleHome = project.hasProperty('hytaleHomePath') ? 
+        project.property('hytaleHomePath') : 
+        "${System.getProperty("user.home")}/AppData/Roaming/Hytale"
 }
 
 java {
