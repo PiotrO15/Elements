@@ -12,12 +12,21 @@ Group {
         Anchor: (Top: 130, Left: 1010, Width: 580, Height: 760);
     }
 
+    Button #Back {
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "../back.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "../back_highlighted.png"))
+        );
+        Anchor: (Top: 90, Left: 290, Width: 80, Height: 80);
+        Visible: true;
+    }
+
     Button #ArrowLeft {
         Style: ButtonStyle(
             Default: (Background: PatchStyle(TexturePath: "../arrow_left.png")),
             Hovered: (Background: PatchStyle(TexturePath: "../arrow_left_highlighted.png"))
         );
-        Anchor: (Top: 850, Left: 310, Width: 100, Height: 80);
+        Anchor: (Top: 820, Left: 310, Width: 120, Height: 120);
         Visible: false;
     }
 
@@ -26,6 +35,7 @@ Group {
             Default: (Background: PatchStyle(TexturePath: "../arrow_right.png")),
             Hovered: (Background: PatchStyle(TexturePath: "../arrow_right_highlighted.png"))
         );
-        Anchor: (Top: 850, Left: 1530, Width: 100, Height: 80);
+        Anchor: (Top: 820, Left: 1510, Width: 120, Height: 120);
+        Visible: false;
     }
 }

@@ -18,6 +18,10 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.Config;
 import me.verdo.elements.asset.EssenceCraftingRecipe;
+import me.verdo.elements.asset.KnowledgeBookEntry;
+import me.verdo.elements.asset.entrypage.EntryPage;
+import me.verdo.elements.asset.entrypage.ListPage;
+import me.verdo.elements.asset.entrypage.TextPage;
 import me.verdo.elements.component.*;
 import me.verdo.elements.config.CommonConfig;
 import me.verdo.elements.display.BlockBreakDisplayEventSystem;
@@ -68,6 +72,9 @@ public class ElementsPlugin extends JavaPlugin {
         config.save();
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
 
+        getCodecRegistry(EntryPage.CODEC).register(TextPage.id, TextPage.class, TextPage.CODEC);
+        getCodecRegistry(EntryPage.CODEC).register(ListPage.id, ListPage.class, ListPage.CODEC);
+
         essenceStorage = getChunkStoreRegistry().registerComponent(EssenceStorageComponent.class, "EssenceStorage", EssenceStorageComponent.CODEC);
         storedItem = getChunkStoreRegistry().registerComponent(StoredItemComponent.class, "StoredItem", StoredItemComponent.CODEC);
         essenceExtractorBlock = getChunkStoreRegistry().registerComponent(EssenceExtractorBlock.class, "EssenceExtractorBlock", EssenceExtractorBlock.CODEC);
@@ -96,6 +103,12 @@ public class ElementsPlugin extends JavaPlugin {
                 .setPath("Item/RootboundNexusRecipe")
                 .setCodec(EssenceCraftingRecipe.CODEC)
                 .setKeyFunction(EssenceCraftingRecipe::getId)
+                .build());
+
+        getAssetRegistry().register(HytaleAssetStore.builder(KnowledgeBookEntry.class, new DefaultAssetMap<>())
+                .setPath("KnowledgeBook/Entry")
+                .setCodec(KnowledgeBookEntry.CODEC)
+                .setKeyFunction(KnowledgeBookEntry::getId)
                 .build());
     }
 
