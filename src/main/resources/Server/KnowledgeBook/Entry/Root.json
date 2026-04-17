@@ -1,0 +1,38 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Roots of Knowledge",
+      "Text": "Woah it works!!!"
+    },
+    {
+      "Type": "ListPage",
+      "Title": "Chapters",
+      "Entries": [
+        {
+          "ItemIcon": "Essence_Jar",
+          "Title": "Collecting Essence",
+          "Link": "Collecting_Essence"
+        },
+        {
+          "ItemIcon": "Harvesting_Seal",
+          "Title": "Golemancy",
+          "Link": "Golemancy"
+        },
+        {
+          "ItemIcon": "Weapon_Staff_Crystal_Ice",
+          "Title": "Spellcrafting",
+          "Link": "Spellcrafting"
+        }
+      ]
+    },
+    {
+      "Type": "TextPage",
+      "Title": "How fun is that"
+    },
+    {
+      "Type": "TextPage",
+      "Title": "Fun"
+    }
+  ]
+}
