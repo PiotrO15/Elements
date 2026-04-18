@@ -46,6 +46,7 @@ public class ItemDisplayManager {
 
         if (blockId.equals("Rootbound_Nexus")) {
             blockX += 1;
+            blockY += 0.09375;
             blockZ += 1;
         } else if (blockId.equals("Rootbound_Pedestal")) {
             blockY += 0.25;
