@@ -117,14 +117,14 @@ public class KnowledgeBookScreen extends InteractiveCustomUIPage<KnowledgeBookSc
 
         if (data.pageHistory != null && !data.pageHistory.isEmpty()) {
             PageHistoryEntry lastEntry = data.pageHistory.getLast();
-            List<PageHistoryEntry> history = data.pageHistory;
+            List<PageHistoryEntry> history = new ArrayList<>(data.pageHistory);
             history.removeLast();
 
             commandBuilder.set("#Back.Visible", true);
             eventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#Back",
                     EventData.of("Group", String.valueOf(lastEntry.group))
                             .append("Entry", lastEntry.entry)
-                            .append("PageHistory", PageHistoryEntry.encode(data.pageHistory)),
+                            .append("PageHistory", PageHistoryEntry.encode(history)),
                     false
             );
         } else {
@@ -135,7 +135,7 @@ public class KnowledgeBookScreen extends InteractiveCustomUIPage<KnowledgeBookSc
             commandBuilder.set("#ArrowRight.Visible", true);
             eventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#ArrowRight",
                     EventData.of("Group", String.valueOf(data.currentPageGroup + 1))
-                            .append("Entry", "Root")
+                            .append("Entry", data.currentEntry)
                             .append("PageHistory", PageHistoryEntry.encode(data.pageHistory)),
                     false);
         } else {
@@ -146,7 +146,7 @@ public class KnowledgeBookScreen extends InteractiveCustomUIPage<KnowledgeBookSc
             commandBuilder.set("#ArrowLeft.Visible", true);
             eventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#ArrowLeft",
                     EventData.of("Group", String.valueOf(data.currentPageGroup - 1))
-                            .append("Entry", "Root")
+                            .append("Entry", data.currentEntry)
                             .append("PageHistory", PageHistoryEntry.encode(data.pageHistory)),
                     false);
         } else {

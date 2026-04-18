@@ -4,6 +4,19 @@
       "Type": "TextPage",
       "Title": "Rootbound Nexus",
       "Text": "Rootbound Nexus is a powerful altar, which can be used to create many useful items. For a working setup, a Nexus has to be placed with pedestals and essence jars within 16 blocks from the Nexus. To start a rootbound ritual, use a Rootbound Wand on the Nexus."
+    },
+    {
+      "Type": "RecipePage",
+      "CraftedItem": "Rootbound_Nexus"
+    },
+    {
+      "Type": "RecipePage",
+      "CraftedItem": "Rootbound_Pedestal"
+    },
+    {
+      "Type": "RecipePage",
+      "Text": "",
+      "CraftedItem": "Rootbound_Wand"
     }
   ]
 }
