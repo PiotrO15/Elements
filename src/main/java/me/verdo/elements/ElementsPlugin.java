@@ -21,6 +21,7 @@ import me.verdo.elements.asset.EssenceCraftingRecipe;
 import me.verdo.elements.asset.KnowledgeBookEntry;
 import me.verdo.elements.asset.entrypage.EntryPage;
 import me.verdo.elements.asset.entrypage.ListPage;
+import me.verdo.elements.asset.entrypage.RecipePage;
 import me.verdo.elements.asset.entrypage.TextPage;
 import me.verdo.elements.component.*;
 import me.verdo.elements.config.CommonConfig;
@@ -74,6 +75,7 @@ public class ElementsPlugin extends JavaPlugin {
 
         getCodecRegistry(EntryPage.CODEC).register(TextPage.id, TextPage.class, TextPage.CODEC);
         getCodecRegistry(EntryPage.CODEC).register(ListPage.id, ListPage.class, ListPage.CODEC);
+        getCodecRegistry(EntryPage.CODEC).register(RecipePage.id, RecipePage.class, RecipePage.CODEC);
 
         essenceStorage = getChunkStoreRegistry().registerComponent(EssenceStorageComponent.class, "EssenceStorage", EssenceStorageComponent.CODEC);
         storedItem = getChunkStoreRegistry().registerComponent(StoredItemComponent.class, "StoredItem", StoredItemComponent.CODEC);

@@ -1,0 +1,57 @@
+Group {
+    Anchor: (Top: 0, Left: 0, Width: 580, Height: 760);
+    // OutlineColor: #FFFFFF;
+    // OutlineSize: 1;
+
+    Label #Title {
+        Anchor: (Top: 0, Left: 0, Width: 580, Height: 50);
+        Text: "Placeholder text";
+        Style: (TextColor: #000000, FontSize: 36, FontName: "Secondary", Alignment: Center);
+    }
+
+    Group #Divider {
+        Anchor: (Top: 60, Left: 0, Width: 580, Height: 41);
+        Background: (TexturePath: "../../divider.png");
+    }
+
+    Group #RecipeContent {
+        Anchor: (Top: 120, Left: 0, Width: 580, Height: 380);
+
+        Group #Output {
+            Anchor: (Top: 0, Left: 0, Width: 580, Height: 160);
+            LayoutMode: Center;
+            Group {
+                ItemIcon #ItemIcon {
+                    Anchor: (Top: 0, Left: 0, Width: 120, Height: 120);
+                    ItemId: "Furniture_Construction_Sign";
+                }
+
+                Label #Count {
+                    Anchor: (Top: 130, Left: 0, Width: 120, Height: 30);
+                    Text: "1";
+                    Style: (TextColor: #333333, FontSize: 28, Alignment: Center);
+                }
+            }
+        }
+
+        Group #Input {
+            Background: (Color: #362312);
+            Anchor: (Top: 180, Left: 0, Width: 580, Height: 150);
+            Padding: (Full: 20);
+
+            LayoutMode: LeftCenterWrap;
+        }
+
+        Label #Workbench {
+            Anchor: (Top: 350, Left: 0, Width: 580, Height: 30);
+            Text: "Rootbound Workbench";
+            Style: (TextColor: #333333, FontSize: 28, Alignment: Center);
+        }
+    }
+
+    Label #Body {
+        Anchor: (Top: 510, Left: 0, Width: 580, Height: 160);
+        Text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+        Style: (TextColor: #000000, FontSize: 28, Wrap: true);
+    }
+}

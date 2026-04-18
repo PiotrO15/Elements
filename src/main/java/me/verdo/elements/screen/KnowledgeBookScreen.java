@@ -5,13 +5,16 @@ import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
+import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.asset.KnowledgeBookEntry;
 import me.verdo.elements.asset.entrypage.EntryPage;
@@ -151,5 +154,7 @@ public class KnowledgeBookScreen extends InteractiveCustomUIPage<KnowledgeBookSc
         }
 
         sendUpdate(commandBuilder, eventBuilder, true);
+        int soundEventIndex = SoundEvent.getAssetMap().getIndex("SFX_Drag_Items_Paper");
+        SoundUtil.playSoundEvent2d(ref, soundEventIndex, SoundCategory.UI, store);
     }
 }
