@@ -40,13 +40,13 @@ public class SpellCastInteraction extends SimpleInstantInteraction {
 
         ItemStack heldItem = InventoryComponent.getItemInHand(buffer, entityRef);
 
-        heldItem = addTestSpellToItem(heldItem); // TODO: determine spell based on interaction context
+        // heldItem = addTestSpellToItem(heldItem); // TODO: determine spell based on interaction context
                                                  // (e.g. item used, player state, etc.)
 
         if (entity instanceof Player player) {
 
             // update held item with new spell metadata
-            ItemStackUtil.replaceActiveItemInPlayerHand(player, heldItem);
+            // ItemStackUtil.replaceActiveItemInPlayerHand(player, heldItem);
 
             SpellDefinition spell = getSpellFromItem(heldItem, 1);
 
@@ -76,7 +76,7 @@ public class SpellCastInteraction extends SimpleInstantInteraction {
 
         itemStack = setSpellSlotsComponent(itemStack, spellSlotsComponent); // TODO: update held item with new spell
                                                                             // metadata (currently broken :/)
-        // printSpellsInItem(itemStack); // debug - after
+        printSpellsInItem(itemStack); // debug - after
         return itemStack;
     }
 

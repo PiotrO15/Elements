@@ -1,6 +1,7 @@
 package me.verdo.elements;
 
 import com.hypixel.hytale.assetstore.map.DefaultAssetMap;
+import com.hypixel.hytale.assetstore.map.IndexedLookupTableAssetMap;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.ResourceType;
@@ -12,7 +13,6 @@ import com.hypixel.hytale.server.core.asset.HytaleAssetStore;
 import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
 import com.hypixel.hytale.server.core.event.events.ecs.PlaceBlockEvent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
-import com.hypixel.hytale.server.core.modules.projectile.config.ProjectileConfig;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
@@ -27,8 +27,7 @@ import me.verdo.elements.interaction.NexusInteraction;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
 import me.verdo.elements.spells.SpellCastInteraction;
 import me.verdo.elements.spells.SpellProjectileComponent;
-import me.verdo.elements.spells.SpellProjectileConfig;
-// import me.verdo.elements.spells.SpellProjectileImpactInteraction;
+import me.verdo.elements.spells.SpellProjectileImpactInteraction;
 import me.verdo.elements.system.BlockBreakEventSystem;
 import me.verdo.elements.system.EssenceTransferSystem;
 import me.verdo.elements.spells.SpellSlotsComponent;
@@ -89,6 +88,7 @@ public class ElementsPlugin extends JavaPlugin {
         getCodecRegistry(Interaction.CODEC).register("StoreEssence", StoreEssenceInteraction.class, StoreEssenceInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("NexusInteraction", NexusInteraction.class, NexusInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("SpellCastInteraction", SpellCastInteraction.class, SpellCastInteraction.CODEC);
+        getCodecRegistry(Interaction.CODEC).register("SpellProjectileImpactInteraction", SpellProjectileImpactInteraction.class, SpellProjectileImpactInteraction.CODEC);
         
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new BlockBreakDisplayEventSystem(BreakBlockEvent.class));
@@ -101,12 +101,6 @@ public class ElementsPlugin extends JavaPlugin {
                 .setCodec(EssenceCraftingRecipe.CODEC)
                 .setKeyFunction(EssenceCraftingRecipe::getId)
                 .build());
-        // getAssetRegistry().register(HytaleAssetStore.builder(SpellProjectileConfig.class, new DefaultAssetMap<>())
-        //         .setPath("Item/Projectile")
-        //         .setCodec(SpellProjectileConfig.CODEC)
-        //         .setKeyFunction(SpellProjectileConfig::getId)
-        //         .build());
-            
     }
 
     public Config<CommonConfig> getCommonConfig() {

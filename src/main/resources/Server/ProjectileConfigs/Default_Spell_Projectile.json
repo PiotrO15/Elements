@@ -1,0 +1,67 @@
+{
+  "Model": "Ice_Bolt",
+  "LaunchForce": 50,
+  "Physics": {
+    "Type": "Standard",
+    "Gravity": 3,
+    "TerminalVelocityAir": 55,
+    "TerminalVelocityWater": 15,
+    "RotationMode": "VelocityDamped",
+    "Bounciness": 0.0,
+    "SticksVertically": true
+  },
+  "LaunchWorldSoundEventId": "SFX_Staff_Ice_Shoot",
+  "Interactions": {
+    "ProjectileHit": {
+      "Cooldown": {
+        "Cooldown": 0
+      },
+      "Interactions": [
+        "SpellProjectileImpactInteraction",
+        {
+          "Type": "Simple",
+          "RunTime": 0,
+          "Effects": {
+            "WorldSoundEventId": "SFX_Ice_Break",
+            "WorldParticles": [
+              {
+                "SystemId": "Impact_Ice"
+              }
+            ]
+          }
+        },
+        {
+          "Type": "RemoveEntity",
+          "Entity": "User",
+          "Effects": {
+            "WorldSoundEventId": "SFX_Goblin_Lobber_Bomb_Death",
+            "LocalSoundEventId": "SFX_Goblin_Lobber_Bomb_Death"
+          }
+        }
+      ]
+    },
+    "ProjectileMiss": {
+      "Cooldown": {
+        "Cooldown": 0
+      },
+      "Interactions": [
+        {
+          "Type": "Simple",
+          "RunTime": 0,
+          "Effects": {
+            "WorldSoundEventId": "SFX_Ice_Break",
+            "WorldParticles": [
+              {
+                "SystemId": "Impact_Ice"
+              }
+            ]
+          }
+        },
+        {
+          "Type": "RemoveEntity",
+          "Entity": "User"
+        }
+      ]
+    }
+  }
+}

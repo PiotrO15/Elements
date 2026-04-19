@@ -4,9 +4,11 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.projectile.ProjectileModule;
 import com.hypixel.hytale.server.core.modules.projectile.config.ProjectileConfig;
@@ -21,11 +23,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-public abstract class SpellCastResolver  {
+public abstract class SpellCastResolver {
     private static final long MILLIS_PER_TICK = 50L;
 
     public static void handleSpellCast(@Nonnull Ref<EntityStore> casterRef, @Nonnull SpellDefinition spell,
-            @Nullable Ref<EntityStore> target,@Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {
+            @Nullable Ref<EntityStore> target, @Nonnull Store<EntityStore> store,
+            @Nonnull CommandBuffer<EntityStore> commandBuffer) {
         List<Ref<EntityStore>> targets = selectTargets(casterRef, spell, target, commandBuffer);
         if (targets.isEmpty()) {
             notifyPlayer(store, casterRef, "Spell failed: no valid target.");
@@ -52,12 +55,14 @@ public abstract class SpellCastResolver  {
         for (int castIndex = 0; castIndex < casts; castIndex++) {
             final int iteration = castIndex + 1;
             long delayMs = (long) delayTicks * castIndex * MILLIS_PER_TICK;
-            HytaleServer.SCHEDULED_EXECUTOR.schedule(() -> world.execute(() -> applySpellOnce(store, casterRef, spell, finalTargets, iteration, casts)), delayMs, TimeUnit.MILLISECONDS);
+            HytaleServer.SCHEDULED_EXECUTOR.schedule(
+                    () -> world.execute(() -> applySpellOnce(store, casterRef, spell, finalTargets, iteration, casts)),
+                    delayMs, TimeUnit.MILLISECONDS);
         }
     }
 
-    private static List<Ref<EntityStore>> selectTargets(Ref<EntityStore> casterRef, SpellDefinition spell, @Nullable Ref<EntityStore> initialTarget, CommandBuffer<EntityStore> commandBuffer) {
-        
+    private static List<Ref<EntityStore>> selectTargets(Ref<EntityStore> casterRef, SpellDefinition spell,
+            @Nullable Ref<EntityStore> initialTarget, CommandBuffer<EntityStore> commandBuffer) {
 
         return switch (spell.getTargetType()) {
             case SELF -> List.of(casterRef);
@@ -73,51 +78,47 @@ public abstract class SpellCastResolver  {
         };
     }
 
-    private static List<Ref<EntityStore>> shootProjectile(Ref<EntityStore> casterRef, SpellDefinition spell, CommandBuffer<EntityStore> commandBuffer) {
+    private static List<Ref<EntityStore>> shootProjectile(Ref<EntityStore> casterRef, SpellDefinition spell,
+            CommandBuffer<EntityStore> commandBuffer) {
 
         // TODO: set based on spell properties/modifiers
-        ProjectileConfig config = ProjectileConfig.getAssetMap().getAsset("Projectile_Config_Ice_Bolt");
-        ProjectileConfig.getAssetMap().getAssetMap().forEach((k, v) -> System.out.println("Projectile config: " + k));
-        if (config == null) {
-            throw new IllegalStateException("Failed to get projectile config.");
-            // System.out.println("Failed to get projectile config.");
-            // return List.of();
-        }
+        // SpellProjectileConfig config = spell.getProjectileConfig();
+
+        // printProjectileConfigs();
+
+        ProjectileConfig config = ProjectileConfig.getAssetMap().getAsset("Default_Spell_Projectile");
+        System.out.println(config.getInteractions());
+        // ((SpellProjectileConfig)
+        // config).setInteractions(InteractionType.SpellProjectileImpact,
+        // "SpellProjectileImpactInteraction");
 
         // Get caster position, with direction based on caster look vector
         TransformComponent transform = commandBuffer.getComponent(casterRef, TransformComponent.getComponentType());
-        if (transform == null) return List.of();
+        if (transform == null)
+            return List.of();
 
         Vector3d position = transform.getPosition().clone();
         position.y += 1.6; // Eye height
 
-        // HeadRotation headRotation = commandBuffer.getComponent(casterRef, HeadRotation.getComponentType());
-        // Vector3d direction = headRotation.getDirection();
-
-        Vector3d direction = new Vector3d(
-            transform.getRotation().getYaw(),
-            transform.getRotation().getPitch()
-        );
-
-        UUID predictionId = UUID.randomUUID();
+        HeadRotation headRotation = commandBuffer.getComponent(casterRef, HeadRotation.getComponentType());
+        Vector3d direction = headRotation.getDirection();
 
         // Create projectile
         ProjectileModule module = ProjectileModule.get();
         Ref<EntityStore> projectileRef;
 
+        try {
+            projectileRef = module.spawnProjectile(
+                    casterRef,
+                    commandBuffer,
+                    config,
+                    position,
+                    direction);
 
-        projectileRef = module.spawnProjectile(
-            predictionId,
-            casterRef,
-            commandBuffer,
-            config,
-            position,
-            direction
-        );
-    //    } catch (IllegalArgumentException ex) {
-    //        System.out.println("Failed to spawn projectile: " + ex.getMessage());
-    //        return List.of();
-    //    }
+        } catch (Exception ex) {
+            System.out.println("Failed to spawn projectile: " + ex.getMessage());
+            return List.of();
+        }
 
         // Attach spell data to projectile so we can apply effects on hit
         commandBuffer.addComponent(projectileRef, ElementsPlugin.get().spellProjectileComponent);
@@ -142,8 +143,7 @@ public abstract class SpellCastResolver  {
             @Nonnull SpellDefinition spell,
             @Nonnull List<Ref<EntityStore>> targets,
             int currentCast,
-            int totalCasts
-    ) {
+            int totalCasts) {
         switch (spell.getEffectType()) {
             case DAMAGE -> {
                 for (Ref<EntityStore> target : targets) {
@@ -162,10 +162,18 @@ public abstract class SpellCastResolver  {
             }
         }
 
-        notifyPlayer(store, casterRef, "Cast " + currentCast + "/" + totalCasts + " hit " + targets.size() + " target(s).");
+        notifyPlayer(store, casterRef,
+                "Cast " + currentCast + "/" + totalCasts + " hit " + targets.size() + " target(s).");
     }
 
-    private static void notifyPlayer(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> entityRef, @Nonnull String message) {
+    private static void printProjectileConfigs() {
+        // Debug: print all loaded projectile configs to verify our config is loading
+        // correctly
+        ProjectileConfig.getAssetMap().getAssetMap().forEach((k, v) -> System.out.println("Projectile config: " + k));
+    }
+
+    private static void notifyPlayer(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> entityRef,
+            @Nonnull String message) {
         Player player = store.getComponent(entityRef, Player.getComponentType());
         if (player != null) {
             player.sendMessage(Message.raw(message));
