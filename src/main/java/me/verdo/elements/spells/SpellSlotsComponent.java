@@ -89,8 +89,8 @@ public class SpellSlotsComponent implements Component<EntityStore> { // Currentl
             .append(new KeyedCodec<>("MaxSlots", Codec.INTEGER, true), (s, o) -> s.maxSlots = o, (s) -> s.maxSlots).add()
             .append(new KeyedCodec<>("StoredSpells",new MapCodec<SpellDefinition, HashMap<String, SpellDefinition>>(SpellDefinition.CODEC,HashMap::new),true), 
                 (s, o) -> s.storedSpells = new HashMap<>(o), 
-                s -> s.storedSpells)
-                .add().build();
+                s -> s.storedSpells).add()
+            .build();
     }
 
 }

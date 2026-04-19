@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.asset.HytaleAssetStore;
 import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
 import com.hypixel.hytale.server.core.event.events.ecs.PlaceBlockEvent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
+import com.hypixel.hytale.server.core.modules.projectile.config.ProjectileConfig;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
@@ -25,6 +26,9 @@ import me.verdo.elements.system.EssencePipeSystem;
 import me.verdo.elements.interaction.NexusInteraction;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
 import me.verdo.elements.spells.SpellCastInteraction;
+import me.verdo.elements.spells.SpellProjectileComponent;
+import me.verdo.elements.spells.SpellProjectileConfig;
+// import me.verdo.elements.spells.SpellProjectileImpactInteraction;
 import me.verdo.elements.system.BlockBreakEventSystem;
 import me.verdo.elements.system.EssenceTransferSystem;
 import me.verdo.elements.spells.SpellSlotsComponent;
@@ -47,6 +51,7 @@ public class ElementsPlugin extends JavaPlugin {
     public ComponentType<ChunkStore, StoredItemComponent> storedItem;
     public ComponentType<ChunkStore, EssenceExtractorBlock> essenceExtractorBlock;
     public ComponentType<EntityStore, SpellSlotsComponent> spellSlotsComponent;
+    public ComponentType<EntityStore, SpellProjectileComponent> spellProjectileComponent;
 
     public ComponentType<EntityStore, ComplexEssenceStorageComponent> storedEssence;
 
@@ -74,6 +79,7 @@ public class ElementsPlugin extends JavaPlugin {
 
         storedEssence = getEntityStoreRegistry().registerComponent(ComplexEssenceStorageComponent.class, "StoredEssence", ComplexEssenceStorageComponent.CODEC);
         spellSlotsComponent = getEntityStoreRegistry().registerComponent(SpellSlotsComponent.class, "SpellSlots", SpellSlotsComponent.CODEC); // Turn into item component?
+        spellProjectileComponent = getEntityStoreRegistry().registerComponent(SpellProjectileComponent.class, "SpellProjectile", SpellProjectileComponent.CODEC);
 
         essenceStorageNeedRebuild = getChunkStoreRegistry().registerResource(SpatialRefUtil.SpatialNeedRebuild.class, SpatialRefUtil.SpatialNeedRebuild::new);
         essenceStorageSpatialResourceType = getChunkStoreRegistry().registerSpatialResource(() -> new KDTree<>(Ref::isValid));
@@ -83,7 +89,7 @@ public class ElementsPlugin extends JavaPlugin {
         getCodecRegistry(Interaction.CODEC).register("StoreEssence", StoreEssenceInteraction.class, StoreEssenceInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("NexusInteraction", NexusInteraction.class, NexusInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("SpellCastInteraction", SpellCastInteraction.class, SpellCastInteraction.CODEC);
-
+        
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new BlockBreakDisplayEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new EssencePipeSystem.PipePlaceEvent(PlaceBlockEvent.class));
@@ -95,6 +101,12 @@ public class ElementsPlugin extends JavaPlugin {
                 .setCodec(EssenceCraftingRecipe.CODEC)
                 .setKeyFunction(EssenceCraftingRecipe::getId)
                 .build());
+        // getAssetRegistry().register(HytaleAssetStore.builder(SpellProjectileConfig.class, new DefaultAssetMap<>())
+        //         .setPath("Item/Projectile")
+        //         .setCodec(SpellProjectileConfig.CODEC)
+        //         .setKeyFunction(SpellProjectileConfig::getId)
+        //         .build());
+            
     }
 
     public Config<CommonConfig> getCommonConfig() {

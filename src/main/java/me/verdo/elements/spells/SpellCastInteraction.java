@@ -48,14 +48,14 @@ public class SpellCastInteraction extends SimpleInstantInteraction {
             // update held item with new spell metadata
             ItemStackUtil.replaceActiveItemInPlayerHand(player, heldItem);
 
-            SpellDefinition spell = getSpellFromItem(heldItem, 0);
+            SpellDefinition spell = getSpellFromItem(heldItem, 1);
 
             PlayerRef playerRefComponent = buffer.getStore().getComponent(entityRef, PlayerRef.getComponentType());
             if (playerRefComponent != null) {
 
                 player.sendMessage(Message.raw("Casting spell of type - " + spell.getEffectType().name()));
 
-                SpellCastResolver.handleSpellCast(0, entityRef, spell, null, buffer.getStore(), buffer);
+                SpellCastResolver.handleSpellCast(entityRef, spell, null, buffer.getStore(), buffer);
             }
         }
     }
@@ -63,23 +63,20 @@ public class SpellCastInteraction extends SimpleInstantInteraction {
     private static ItemStack addTestSpellToItem(ItemStack itemStack) {
         // debug method to add a test spell to an item - TODO: remove
 
-        printSpellsInItem(itemStack); // debug - before
+        // printSpellsInItem(itemStack); // debug - before
         SpellDefinition defaultSpell = SpellDefinition.makeTestSpell();
 
-        // add spell to held item's metadata for testing - in the future, this will be
-        // determined by the item type and/or NBT data
+        // add spell to held item's metadata for testing - in the future, this will be customiseable
         SpellSlotsComponent spellSlotsComponent = getSpellSlotsComponent(itemStack);
         if (spellSlotsComponent == null) {
             spellSlotsComponent = new SpellSlotsComponent(3);
             spellSlotsComponent.addSpell(defaultSpell, 0);
-        } else {
-            SpellDefinition existingSpell = spellSlotsComponent.getSpell(1);
-            spellSlotsComponent.addSpell(existingSpell.setName(existingSpell.getName() + " (updated)"), 1);
+            spellSlotsComponent.addSpell(defaultSpell.setName(defaultSpell.getName() + " (projectile)").setTargetType(SpellTargetType.PROJECTILE), 1);
         }
 
         itemStack = setSpellSlotsComponent(itemStack, spellSlotsComponent); // TODO: update held item with new spell
                                                                             // metadata (currently broken :/)
-        printSpellsInItem(itemStack); // debug - after
+        // printSpellsInItem(itemStack); // debug - after
         return itemStack;
     }
 

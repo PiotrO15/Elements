@@ -46,9 +46,19 @@ public final class SpellDefinition {
         return targetType;
     }
 
+    public SpellDefinition setTargetType(@Nonnull SpellTargetType targetType) {
+        this.targetType = Objects.requireNonNull(targetType, "targetType must not be null");
+        return this;
+    }
+
     @Nonnull
     public SpellEffectType getEffectType() {
         return effectType;
+    }
+
+    public SpellDefinition setEffectType(@Nonnull SpellEffectType effectType) {
+        this.effectType = Objects.requireNonNull(effectType, "effectType must not be null");
+        return this;
     }
 
     public int getCost() {
