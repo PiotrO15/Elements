@@ -1,6 +1,6 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Rootbound_Pedestal.name"
+    "Name": "server.items.Essence_Collector.name"
   },
   "Icon": "Icons/ItemsGenerated/Rootbound_Pedestal.png",
   "Set": "",
@@ -27,8 +27,9 @@
     },
     "ParticleColor": "#d5d5c8",
     "HitboxType": "Rootbound_Pedestal",
+    "InteractionHint": "server.interactionHints.openDoor",
     "Interactions": {
-      "Use": "NexusInteraction"
+      "Use": "Open_Container"
     },
     "CustomModel": "Items/Blocks/Rootbound_Pedestal.blockymodel",
     "Material": "Solid",
@@ -36,7 +37,11 @@
     "RandomRotation": "None",
     "BlockEntity": {
       "Components": {
-        "EssenceCollectorBlock": {}
+        "EssenceCollectorBlock": {},
+        "ItemContainerBlock": {
+          "Capacity": 9
+        },
+        "EssenceExtractorBlock": {}
       }
     }
   },

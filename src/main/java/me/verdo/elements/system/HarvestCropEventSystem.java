@@ -7,15 +7,16 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.component.system.EntityEventSystem;
-import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
+import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
@@ -32,37 +33,12 @@ public class HarvestCropEventSystem extends EntityEventSystem<EntityStore, Break
 
     @Override
     public void handle(int i, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer, @NonNullDecl BreakBlockEvent event) {
-        System.out.println("Handling break block event in HarvestCropEventSystem");
-
-        Ref<EntityStore> ref = archetypeChunk.getReferenceTo(i);
-        Player player = store.getComponent(ref, Player.getComponentType());
-
-        if (player == null)
-            return;
-
-        World world = player.getWorld();
-
-        if (world == null)
-            return;
-        System.out.println("0");
-
-        WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(event.getTargetBlock().x, event.getTargetBlock().z));
-
-        if (chunk == null) {
+        BlockType blockType = event.getBlockType();
+        if (!blockType.getId().contains("Crop")) {
             return;
         }
 
-        System.out.println("A");
-
-//        int localX = ChunkUtil.localCoordinate(event.getTargetBlock().x);
-//        int localZ = ChunkUtil.localCoordinate(event.getTargetBlock().z);
-//        Ref<ChunkStore> chunkStoreRef = chunk.getBlockComponentEntity(localX, event.getTargetBlock().y, localZ);
-//
-//        if (chunkStoreRef == null)
-//            return;
-
-        System.out.println("A2");
-
+        World world = store.getExternalData().getWorld();
         Store<ChunkStore> chunkStore = world.getChunkStore().getStore();
 
         SpatialResource<Ref<ChunkStore>, ChunkStore> blockStateSpatialStructure = chunkStore.getResource(ElementsPlugin.get().essenceCollectorSpatialResourceType);
@@ -81,6 +57,13 @@ public class HarvestCropEventSystem extends EntityEventSystem<EntityStore, Break
 
                 double distance = from.distanceTo(to);
                 int steps = (int) (distance / 0.5); // one particle every 0.5 blocks
+
+                ItemContainerBlock containerBlock = chunkStore.getComponent(result, ItemContainerBlock.getComponentType());
+                if (containerBlock != null) {
+                    if (containerBlock.getItemContainer().addItemStack(new ItemStack("Ingredient_Life_Essence")).succeeded()) {
+                        System.out.println("!!!");
+                    }
+                }
 
                 for (int step = 0; step <= steps; step++) {
                     double t = steps == 0 ? 0 : (double) step / steps;

@@ -2,6 +2,7 @@ items.Alchemical_Furnace.name = Alchemical Furnace
 items.Alchemical_Furnace.description = A furnace that breaks down items into essence. Can be crafted in Rootbound Nexus with a Furnace, 4 Essence Pipes on the pedestals and 10 Fire Essence in a nearby Essence Jar.
 items.Essence_Jar.name = Essence Jar
 items.Essence_Pipe.name = Essence Pipe
+items.Essence_Collector.name = Essence Collector
 interactionHints.Essence_Jar = Press [{key}] to store or extract essence
 
 items.Rooted_Workbench.name = Rooted Workbench

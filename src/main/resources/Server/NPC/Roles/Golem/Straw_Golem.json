@@ -90,9 +90,17 @@
         ]
       },
       {
-        "Sensor": { "Type": "HasInteracted" },
-        "Actions": [
-          { "Type": "ApplySeal" }
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "ApplySeal"
+              }
+            ]
+          }
         ]
       }
     ]

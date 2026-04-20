@@ -27,4 +27,16 @@ public class WorldUtil {
     public static void dropItem(World world, Vector3i pos, ItemStack item) {
         dropItems(world, pos, List.of(item));
     }
+
+    public static void dropItem(Store<EntityStore> store, Vector3d position, ItemStack itemStack) {
+        Holder<EntityStore> itemEntityHolder = ItemComponent.generateItemDrop(store, itemStack, position, Vector3f.ZERO, 0, 0, 0);
+
+        if (itemEntityHolder == null) return;
+        store.addEntity(itemEntityHolder, AddReason.SPAWN);
+    }
+
+    public static void dropItems(Store<EntityStore> store, Vector3d position, List<ItemStack> items) {
+        Holder<EntityStore>[] itemEntityHolders = ItemComponent.generateItemDrops(store, items, position, Vector3f.ZERO);
+        store.addEntities(itemEntityHolders, AddReason.SPAWN);
+    }
 }
