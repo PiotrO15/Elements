@@ -1,7 +1,6 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Rootbound_Wand.name",
-    "Description": "server.items.Rootbound_Wand.description"
+    "Name": "server.items.Straw_Golem.name"
   },
   "Model": "Items/Weapons/Wand/Wood.blockymodel",
   "Texture": "Items/Weapons/Wand/Wood_Texture.png",
@@ -22,22 +21,22 @@
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "ItemSoundSetId": "ISS_Weapons_Wood",
   "MaxStack": 1,
-  "Recipe": {
-    "TimeSeconds": 2,
-    "Input": [
-      {
-        "ItemId": "Ingredient_Stick",
-        "Quantity": 4
-      }
-    ],
-    "BenchRequirement": [
-      {
-        "Id": "Rooted_Workbench",
-        "Type": "Crafting",
-        "Categories": [
-          "Core"
-        ]
-      }
-    ]
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "SpawnNPC",
+          "SpawnOffset": {
+            "Y": 1
+          },
+          "EntityId": "Straw_Golem",
+          "Next": {
+            "Type": "ModifyInventory",
+            "AdjustHeldItemQuantity": -1
+          }
+        }
+      ]
+    }
   }
 }

@@ -3,7 +3,7 @@
     {
       "Type": "TextPage",
       "Title": "Roots of Knowledge",
-      "Text": "Woah it works!!!"
+      "Text": "The world of Orbis is built out of various types of particles. While invisible to most, these particles can be harnessed and refined into Essence. \n\nElemental magic offers vast possibilities, from the casting of devastating spells to the creation of helpful summons and automation. \n\nThis book will teach you how to master these particles and harness the true power of Essence."
     },
     {
       "Type": "ListPage",
@@ -25,14 +25,6 @@
           "Link": "Spellcrafting"
         }
       ]
-    },
-    {
-      "Type": "TextPage",
-      "Title": "How fun is that"
-    },
-    {
-      "Type": "TextPage",
-      "Title": "Fun"
     }
   ]
 }

@@ -2,10 +2,14 @@ package me.verdo.elements.npc.action;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.asset.type.model.config.Model;
+import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
+import com.hypixel.hytale.server.core.modules.entity.component.PersistentModel;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
@@ -48,7 +52,12 @@ public class ApplySealAction extends ActionBase {
         if (inventory.removeItemStack(heldItem).succeeded()) {
             golemSeal.setStoredSeal(heldItem);
 
-            NPCEntity.setAppearance(ref, "Pig", store);
+            NPCEntity.setAppearance(ref, "Straw_Golem_Harvesting", store);
+            ModelAsset modelAsset = ModelAsset.getAssetMap().getAsset("Straw_Golem_Harvesting");
+            Model model = Model.createScaledModel(modelAsset, 1.0f);
+            PersistentModel persistentModel = new PersistentModel(model.toReference());
+            playerComponent.sendMessage(Message.raw(persistentModel.toString()));
+            store.putComponent(ref, PersistentModel.getComponentType(), persistentModel);
         }
 
         return true;

@@ -1,6 +1,6 @@
 {
-  "Model": "NPC/Livestock/Sheep/Models/Model.blockymodel",
-  "Texture": "NPC/Livestock/Sheep/Models/Texture.png",
+  "Model": "NPC/Straw_Golem/Models/Model.blockymodel",
+  "Texture": "NPC/Straw_Golem/Models/Harvesting_Golem_Texture.png",
   "EyeHeight": 1.05,
   "CrouchOffset": -0.3,
   "HitBox": {
@@ -28,7 +28,7 @@
     "Walk": {
       "Animations": [
         {
-          "Animation": "NPC/Livestock/Sheep/Animations/Default/Walk.blockyanim",    
+          "Animation": "NPC/Straw_Golem/Animations/Walk.blockyanim",
           "Speed": 1.2,
           "SoundEventId": "SFX_Sheep_Walk"
         }
@@ -403,14 +403,6 @@
           "Speed": 1.0
         }
       ]
-    }
-  },
-  "RandomAttachmentSets": {
-    "Fleece": {
-      "Wool": {
-        "Model": "NPC/Livestock/Sheep/Models/Wool_Attachment.blockymodel",
-        "Texture": "NPC/Livestock/Sheep/Models/Wool_Attachment_Texture.png"
-      }
     }
   }
 }

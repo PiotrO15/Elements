@@ -18,10 +18,10 @@
     "OutputQuantity": 8,
     "BenchRequirement": [
       {
-        "Id": "Arcanebench",
+        "Id": "Rooted_Workbench",
         "Type": "Crafting",
         "Categories": [
-          "Arcane_Misc"
+          "Core"
         ]
       }
     ]

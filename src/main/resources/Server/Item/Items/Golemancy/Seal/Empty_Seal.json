@@ -1,7 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Rootbound_Wand.name",
-    "Description": "server.items.Rootbound_Wand.description"
+    "Name": "server.items.Empty_Seal.name",
+    "Description": "server.items.Empty_Seal.description"
   },
   "Model": "Items/Weapons/Wand/Wood.blockymodel",
   "Texture": "Items/Weapons/Wand/Wood_Texture.png",
@@ -32,10 +32,10 @@
     ],
     "BenchRequirement": [
       {
-        "Id": "Rooted_Workbench",
+        "Id": "Arcanebench",
         "Type": "Crafting",
         "Categories": [
-          "Core"
+          "Arcane_Misc"
         ]
       }
     ]

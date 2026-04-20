@@ -1,12 +1,18 @@
 package me.verdo.elements.npc.action;
 
+import com.hypixel.hytale.component.AddReason;
+import com.hypixel.hytale.component.Holder;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.util.ChunkUtil;
+import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockGathering;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.HarvestingDropType;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
 import com.hypixel.hytale.server.core.modules.interaction.BlockHarvestUtils;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
@@ -19,6 +25,8 @@ import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+
+import java.util.List;
 
 public class HarvestCropAction extends ActionBase {
     public HarvestCropAction(@NonNullDecl BuilderActionBase builderActionBase) {
@@ -65,7 +73,25 @@ public class HarvestCropAction extends ActionBase {
             BlockSection section = chunkStore.getComponent(sectionRef, BlockSection.getComponentType());
             if (section != null) {
                 int filler = section.getFiller(pos.getX(), pos.getY(), pos.getZ());
-                BlockHarvestUtils.performPickupByInteraction(ref, pos, blockType, filler, chunkRef, entityStore, chunkStore);
+//                BlockHarvestUtils.performPickupByInteraction(ref, pos, blockType, filler, chunkRef, entityStore, chunkStore);
+
+                if (blockType.getGathering() == null) {
+                    System.out.println("Block type " + blockType.getId() + " does not have gathering information, cannot harvest.");
+                    return;
+                }
+                HarvestingDropType harvest = blockType.getGathering().getHarvest();
+                String itemId = harvest.getItemId();
+                String dropListId = harvest.getDropListId();
+
+                Vector3d dropPosition = pos.toVector3d().add(0.5F, 0.0F, 0.5F);
+                List<ItemStack> itemStacks = BlockHarvestUtils.getDrops(blockType, 1, itemId, dropListId);
+                Holder<EntityStore>[] itemEntityHolders = ItemComponent.generateItemDrops(entityStore, itemStacks, dropPosition, Vector3f.ZERO);
+                entityStore.addEntities(itemEntityHolders, AddReason.SPAWN);
+
+                BlockHarvestUtils.performBlockBreak(ref, ItemStack.EMPTY, pos, chunkRef, entityStore, chunkStore);
+
+//                BreakBlockEvent event = new BreakBlockEvent(ItemStack.EMPTY, pos, blockType);
+//                entityStore.invoke(ref, event);
             }
         }
     }

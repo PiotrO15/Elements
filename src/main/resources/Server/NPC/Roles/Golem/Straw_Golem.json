@@ -1,12 +1,12 @@
 {
   "Type": "Generic",
-  "Appearance": "Sheep",
+  "Appearance": "Straw_Golem",
   "MaxHealth": 100,
   "StartState": "Idle",
   "MotionControllerList": [
     {
       "Type": "Walk",
-      "MaxWalkSpeed": 3,
+      "MaxWalkSpeed": 2,
       "Gravity": 10,
       "MaxFallSpeed": 8,
       "Acceleration": 10
@@ -97,5 +97,5 @@
       }
     ]
   },
-  "NameTranslationKey": "server.npcRoles.Harvesting_Golem.name"
+  "NameTranslationKey": "server.npcRoles.Straw_Golem.name"
 }
