@@ -22,7 +22,6 @@
     "Animation": {
       "0": {
         "Opacity": 0.0,
-        "Color": "#ffdf52",
         "Scale": {
           "X": {
             "Min": 1,
@@ -35,15 +34,12 @@
         }
       },
       "20": {
-        "Opacity": 0.965,
-        "Color": "#79ff00"
+        "Opacity": 0.965
       },
       "80": {
-        "Color": "#fff041",
         "Opacity": 1.0
       },
       "100": {
-        "Color": "#298e1a",
         "Opacity": 0.0
       }
     },
@@ -55,7 +51,6 @@
         }
       },
       "Opacity": 0.5,
-      "Color": "#ffffff",
       "Rotation": {
         "X": {
           "Max": 180.0

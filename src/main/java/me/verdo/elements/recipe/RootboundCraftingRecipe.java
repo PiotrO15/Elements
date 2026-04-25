@@ -84,17 +84,19 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
                     continue;
                 }
 
+                Vector3d center = blockPos.toVector3d().add(1.5, 1.25, 1.5);
+
                 mainInput.setStoredItem(ItemStack.EMPTY);
 
                 RecipeUtil.consumeEssence(essenceContainers, recipe.getEssenceInputs(), world);
 
-                RecipeUtil.consumeMaterials(pedestalData, recipe.getPedestalInputs(), world, commandBuffer);
+                RecipeUtil.consumeMaterials(pedestalData, recipe.getPedestalInputs(), world, commandBuffer, center);
 
                 ItemStack output = recipe.getOutput().toItemStack();
                 if (output != null)
                     mainInput.setStoredItem(output);
 
-                ParticleUtil.spawnParticleEffect("GreenOrbImpact", blockPos.clone().toVector3d().add(1.5, 1.25, 1.5), world.getEntityStore().getStore());
+                ParticleUtil.spawnParticleEffect("GreenOrbImpact", center, world.getEntityStore().getStore());
 
                 commandBuffer.run(_ -> ItemDisplayManager.createOrUpdateDisplay(mainInput, world, blockPos.x, blockPos.y, blockPos.z, blockRef));
                 break;

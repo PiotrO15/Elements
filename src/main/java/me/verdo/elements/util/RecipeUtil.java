@@ -104,7 +104,7 @@ public class RecipeUtil {
         }
     }
 
-    public static void consumeMaterials(List<RootboundCraftingRecipe.PedestalData> containers, MaterialQuantity[] requiredMaterials, World world, CommandBuffer<EntityStore> commandBuffer) {
+    public static void consumeMaterials(List<RootboundCraftingRecipe.PedestalData> containers, MaterialQuantity[] requiredMaterials, World world, CommandBuffer<EntityStore> commandBuffer, Vector3d center) {
         if (requiredMaterials == null) {
             return;
         }
@@ -124,6 +124,8 @@ public class RecipeUtil {
                     WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(container.pos().x, container.pos().z));
                     commandBuffer.run(_ -> ItemDisplayManager.removeDisplayEntity(world, container.ref(), chunk));
                     remaining -= toConsume;
+
+                    ModParticleUtil.createParticleFlow(world, container.pos().toVector3d().add(0.5, 1.25, 0.5), center);
 
                     ParticleUtil.spawnParticleEffect("GreenOrbImpact", container.pos().toVector3d().add(0.5, 1.25, 0.5), world.getEntityStore().getStore());
                 }
