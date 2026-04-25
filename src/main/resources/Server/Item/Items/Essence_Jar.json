@@ -369,6 +369,102 @@
             "Radius": 3,
             "Color": "#145"
           }
+        },
+        "Earth_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Earth.png"
+            }
+          ],
+          "Light": {
+            "Radius": 0,
+            "Color": "#145"
+          }
+        },
+        "Earth_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Earth.png"
+            }
+          ],
+          "Light": {
+            "Radius": 1,
+            "Color": "#145"
+          }
+        },
+        "Earth_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Earth.png"
+            }
+          ],
+          "Light": {
+            "Radius": 2,
+            "Color": "#145"
+          }
+        },
+        "Earth_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Earth.png"
+            }
+          ],
+          "Light": {
+            "Radius": 3,
+            "Color": "#145"
+          }
+        },
+        "Harvest_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Harvest.png"
+            }
+          ],
+          "Light": {
+            "Radius": 0,
+            "Color": "#145"
+          }
+        },
+        "Harvest_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Harvest.png"
+            }
+          ],
+          "Light": {
+            "Radius": 1,
+            "Color": "#145"
+          }
+        },
+        "Harvest_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Harvest.png"
+            }
+          ],
+          "Light": {
+            "Radius": 2,
+            "Color": "#145"
+          }
+        },
+        "Harvest_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Harvest.png"
+            }
+          ],
+          "Light": {
+            "Radius": 3,
+            "Color": "#145"
+          }
         }
       }
     },

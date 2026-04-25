@@ -8,7 +8,9 @@ public enum EssenceType {
     LIFE("Ingredient_Life_Essence", "Life", 0x32CD32),
     LIGHTNING("Ingredient_Lightning_Essence", "Lightning", 0xFFD700),
     VOID("Ingredient_Void_Essence", "Void", 0x2E0854),
-    WATER("Ingredient_Water_Essence", "Water", 0x1E90FF);
+    WATER("Ingredient_Water_Essence", "Water", 0x1E90FF),
+    EARTH("Earth_Essence", "Earth", 0x8B4513),
+    HARVEST("Harvest_Essence", "Harvest", 0x1E90FF);
 
     private static final List<EssenceType> baseEssenceTypes = List.of(FIRE, ICE, LIFE, LIGHTNING, VOID, WATER);
 
