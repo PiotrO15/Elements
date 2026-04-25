@@ -25,15 +25,7 @@
     "Secondary": {
       "Interactions": [
         {
-          "Type": "SpawnNPC",
-          "SpawnOffset": {
-            "Y": 1
-          },
-          "EntityId": "Straw_Golem",
-          "Next": {
-            "Type": "ModifyInventory",
-            "AdjustHeldItemQuantity": -1
-          }
+          "Type": "SpawnGolem"
         }
       ]
     }

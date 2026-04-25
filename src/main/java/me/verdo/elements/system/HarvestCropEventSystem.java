@@ -16,13 +16,12 @@ import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
-import com.hypixel.hytale.server.core.modules.entity.EntityModule;
-import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.util.ModChunkUtil;
+import me.verdo.elements.util.ModParticleUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -60,34 +59,12 @@ public class HarvestCropEventSystem extends EntityEventSystem<EntityStore, Break
                 double distance = from.distanceTo(to);
                 int steps = (int) (distance / 0.5);
 
-//                ItemContainerBlock containerBlock = chunkStore.getComponent(result, ItemContainerBlock.getComponentType());
-//                if (containerBlock != null) {
-//                    if (containerBlock.getItemContainer().addItemStack(new ItemStack("Ingredient_Life_Essence")).succeeded()) {
-//                    }
-//                }
-
-                double dx = to.x - from.x;
-                double dy = to.y - from.y;
-                double dz = to.z - from.z;
-
-                float yaw   = (float) Math.atan2(-dx, -dz);
-                float pitch = (float) Math.atan2(dy, Math.sqrt(dx * dx + dz * dz));
-
-                for (int step = 0; step <= steps - 1; step++) {
-                    double t = (double) step / steps;
-                    Vector3d point = new Vector3d(
-                            from.x + dx * t,
-                            from.y + dy * t,
-                            from.z + dz * t
-                    );
-
-                    HytaleServer.SCHEDULED_EXECUTOR.schedule(() -> world.execute(() -> {
-                        SpatialResource<Ref<EntityStore>, EntityStore> playerSpatialResource = world.getEntityStore().getStore().getResource(EntityModule.get().getPlayerSpatialResourceType());
-                        List<Ref<EntityStore>> playerRefs = SpatialResource.getThreadLocalReferenceList();
-                        playerSpatialResource.getSpatialStructure().collect(point, 75.0F, playerRefs);
-                        ParticleUtil.spawnParticleEffect("Essence_Collector_Transfer", point, yaw, pitch, 0f, null, playerRefs, world.getEntityStore().getStore());
-                    }), step * 100L, TimeUnit.MILLISECONDS);
+                ItemContainerBlock containerBlock = chunkStore.getComponent(result, ItemContainerBlock.getComponentType());
+                if (containerBlock == null) {
+                    continue;
                 }
+
+                ModParticleUtil.createParticleFlow(world, from, to);
 
                 HytaleServer.SCHEDULED_EXECUTOR.schedule(() -> world.execute(() -> {
                     ItemContainerBlock scheduledContainer = chunkStore.getComponent(result, ItemContainerBlock.getComponentType());
