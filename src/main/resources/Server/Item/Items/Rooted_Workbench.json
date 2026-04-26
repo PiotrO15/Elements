@@ -15,16 +15,12 @@
         "Quantity": 20
       },
       {
-        "ItemId": "Ingredient_Bar_Gold",
+        "ItemId": "Ingredient_Bar_Copper",
         "Quantity": 5
       },
       {
-        "ItemId": "Ingredient_Sac_Venom",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Ingredient_Bone_Fragment",
-        "Quantity": 10
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 20
       }
     ],
     "BenchRequirement": [
@@ -33,8 +29,7 @@
         "Type": "Crafting",
         "Categories": [
           "Workbench_Crafting"
-        ],
-        "RequiredTierLevel": 2
+        ]
       }
     ]
   },

@@ -3,28 +3,11 @@
     {
       "Type": "TextPage",
       "Title": "Essence Jar",
-      "Text": "Essence Jar is an item used for essence storage. By default, 250 of a single essence type can be stored by an essence jar. They can be filled by interacting with essence in hand or using essence pipes. Essence stored in essence jars can be used in rootbound rituals."
+      "Text": "Essence Jar provides a simple and elegant solution to essence storage, holding up to 250 essence of a single type.\n\nYou can fill it by interacting with essence or via essence pipes and empty it by hand. Essence stored in a jar can be used in rootbound rituals."
     },
     {
       "Type": "RecipePage",
-      "Title": "Crafting",
-      "Output": {
-        "Item": "Any_Trunk",
-        "Count": 1,
-        "ResourceTypeId": "",
-        "ItemId": "Essence_Jar",
-        "Quantity": 2
-      },
-      "Input": [
-        {
-          "ResourceTypeId": "Wood_Trunk",
-          "Quantity": 5
-        },
-        {
-          "ItemId": "Ingredient_Bar_Copper"
-        }
-      ],
-      "Text": "This is an essence jar!"
+      "CraftedItem": "Essence_Jar"
     }
   ]
 }

@@ -3,7 +3,11 @@
     {
       "Type": "TextPage",
       "Title": "Essence Pipe",
-      "Text": "Essence Pipes can be used to transfer essence from an alchemical furnace or an essence collector into essence jars."
+      "Text": "Essence Pipes provide a way to automatically transfer essence from sources such as alchemical furnace or essence collector into essence jars."
+    },
+    {
+      "Type": "RecipePage",
+      "CraftedItem": "Essence_Pipe"
     }
   ]
 }

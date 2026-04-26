@@ -1,0 +1,35 @@
+{
+  "MainInput": {
+    "ItemId": "Essence_Collector"
+  },
+  "PedestalInputs": [
+    {
+      "ItemId": "Plant_Crop_Turnip_Item",
+      "Quantity": 1
+    },
+    {
+      "ItemId": "Plant_Crop_Lettuce_Item"
+    },
+    {
+      "ItemId": "Plant_Crop_Tomato_Item"
+    },
+    {
+      "ItemId": "Plant_Crop_Aubergine_Item"
+    },
+    {
+      "ItemId": "Plant_Crop_Carrot_Item"
+    },
+    {
+      "ItemId": "Plant_Crop_Pumpkin_Item"
+    }
+  ],
+  "Output": {
+    "ItemId": "Essence_Collector_Harvest"
+  },
+  "EssenceInputs": [
+    {
+      "StoredEssenceType": "Ingredient_Life_Essence",
+      "StoredEssenceAmount": 80
+    }
+  ]
+}

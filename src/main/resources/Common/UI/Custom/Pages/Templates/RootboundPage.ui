@@ -30,8 +30,13 @@ Group {
         }
 
         Group {
-            Background: (Color: #877056);
+            // Background: (Color: #877056);
             Anchor: (Top: 150, Left: 115, Width: 350, Height: 350);
+
+            Group #Background {
+                Anchor: (Top:35, Left: 35, Width: 280, Height: 280);
+                Background: (TexturePath: "../../nexus_background.png");
+            }
 
             Group #Input {
                 Anchor: (Top: 0, Left: 0, Width: 580, Height: 350);
@@ -53,7 +58,7 @@ Group {
         }
 
         Group #EssenceInputs {
-            Background: (Color: #877056);
+            // Background: (Color: #877056);
             Anchor: (Top: 520, Left: 0, Width: 580, Height: 150);
             Padding: (Full: 20);
             LayoutMode: LeftCenterWrap;

@@ -3,22 +3,22 @@
     "Name": "server.items.Dominion_Wand.name",
     "Description": "server.items.Dominion_Wand.description"
   },
-  "Model": "Items/Weapons/Wand/Wood.blockymodel",
-  "Texture": "Items/Weapons/Wand/Wood_Texture.png",
+  "Model": "Items/Dominion_Wand.blockymodel",
+  "Texture": "Items/Dominion_Wand.png",
   "PlayerAnimationsId": "Wand",
   "IconProperties": {
     "Scale": 0.6,
-    "Translation": [
-      -13,
-      -16
-    ],
     "Rotation": [
       45,
       90,
       0
+    ],
+    "Translation": [
+      -13,
+      -16
     ]
   },
-  "Icon": "Icons/ItemsGenerated/Weapon_Wand_Wood.png",
+  "Icon": "Icons/ItemsGenerated/Dominion_Wand.png",
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "ItemSoundSetId": "ISS_Weapons_Wood",
   "MaxStack": 1,

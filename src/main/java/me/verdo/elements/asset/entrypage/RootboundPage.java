@@ -65,7 +65,7 @@ public class RootboundPage implements EntryPage {
 
         final double centerX = 175.0;
         final double centerY = 175.0;
-        final double radius = 120.0;
+        final double radius = 135.0;
         final int slotSize = 60;
 
         for (int i = 0; i < slots.size(); i++) {

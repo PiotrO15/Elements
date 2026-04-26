@@ -7,7 +7,7 @@
     "TimeSeconds": 1,
     "Input": [
       {
-        "ResourceTypeId": "Wood_Trunk",
+        "ItemId": "Potion_Empty",
         "Quantity": 5
       },
       {
