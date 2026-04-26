@@ -1,5 +1,5 @@
 Group {
-  Group #TopRightPanel {
+  Group #SpellEffectSelector {
     Anchor: (Top: 50, Left: 650, Width: 860, Height: 300);
     Background: (TexturePath: "./test.png");
 
@@ -8,47 +8,4 @@ Group {
         Text: "Spell effect";
         Style: (TextColor: #000000, FontSize: 28, FontName: "Secondary");
     }
-
-    Button #EffectAttackButton {
-        Anchor: (Top: 85, Left: 35, Width: 130, Height: 95);
-        Style: ButtonStyle(
-            Default: (Background: PatchStyle(TexturePath: "./test.png")),
-            Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
-        );
-
-        Label #EffectAttackText {
-            Anchor: (Top: 28, Left: 15, Width: 100, Height: 40);
-            Text: "attack";
-            Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
-        }
-    }
-
-    Button #EffectEmpty1 {
-        Anchor: (Top: 85, Left: 200, Width: 130, Height: 95);
-        Style: ButtonStyle(
-            Default: (Background: PatchStyle(TexturePath: "./test.png")),
-            Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
-        );
-
-        Label #EffectEmpty1Text {
-            Anchor: (Top: 20, Left: 10, Width: 110, Height: 55);
-            Text: "";
-            Style: (TextColor: #000000, FontSize: 20, Alignment: Center, Wrap: true);
-        }
-    }
-
-    Button #EffectEmpty2 {
-        Anchor: (Top: 85, Left: 365, Width: 130, Height: 95);
-        Style: ButtonStyle(
-            Default: (Background: PatchStyle(TexturePath: "./test.png")),
-            Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
-        );
-
-        Label #EffectEmpty2Text {
-            Anchor: (Top: 20, Left: 10, Width: 110, Height: 55);
-            Text: "";
-            Style: (TextColor: #000000, FontSize: 20, Alignment: Center, Wrap: true);
-        }
-    }
-  }
 }

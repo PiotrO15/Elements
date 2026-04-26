@@ -1,0 +1,13 @@
+Button #EffectButtonATTACK {
+        Anchor: (Top: 85, Left: 35, Width: 130, Height: 95);
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "./test.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+        );
+
+        Label #Name {
+            Anchor: (Top: 28, Left: 15, Width: 100, Height: 40);
+            Text: "attack";
+            Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+        }
+    }
