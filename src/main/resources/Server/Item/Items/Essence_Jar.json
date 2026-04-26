@@ -3,9 +3,6 @@
     "Name": "server.items.Essence_Jar.name"
   },
   "PlayerAnimationsId": "Item",
-  "Categories": [
-    "Items.Potions"
-  ],
   "Recipe": {
     "TimeSeconds": 1,
     "Input": [
@@ -469,11 +466,6 @@
       }
     },
     "VariantRotation": "NESW"
-  },
-  "Tags": {
-    "Type": [
-      "Potion"
-    ]
   },
   "Scale": 1,
   "MaxStack": 30,

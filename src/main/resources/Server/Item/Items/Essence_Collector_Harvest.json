@@ -1,6 +1,6 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Essence_Collector.name"
+    "Name": "server.items.Essence_Collector_Harvest.name"
   },
   "Icon": "Icons/ItemsGenerated/Essence_Collector.png",
   "Interactions": {
@@ -50,29 +50,6 @@
     "CustomModelAnimation": "Blocks/Animations/Essence_Collector/Essence_Collector_Idle.blockyanim",
     "Looping": true,
     "DrawType": "Model"
-  },
-  "Recipe": {
-    "TimeSeconds": 3,
-    "Input": [
-      {
-        "ResourceTypeId": "Rock_Marble",
-        "Quantity": 4
-      },
-      {
-        "ItemId": "Ingredient_Bar_Copper",
-        "Quantity": 1
-      }
-    ],
-    "BenchRequirement": [
-      {
-        "Id": "Rooted_Workbench",
-        "Type": "Crafting",
-        "Categories": [
-          "Core"
-        ]
-      }
-    ],
-    "OutputQuantity": 2
   },
   "IconProperties": {
     "Scale": 0.27,

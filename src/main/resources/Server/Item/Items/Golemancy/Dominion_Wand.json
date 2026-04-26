@@ -1,7 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Rootbound_Wand.name",
-    "Description": "server.items.Rootbound_Wand.description"
+    "Name": "server.items.Dominion_Wand.name",
+    "Description": "server.items.Dominion_Wand.description"
   },
   "Model": "Items/Weapons/Wand/Wood.blockymodel",
   "Texture": "Items/Weapons/Wand/Wood_Texture.png",

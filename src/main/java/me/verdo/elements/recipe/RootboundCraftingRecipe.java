@@ -88,7 +88,7 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
 
                 mainInput.setStoredItem(ItemStack.EMPTY);
 
-                RecipeUtil.consumeEssence(essenceContainers, recipe.getEssenceInputs(), world);
+                RecipeUtil.consumeEssence(essenceContainers, recipe.getEssenceInputs(), world, center);
 
                 RecipeUtil.consumeMaterials(pedestalData, recipe.getPedestalInputs(), world, commandBuffer, center);
 
