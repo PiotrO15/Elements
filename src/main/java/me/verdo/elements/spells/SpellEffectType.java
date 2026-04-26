@@ -1,5 +1,8 @@
 package me.verdo.elements.spells;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum SpellEffectType {
     DAMAGE,
     BUFF,
@@ -15,6 +18,12 @@ public enum SpellEffectType {
             case "DEBUFF" -> DEBUFF;
             default -> throw new IllegalArgumentException("Invalid SpellEffectType: " + value);
         };
+    }
+
+    public static List<String> getValidTypes() {
+        return Arrays.stream(SpellEffectType.values())
+                .map(Enum::name)
+                .toList();
     }
 }
 

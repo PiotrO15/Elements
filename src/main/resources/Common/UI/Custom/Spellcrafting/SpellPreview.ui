@@ -1,0 +1,45 @@
+Group {
+  Group #SpellPreviewPanel {
+      Anchor: (Top: 380, Left: 80, Width: 1430, Height: 310);
+      Background: (TexturePath: "./test.png");
+
+      Label #YourSpellLabel {
+          Anchor: (Top: 12, Left: 10, Width: 250, Height: 40);
+          Text: "Your Spell";
+          Style: (TextColor: #000000, FontSize: 30, FontName: "Secondary");
+      }
+
+      Button #PreviewSelfNode {
+          Anchor: (Top: 150, Left: 70, Width: 165, Height: 95);
+          Style: ButtonStyle(
+              Default: (Background: PatchStyle(TexturePath: "./test.png")),
+              Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+          );
+
+          Label #PreviewSelfText {
+              Anchor: (Top: 28, Left: 25, Width: 110, Height: 40);
+              Text: "self";
+              Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+          }
+      }
+
+      Group #PreviewConnector {
+          Anchor: (Top: 192, Left: 235, Width: 140, Height: 8);
+          Background: (TexturePath: "./test.png");
+      }
+
+      Button #PreviewAttackNode {
+          Anchor: (Top: 150, Left: 375, Width: 220, Height: 95);
+          Style: ButtonStyle(
+              Default: (Background: PatchStyle(TexturePath: "./test.png")),
+              Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+          );
+
+          Label #PreviewAttackText {
+              Anchor: (Top: 28, Left: 45, Width: 130, Height: 40);
+              Text: "attack";
+              Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+          }
+      }
+  }
+}

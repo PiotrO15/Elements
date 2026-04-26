@@ -1,5 +1,8 @@
 package me.verdo.elements.spells;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum SpellTargetType {
     SELF,
     TOUCH,
@@ -15,6 +18,12 @@ public enum SpellTargetType {
             case "PROJECTILE" -> PROJECTILE;
             default -> throw new IllegalArgumentException("Invalid SpellTargetType: " + value);
         };
+    }
+
+        public static List<String> getValidTypes() {
+        return Arrays.stream(SpellTargetType.values())
+                .map(Enum::name)
+                .toList();
     }
 }
 

@@ -11,3 +11,6 @@ items.Rootbound_Wand.name = Rootbound Wand
 items.Rootbound_Wand.description = Can be used on Rootbound Nexus to trigger crafting.
 
 items.Test_Spellbook.name = Test Spellbook
+items.Test_Spellbook.description = A spellbook used for testing spells.
+items.Spellcrafting_Table.name = Spellcrafting Table
+items.Spellcrafting_Table.description = A table used for creating spells.

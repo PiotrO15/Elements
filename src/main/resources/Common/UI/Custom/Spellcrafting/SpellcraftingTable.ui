@@ -1,0 +1,72 @@
+$Common = "../Common.ui";
+
+Group {
+    Anchor: (Width: 1920, Height: 1080);
+    Background: (TexturePath: "./background.png");
+
+    Group #SpellcraftingRoot {
+        Anchor: (Top: 130, Left: 170, Width: 1580, Height: 820);
+        Background: (TexturePath: "./test.png");
+
+
+        
+
+        Label #CostLabel {
+            Anchor: (Top: 720, Left: 90, Width: 250, Height: 40);
+            Text: "Cost: 0";
+            Style: (TextColor: #000000, FontSize: 30, FontName: "Secondary");
+        }
+
+        Button #SaveButton {
+            Anchor: (Top: 710, Left: 1150, Width: 110, Height: 58);
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "./test.png")),
+                Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+            );
+
+            Label #SaveText {
+                Anchor: (Top: 12, Left: 20, Width: 70, Height: 30);
+                Text: "save";
+                Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+            }
+        }
+
+        Button #ResetButton {
+            Anchor: (Top: 710, Left: 1300, Width: 140, Height: 58);
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "./test.png")),
+                Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+            );
+
+            Label #ResetText {
+                Anchor: (Top: 12, Left: 25, Width: 90, Height: 30);
+                Text: "reset";
+                Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+            }
+        }
+
+        Button #RightTab1 {
+            Anchor: (Top: 80, Left: 1518, Width: 110, Height: 72);
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "./test.png")),
+                Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+            );
+        }
+
+        Button #RightTab2 {
+            Anchor: (Top: 175, Left: 1518, Width: 110, Height: 72);
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "./test.png")),
+                Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+            );
+        }
+
+        Button #RightTab3 {
+            Anchor: (Top: 270, Left: 1518, Width: 110, Height: 72);
+            Style: ButtonStyle(
+                Default: (Background: PatchStyle(TexturePath: "./test.png")),
+                Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+            );
+        }
+    }
+}

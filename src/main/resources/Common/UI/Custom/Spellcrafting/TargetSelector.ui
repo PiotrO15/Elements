@@ -1,0 +1,54 @@
+Group {
+  Group #TopLeftPanel {
+    Anchor: (Top: 50, Left: 70, Width: 530, Height: 260);
+    Background: (TexturePath: "./test.png");
+
+    Label #TargetTypeLabel {
+        Anchor: (Top: 20, Left: 35, Width: 250, Height: 50);
+        Text: "Target type";
+        Style: (TextColor: #000000, FontSize: 28, FontName: "Secondary");
+    }
+
+    Button #TargetSelfButton {
+        Anchor: (Top: 90, Left: 35, Width: 120, Height: 95);
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "./test.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+        );
+
+        Label #TargetSelfText {
+            Anchor: (Top: 28, Left: 15, Width: 90, Height: 40);
+            Text: "self";
+            Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+        }
+    }
+
+    Button #TargetTouchButton {
+        Anchor: (Top: 90, Left: 185, Width: 120, Height: 95);
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "./test.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+        );
+
+        Label #TargetTouchText {
+            Anchor: (Top: 28, Left: 15, Width: 90, Height: 40);
+            Text: "touch";
+            Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+        }
+    }
+
+    Button #TargetProjectileButton {
+        Anchor: (Top: 90, Left: 335, Width: 120, Height: 95);
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "./test.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+        );
+
+        Label #TargetProjectileText {
+            Anchor: (Top: 20, Left: 5, Width: 110, Height: 55);
+            Text: "projectile";
+            Style: (TextColor: #000000, FontSize: 20, Alignment: Center, Wrap: true);
+        }
+    }
+}
+}

@@ -25,6 +25,7 @@ import me.verdo.elements.display.BlockBreakDisplayEventSystem;
 import me.verdo.elements.system.EssencePipeSystem;
 import me.verdo.elements.interaction.NexusInteraction;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
+import me.verdo.elements.spellcrafting_table.SpellcraftingTableInteraction;
 import me.verdo.elements.spells.SpellCastInteraction;
 import me.verdo.elements.spells.SpellProjectileComponent;
 import me.verdo.elements.spells.SpellProjectileImpactInteraction;
@@ -75,7 +76,6 @@ public class ElementsPlugin extends JavaPlugin {
         essenceStorage = getChunkStoreRegistry().registerComponent(EssenceStorageComponent.class, "EssenceStorage", EssenceStorageComponent.CODEC);
         storedItem = getChunkStoreRegistry().registerComponent(StoredItemComponent.class, "StoredItem", StoredItemComponent.CODEC);
         essenceExtractorBlock = getChunkStoreRegistry().registerComponent(EssenceExtractorBlock.class, "EssenceExtractorBlock", EssenceExtractorBlock.CODEC);
-
         storedEssence = getEntityStoreRegistry().registerComponent(ComplexEssenceStorageComponent.class, "StoredEssence", ComplexEssenceStorageComponent.CODEC);
         spellSlotsComponent = getEntityStoreRegistry().registerComponent(SpellSlotsComponent.class, "SpellSlots", SpellSlotsComponent.CODEC); // Turn into item component?
         spellProjectileComponent = getEntityStoreRegistry().registerComponent(SpellProjectileComponent.class, "SpellProjectile", SpellProjectileComponent.CODEC);
@@ -89,7 +89,8 @@ public class ElementsPlugin extends JavaPlugin {
         getCodecRegistry(Interaction.CODEC).register("NexusInteraction", NexusInteraction.class, NexusInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("SpellCastInteraction", SpellCastInteraction.class, SpellCastInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("SpellProjectileImpactInteraction", SpellProjectileImpactInteraction.class, SpellProjectileImpactInteraction.CODEC);
-        
+        getCodecRegistry(Interaction.CODEC).register("SpellcraftingTableInteraction", SpellcraftingTableInteraction.class, SpellcraftingTableInteraction.CODEC);
+
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new BlockBreakDisplayEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new EssencePipeSystem.PipePlaceEvent(PlaceBlockEvent.class));
