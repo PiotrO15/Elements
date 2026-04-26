@@ -1,0 +1,109 @@
+{
+  "Type": "Generic",
+  "Appearance": "Straw_Golem",
+  "MaxHealth": 100,
+  "StartState": "Idle",
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 2,
+      "Gravity": 10,
+      "MaxFallSpeed": 8,
+      "Acceleration": 10
+    }
+  ],
+  "Instructions": [
+    {
+      "Sensor": {
+        "Type": "CheckActiveSeal",
+        "SealType": "Harvesting"
+      },
+      "Instructions": [
+        {
+          "Sensor": { "Type": "State", "State": "Idle" },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "FindCrop",
+                "Range": 10
+              },
+              "Actions": [
+                { "Type": "State", "State": "Harvesting" }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": { "Type": "State", "State": "Harvesting" },
+          "Instructions": [
+            {
+              "$Comment": "This instruction handles the actual MOVEMENT.",
+              "Continue": true,
+              "Sensor": {
+                "Type": "FindCrop",
+                "Range": 10
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 0.5,
+                "StopDistance": 0.5,
+                "RelativeSpeed": 1.0
+              }
+            },
+            {
+              "$Comment": "This instruction triggers when we are close enough.",
+              "Sensor": {
+                "Type": "FindCrop",
+                "Range": 1.0
+              },
+              "Actions": [
+                { "Type": "HarvestCrop" },
+                { "Type": "State", "State": "Idle" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      }
+    }
+  ],
+  "InteractionInstruction": {
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": { "Type": "Any" },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true,
+            "Hint": "server.interactionHints.trade",
+            "ShowPrompt": true
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "ApplySeal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "NameTranslationKey": "server.npcRoles.Straw_Golem.name"
+}

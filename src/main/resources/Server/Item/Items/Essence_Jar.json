@@ -21,10 +21,10 @@
     "OutputQuantity": 2,
     "BenchRequirement": [
       {
-        "Id": "Arcanebench",
+        "Id": "Rooted_Workbench",
         "Type": "Crafting",
         "Categories": [
-          "Arcane_Misc"
+          "Core"
         ]
       }
     ]
@@ -49,10 +49,10 @@
   "BlockType": {
     "BlockParticleSetId": "GlassEmpty",
     "BlockSoundSetId": "Metal",
-    "CustomModel": "Items/Blocks/Essence_Jar.blockymodel",
+    "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "Items/Blocks/Essence_Jar_Empty.png",
+        "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Empty.png",
         "Weight": 1
       }
     ],
@@ -80,13 +80,13 @@
     "State": {
       "Definitions": {
         "0": {
-          "CustomModel": "Items/Blocks/Essence_Jar.blockymodel"
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar.blockymodel"
         },
         "Ingredient_Fire_Essence_25": {
-          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Fire.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Fire.png"
             }
           ],
           "Light": {
@@ -95,10 +95,10 @@
           }
         },
         "Ingredient_Fire_Essence_50": {
-          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Fire.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Fire.png"
             }
           ],
           "Light": {
@@ -107,10 +107,10 @@
           }
         },
         "Ingredient_Fire_Essence_75": {
-          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Fire.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Fire.png"
             }
           ],
           "Light": {
@@ -119,10 +119,10 @@
           }
         },
         "Ingredient_Fire_Essence_100": {
-          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Fire.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Fire.png"
             }
           ],
           "Light": {
@@ -131,10 +131,10 @@
           }
         },
         "Ingredient_Ice_Essence_25": {
-          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Ice.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Ice.png"
             }
           ],
           "Light": {
@@ -143,10 +143,10 @@
           }
         },
         "Ingredient_Ice_Essence_50": {
-          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Ice.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Ice.png"
             }
           ],
           "Light": {
@@ -155,10 +155,10 @@
           }
         },
         "Ingredient_Ice_Essence_75": {
-          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Ice.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Ice.png"
             }
           ],
           "Light": {
@@ -167,10 +167,10 @@
           }
         },
         "Ingredient_Ice_Essence_100": {
-          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Ice.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Ice.png"
             }
           ],
           "Light": {
@@ -179,10 +179,10 @@
           }
         },
         "Ingredient_Life_Essence_25": {
-          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Life.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Life.png"
             }
           ],
           "Light": {
@@ -191,10 +191,10 @@
           }
         },
         "Ingredient_Life_Essence_50": {
-          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Life.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Life.png"
             }
           ],
           "Light": {
@@ -203,10 +203,10 @@
           }
         },
         "Ingredient_Life_Essence_75": {
-          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Life.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Life.png"
             }
           ],
           "Light": {
@@ -215,10 +215,10 @@
           }
         },
         "Ingredient_Life_Essence_100": {
-          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Life.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Life.png"
             }
           ],
           "Light": {
@@ -227,10 +227,10 @@
           }
         },
         "Ingredient_Lightning_Essence_25": {
-          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Lightning.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Lightning.png"
             }
           ],
           "Light": {
@@ -239,10 +239,10 @@
           }
         },
         "Ingredient_Lightning_Essence_50": {
-          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Lightning.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Lightning.png"
             }
           ],
           "Light": {
@@ -251,10 +251,10 @@
           }
         },
         "Ingredient_Lightning_Essence_75": {
-          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Lightning.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Lightning.png"
             }
           ],
           "Light": {
@@ -263,10 +263,10 @@
           }
         },
         "Ingredient_Lightning_Essence_100": {
-          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Lightning.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Lightning.png"
             }
           ],
           "Light": {
@@ -275,10 +275,10 @@
           }
         },
         "Ingredient_Void_Essence_25": {
-          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Void.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Void.png"
             }
           ],
           "Light": {
@@ -287,10 +287,10 @@
           }
         },
         "Ingredient_Void_Essence_50": {
-          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Void.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Void.png"
             }
           ],
           "Light": {
@@ -299,10 +299,10 @@
           }
         },
         "Ingredient_Void_Essence_75": {
-          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Void.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Void.png"
             }
           ],
           "Light": {
@@ -311,10 +311,10 @@
           }
         },
         "Ingredient_Void_Essence_100": {
-          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Void.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Void.png"
             }
           ],
           "Light": {
@@ -323,10 +323,10 @@
           }
         },
         "Ingredient_Water_Essence_25": {
-          "CustomModel": "Items/Blocks/Essence_Jar_25.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Water.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Water.png"
             }
           ],
           "Light": {
@@ -335,10 +335,10 @@
           }
         },
         "Ingredient_Water_Essence_50": {
-          "CustomModel": "Items/Blocks/Essence_Jar_50.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Water.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Water.png"
             }
           ],
           "Light": {
@@ -347,10 +347,10 @@
           }
         },
         "Ingredient_Water_Essence_75": {
-          "CustomModel": "Items/Blocks/Essence_Jar_75.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Water.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Water.png"
             }
           ],
           "Light": {
@@ -359,10 +359,106 @@
           }
         },
         "Ingredient_Water_Essence_100": {
-          "CustomModel": "Items/Blocks/Essence_Jar_100.blockymodel",
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
           "CustomModelTexture": [
             {
-              "Texture": "Items/Blocks/Essence_Jar_Water.png"
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Water.png"
+            }
+          ],
+          "Light": {
+            "Radius": 3,
+            "Color": "#145"
+          }
+        },
+        "Earth_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Earth.png"
+            }
+          ],
+          "Light": {
+            "Radius": 0,
+            "Color": "#145"
+          }
+        },
+        "Earth_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Earth.png"
+            }
+          ],
+          "Light": {
+            "Radius": 1,
+            "Color": "#145"
+          }
+        },
+        "Earth_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Earth.png"
+            }
+          ],
+          "Light": {
+            "Radius": 2,
+            "Color": "#145"
+          }
+        },
+        "Earth_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Earth.png"
+            }
+          ],
+          "Light": {
+            "Radius": 3,
+            "Color": "#145"
+          }
+        },
+        "Harvest_Essence_25": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_25.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Harvest.png"
+            }
+          ],
+          "Light": {
+            "Radius": 0,
+            "Color": "#145"
+          }
+        },
+        "Harvest_Essence_50": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_50.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Harvest.png"
+            }
+          ],
+          "Light": {
+            "Radius": 1,
+            "Color": "#145"
+          }
+        },
+        "Harvest_Essence_75": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_75.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Harvest.png"
+            }
+          ],
+          "Light": {
+            "Radius": 2,
+            "Color": "#145"
+          }
+        },
+        "Harvest_Essence_100": {
+          "CustomModel": "Items/Blocks/Essence_Jar/Essence_Jar_100.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Blocks/Essence_Jar/Essence_Jar_Harvest.png"
             }
           ],
           "Light": {

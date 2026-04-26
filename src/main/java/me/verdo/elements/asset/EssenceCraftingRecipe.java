@@ -18,7 +18,6 @@ public class EssenceCraftingRecipe implements JsonAssetWithMap<String, DefaultAs
     protected MaterialQuantity mainInput;
     protected MaterialQuantity[] pedestalInputs;
     protected MaterialQuantity output;
-    protected int outputQuantity;
     protected String id;
 
     public static final AssetBuilderCodec<String, EssenceCraftingRecipe> CODEC;
@@ -60,10 +59,10 @@ public class EssenceCraftingRecipe implements JsonAssetWithMap<String, DefaultAs
 
     static {
         CODEC = AssetBuilderCodec.builder(EssenceCraftingRecipe.class, EssenceCraftingRecipe::new, Codec.STRING, (recipe, s) -> recipe.id = s, (recipe) -> recipe.id, (asset, data) -> asset.data = data, (asset) -> asset.data)
-                .addField(new KeyedCodec<>("PedestalInputs", new ArrayCodec<>(MaterialQuantity.CODEC, MaterialQuantity[]::new), true), (r, o) -> r.pedestalInputs = o, (r) -> r.pedestalInputs).validator(Validators.nonNull())
-                .addField(new KeyedCodec<>("MainInput", MaterialQuantity.CODEC, true), (r, u) -> r.mainInput = u, (r) -> r.mainInput).validator(Validators.nonNull())
-                .addField(new KeyedCodec<>("EssenceInputs", new ArrayCodec<>(EssenceStorageComponent.CODEC, EssenceStorageComponent[]::new), true), (r, s) -> r.essenceInputs = s, (r) -> r.essenceInputs).validator(Validators.nonNull())
-                .addField(new KeyedCodec<>("Output", MaterialQuantity.CODEC, true), (r, u) -> r.output = u, (r) -> r.output).validator(Validators.nonNull())
+                .append(new KeyedCodec<>("PedestalInputs", new ArrayCodec<>(MaterialQuantity.CODEC, MaterialQuantity[]::new), true), (r, o) -> r.pedestalInputs = o, (r) -> r.pedestalInputs).addValidator(Validators.nonNull()).add()
+                .append(new KeyedCodec<>("MainInput", MaterialQuantity.CODEC, true), (r, u) -> r.mainInput = u, (r) -> r.mainInput).addValidator(Validators.nonNull()).add()
+                .append(new KeyedCodec<>("EssenceInputs", new ArrayCodec<>(EssenceStorageComponent.CODEC, EssenceStorageComponent[]::new), true), (r, s) -> r.essenceInputs = s, (r) -> r.essenceInputs).addValidator(Validators.nonNull()).add()
+                .append(new KeyedCodec<>("Output", MaterialQuantity.CODEC, true), (r, u) -> r.output = u, (r) -> r.output).addValidator(Validators.nonNull()).add()
                 .build();
     }
 }

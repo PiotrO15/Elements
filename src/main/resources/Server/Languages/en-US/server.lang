@@ -1,8 +1,17 @@
+items.Earth_Essence.name = Essence of Earth
+items.Earth_Essence.description = The main component of soil and rocks found all around Orbis. While it's one of the most common essence types, it can still be incredibly useful.
+items.Harvest_Essence.name = Essence of the Harvest
+items.Harvest_Essence.description = A rare essence type that can only be found during crop harvest. Since it's very volatile, complex equipment is required to collect even the smallest amounts of this essence.
+
 items.Alchemical_Furnace.name = Alchemical Furnace
 items.Alchemical_Furnace.description = A furnace that breaks down items into essence. Can be crafted in Rootbound Nexus with a Furnace, 4 Essence Pipes on the pedestals and 10 Fire Essence in a nearby Essence Jar.
 items.Essence_Jar.name = Essence Jar
 items.Essence_Pipe.name = Essence Pipe
+items.Essence_Collector.name = Essence Collector
 interactionHints.Essence_Jar = Press [{key}] to store or extract essence
+
+items.Rooted_Workbench.name = Rooted Workbench
+items.Rooted_Workbench.description = A workbench that can be used to craft items used by elemental magic.
 
 items.Rootbound_Nexus.name = Rootbound Nexus
 items.Rootbound_Nexus.description = An altar capable of creating useful items from items and essence. Used together with Rootbound Pedestals and a Rootbound Wand to trigger crafting.
@@ -14,3 +23,14 @@ items.Test_Spellbook.name = Test Spellbook
 items.Test_Spellbook.description = A spellbook used for testing spells.
 items.Spellcrafting_Table.name = Spellcrafting Table
 items.Spellcrafting_Table.description = A table used for creating spells.
+items.Empty_Seal.name = Empty Seal
+items.Harvesting_Seal.name = Harvesting Seal
+items.Harvesting_Seal.description = Allows your golem to harvest crops
+items.Gathering_Seal.name = Gathering Seal
+items.Gathering_Seal.description = Allows your golem to gather items from the ground to store in nearby chests
+
+items.Straw_Golem.name = Straw Golem
+npcRoles.Straw_Golem.name = Straw Golem
+
+items.Roots_Of_Knowledge.name = Roots of Knowledge
+items.Roots_Of_Knowledge.description = Your source of knowledge about elemental magic

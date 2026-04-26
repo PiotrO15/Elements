@@ -1,0 +1,62 @@
+Group {
+    Anchor: (Top: 0, Left: 0, Width: 580, Height: 760);
+
+    Label #Title {
+        Anchor: (Top: 0, Left: 0, Width: 580, Height: 50);
+        Text: "Rootbound Ritual";
+        Style: (TextColor: #000000, FontSize: 36, FontName: "Secondary", Alignment: Center);
+    }
+
+    Group #RecipeContent {
+        Anchor: (Top: 60, Left: 0, Width: 580, Height: 540);
+
+        Group {
+            Anchor: (Top: 0, Left: 0, Width: 580, Height: 160);
+            LayoutMode: Center;
+
+            Group {
+                Group #Background {
+                    Anchor: (Width: 128, Height: 128);
+                    Background: (TexturePath: "../../output_background.png");
+                }
+
+                Group #Output {
+                    ItemIcon #ItemIcon {
+                        Anchor: (Top: 4, Left: 4, Width: 120, Height: 120);
+                        ItemId: "Furniture_Construction_Sign";
+                    }
+                }
+            }
+        }
+
+        Group {
+            Background: (Color: #877056);
+            Anchor: (Top: 150, Left: 115, Width: 350, Height: 350);
+
+            Group #Input {
+                Anchor: (Top: 0, Left: 0, Width: 580, Height: 350);
+            }
+
+            Group #MainInput {
+                Anchor: (Top: 145, Left: 145, Width: 60, Height: 60);
+                ItemIcon #ItemIcon {
+                    Anchor: (Width: 60, Height: 60);
+                    ItemId: "Furniture_Construction_Sign";
+                }
+
+                AssetImage #ResourceTypeIcon {
+                    Anchor: (Width: 60, Height: 60);
+                    AssetPath: "Icons/ResourceTypes/Any_Trunk.png";
+                    Visible: false;
+                }
+            }
+        }
+
+        Group #EssenceInputs {
+            Background: (Color: #877056);
+            Anchor: (Top: 520, Left: 0, Width: 580, Height: 150);
+            Padding: (Full: 20);
+            LayoutMode: LeftCenterWrap;
+        }
+    }
+}

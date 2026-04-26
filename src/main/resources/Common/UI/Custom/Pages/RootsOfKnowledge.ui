@@ -1,0 +1,41 @@
+$Common = "../Common.ui";
+
+Group {
+    Anchor: (Width: 1920, Height: 1080);
+    Background: (TexturePath: "../background.png");
+
+    Group #LeftPage {
+        Anchor: (Top: 130, Left: 330, Width: 580, Height: 760);
+    }
+
+    Group #RightPage {
+        Anchor: (Top: 130, Left: 1010, Width: 580, Height: 760);
+    }
+
+    Button #Back {
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "../back.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "../back_highlighted.png"))
+        );
+        Anchor: (Top: 90, Left: 290, Width: 80, Height: 80);
+        Visible: true;
+    }
+
+    Button #ArrowLeft {
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "../arrow_left.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "../arrow_left_highlighted.png"))
+        );
+        Anchor: (Top: 820, Left: 310, Width: 120, Height: 120);
+        Visible: false;
+    }
+
+    Button #ArrowRight {
+        Style: ButtonStyle(
+            Default: (Background: PatchStyle(TexturePath: "../arrow_right.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "../arrow_right_highlighted.png"))
+        );
+        Anchor: (Top: 820, Left: 1510, Width: 120, Height: 120);
+        Visible: false;
+    }
+}

@@ -1,0 +1,30 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Roots of Knowledge",
+      "Text": "The world of Orbis is built out of various types of particles. While invisible to most, these particles can be harnessed and refined into Essence. \n\nElemental magic offers vast possibilities, from the casting of devastating spells to the creation of helpful summons and automation. \n\nThis book will teach you how to master these particles and harness the true power of Essence."
+    },
+    {
+      "Type": "ListPage",
+      "Title": "Chapters",
+      "Entries": [
+        {
+          "ItemIcon": "Essence_Jar",
+          "Title": "Essence Manipulation",
+          "Link": "Collecting_Essence"
+        },
+        {
+          "ItemIcon": "Harvesting_Seal",
+          "Title": "Golemancy",
+          "Link": "Golemancy"
+        },
+        {
+          "ItemIcon": "Weapon_Staff_Crystal_Ice",
+          "Title": "Spellcrafting",
+          "Link": "Spellcrafting"
+        }
+      ]
+    }
+  ]
+}

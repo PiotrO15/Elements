@@ -1,0 +1,9 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Essence Collector",
+      "Text": "Essence Collector can be placed to absorb low amounts of essence produced by various processes, such as harvesting crops. By default, it produces essence of life, but it can also be attuned to only collect rarer, more valueable essence types."
+    }
+  ]
+}

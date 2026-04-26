@@ -1,0 +1,14 @@
+Group {
+    Anchor: (Top: 0, Left: 0, Width: 60, Height: 60);
+
+    ItemIcon #ItemIcon {
+        Anchor: (Width: 60, Height: 60);
+        ItemId: "Furniture_Construction_Sign";
+    }
+
+    AssetImage #ResourceTypeIcon {
+        Anchor: (Width: 60, Height: 60);
+        AssetPath: "Icons/ResourceTypes/Any_Trunk.png";
+        Visible: false;
+    }
+}

@@ -1,0 +1,14 @@
+Group {
+    Anchor: (Top: 0, Left: 0, Width: 80, Height: 110);
+
+    ItemIcon #EssenceIcon {
+        Anchor: (Top: 0, Left: 0, Width: 80, Height: 80);
+        ItemId: "Furniture_Construction_Sign";
+    }
+
+    Label #Quantity {
+        Anchor: (Top: 80, Left: 0, Width: 80, Height: 30);
+        Text: "1";
+        Style: (TextColor: #cccccc, FontSize: 24, Alignment: Center);
+    }
+}
