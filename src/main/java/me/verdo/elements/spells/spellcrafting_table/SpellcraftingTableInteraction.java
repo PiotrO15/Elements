@@ -1,4 +1,4 @@
-package me.verdo.elements.spellcrafting_table;
+package me.verdo.elements.spells.spellcrafting_table;
 
 import java.util.List;
 
@@ -93,12 +93,11 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
                 inventory.removeItemStackFromSlot(context.getHeldItemSlot(), 1);
 
                 // open spell crafting UI here
-                openSpellCraftingUI(player, entityRef, commandBuffer, context);
-                // PlayerRef playerRefComponent = commandBuffer.getStore().getComponent(entityRef, PlayerRef.getComponentType());
+                PlayerRef playerRefComponent = commandBuffer.getStore().getComponent(entityRef, PlayerRef.getComponentType());
 
-                // if (playerRefComponent != null) {
-                //     player.getPageManager().openCustomPage(entityRef, commandBuffer.getStore(), new SpellcraftingScreen(playerRefComponent));
-                // }
+                if (playerRefComponent != null) {
+                    player.getPageManager().openCustomPage(entityRef, commandBuffer.getStore(), new SpellcraftingScreen(playerRefComponent));
+                }
             } else {
                 ItemStack stored = storedItem.getStoredItem();
                 if (stored != null) {
@@ -116,14 +115,5 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
     protected void simulateInteractWithBlock(@Nonnull InteractionType interactionType,
             @Nonnull InteractionContext interactionContext, @Nullable ItemStack itemStack, @Nonnull World world,
             @Nonnull Vector3i vector3i) {
-    }
-
-    private void openSpellCraftingUI(Player player, Ref<EntityStore> playerRef, CommandBuffer<EntityStore> commandBuffer,
-            InteractionContext interactionContext) {
-        PlayerRef playerRefComponent = commandBuffer.getStore().getComponent(playerRef, PlayerRef.getComponentType());
-        if (playerRefComponent != null) {
-            player.getPageManager().openCustomPage(playerRef, commandBuffer.getStore(),
-                    new SpellcraftingScreen(playerRefComponent));
-        }
     }
 }

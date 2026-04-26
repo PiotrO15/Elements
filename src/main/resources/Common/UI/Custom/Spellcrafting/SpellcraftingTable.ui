@@ -2,14 +2,11 @@ $Common = "../Common.ui";
 
 Group {
     Anchor: (Width: 1920, Height: 1080);
-    Background: (TexturePath: "./background.png");
+    Background: (TexturePath: "../background.png");
 
     Group #SpellcraftingRoot {
         Anchor: (Top: 130, Left: 170, Width: 1580, Height: 820);
-        Background: (TexturePath: "./test.png");
-
-
-        
+        Background: (TexturePath: "../background.png");
 
         Label #CostLabel {
             Anchor: (Top: 720, Left: 90, Width: 250, Height: 40);

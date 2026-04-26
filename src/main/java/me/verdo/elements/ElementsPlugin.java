@@ -29,7 +29,6 @@ import me.verdo.elements.npc.ElementsNPC;
 import me.verdo.elements.system.EssencePipeSystem;
 import me.verdo.elements.interaction.NexusInteraction;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
-import me.verdo.elements.spellcrafting_table.SpellcraftingTableInteraction;
 import me.verdo.elements.spells.SpellCastInteraction;
 import me.verdo.elements.spells.SpellProjectileComponent;
 import me.verdo.elements.spells.SpellProjectileImpactInteraction;
@@ -37,6 +36,7 @@ import me.verdo.elements.system.BlockBreakEventSystem;
 import me.verdo.elements.system.EssenceTransferSystem;
 import me.verdo.elements.system.HarvestCropEventSystem;
 import me.verdo.elements.spells.SpellSlotsComponent;
+import me.verdo.elements.spells.spellcrafting_table.SpellcraftingTableInteraction;
 import me.verdo.elements.util.SpatialRefUtil;
 
 import javax.annotation.Nonnull;
