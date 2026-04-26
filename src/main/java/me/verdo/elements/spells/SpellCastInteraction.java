@@ -19,8 +19,6 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
-import me.verdo.elements.util.ItemStackUtil;
-
 public class SpellCastInteraction extends SimpleInstantInteraction {
     public static final BuilderCodec<SpellCastInteraction> CODEC = BuilderCodec
             .builder(SpellCastInteraction.class, SpellCastInteraction::new).documentation("Casts a spell").build();
@@ -48,7 +46,7 @@ public class SpellCastInteraction extends SimpleInstantInteraction {
             // update held item with new spell metadata
             // ItemStackUtil.replaceActiveItemInPlayerHand(player, heldItem);
 
-            SpellDefinition spell = getSpellFromItem(heldItem, 1);
+            SpellDefinition spell = SpellSlotsComponent.getSpellFromItemBySlot(heldItem, 1);
 
             PlayerRef playerRefComponent = buffer.getStore().getComponent(entityRef, PlayerRef.getComponentType());
             if (playerRefComponent != null) {
@@ -60,50 +58,5 @@ public class SpellCastInteraction extends SimpleInstantInteraction {
         }
     }
 
-    private static ItemStack addTestSpellToItem(ItemStack itemStack) {
-        // debug method to add a test spell to an item - TODO: remove
 
-        // printSpellsInItem(itemStack); // debug - before
-        SpellDefinition defaultSpell = SpellDefinition.makeTestSpell();
-
-        // add spell to held item's metadata for testing - in the future, this will be customiseable
-        SpellSlotsComponent spellSlotsComponent = getSpellSlotsComponent(itemStack);
-        if (spellSlotsComponent == null) {
-            spellSlotsComponent = new SpellSlotsComponent(3);
-            spellSlotsComponent.addSpell(defaultSpell, 0);
-            spellSlotsComponent.addSpell(defaultSpell.setName(defaultSpell.getName() + " (projectile)").setTargetType(SpellTargetType.PROJECTILE), 1);
-        }
-
-        itemStack = setSpellSlotsComponent(itemStack, spellSlotsComponent); // TODO: update held item with new spell
-                                                                            // metadata (currently broken :/)
-        printSpellsInItem(itemStack); // debug - after
-        return itemStack;
-    }
-
-    private static SpellSlotsComponent getSpellSlotsComponent(ItemStack itemStack) {
-        return itemStack.getFromMetadataOrNull(SpellSlotsComponent.METADATA_KEY, SpellSlotsComponent.CODEC);
-    }
-
-    private static ItemStack setSpellSlotsComponent(ItemStack itemStack, SpellSlotsComponent spellSlotsComponent) {
-        return itemStack.withMetadata(SpellSlotsComponent.METADATA_KEY, SpellSlotsComponent.CODEC, spellSlotsComponent);
-    }
-
-    private static SpellDefinition getSpellFromItem(ItemStack itemStack, int slot) {
-        SpellSlotsComponent spellSlotsComponent = itemStack.getFromMetadataOrNull(SpellSlotsComponent.METADATA_KEY,
-                SpellSlotsComponent.CODEC);
-        if (spellSlotsComponent == null) {
-            return null;
-        }
-        return spellSlotsComponent.getSpell(slot);
-    }
-
-    private static void printSpellsInItem(ItemStack itemStack) {
-        // debug method to print spells stored in an item's metadata
-        SpellSlotsComponent spellSlotsComponent = getSpellSlotsComponent(itemStack);
-        if (spellSlotsComponent == null) {
-            System.out.println("No SpellSlotsComponent found in item metadata.");
-            return;
-        }
-        spellSlotsComponent.printStoredSpells();
-    }
 }

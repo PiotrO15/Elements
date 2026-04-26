@@ -42,28 +42,8 @@ Group {
             }
         }
 
-        Button #RightTab1 {
-            Anchor: (Top: 80, Left: 1518, Width: 110, Height: 72);
-            Style: ButtonStyle(
-                Default: (Background: PatchStyle(TexturePath: "./test.png")),
-                Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
-            );
-        }
-
-        Button #RightTab2 {
-            Anchor: (Top: 175, Left: 1518, Width: 110, Height: 72);
-            Style: ButtonStyle(
-                Default: (Background: PatchStyle(TexturePath: "./test.png")),
-                Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
-            );
-        }
-
-        Button #RightTab3 {
-            Anchor: (Top: 270, Left: 1518, Width: 110, Height: 72);
-            Style: ButtonStyle(
-                Default: (Background: PatchStyle(TexturePath: "./test.png")),
-                Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
-            );
+        Group #RightTabs {
+            Anchor: (Top: 80, Left: 1518, Width: 110, Height: 680);
         }
     }
 }
