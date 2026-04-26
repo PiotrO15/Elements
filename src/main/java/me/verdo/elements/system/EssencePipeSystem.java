@@ -16,6 +16,7 @@ import com.hypixel.hytale.server.core.event.events.ecs.PlaceBlockEvent;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.FillerBlockUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -154,8 +155,14 @@ public class EssencePipeSystem {
         BlockType blockType = world.getBlockType(to);
         if (blockType == null)
             return false;
+        long chunkIndex = ChunkUtil.indexChunkFromBlock(to.x, to.z);
+        WorldChunk worldChunk = world.getChunk(chunkIndex);
+        int filler = worldChunk.getFiller(to.x, to.y, to.z);
 
-        return blockType.getId().contains("Essence_Pipe") || (blockType.getId().contains("Essence_Jar") && from.y > to.y) || (blockType.getId().contains("Alchemical_Furnace") && from.y > to.y);
+        return blockType.getId().contains("Essence_Pipe") ||
+                (blockType.getId().contains("Essence_Jar") && from.y > to.y) ||
+                (blockType.getId().contains("Alchemical_Furnace") && from.y > to.y) ||
+                (blockType.getId().contains("Essence_Collector") && FillerBlockUtil.unpackY(filler) == 0 && from.y == to.y);
     }
 
     public static class PipePlaceEvent extends EntityEventSystem<EntityStore, PlaceBlockEvent> {

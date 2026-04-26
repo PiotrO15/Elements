@@ -70,7 +70,13 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
             ItemContainerBlock containerBlock = archetypeChunk.getComponent(i, ItemContainerBlock.getComponentType());
             if (containerBlock == null || containerBlock.getItemContainer().isEmpty()) return;
 
-            transferFromContainer(world, blockPos.clone().add(0, 2, 0), containerBlock.getItemContainer(), worldChunk, commandBuffer);
+            List<Vector3i> connectors = List.of(Vector3i.EAST, Vector3i.WEST, Vector3i.NORTH, Vector3i.SOUTH);
+
+            for (Vector3i connector : connectors) {
+                if (transferFromContainer(world, blockPos.clone().add(connector), containerBlock.getItemContainer(), worldChunk, commandBuffer)) {
+                    return;
+                }
+            }
         }
     }
 
@@ -85,9 +91,9 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
         super.onSystemRegistered();
     }
 
-    private void transferFromContainer(World world, Vector3i sourcePos, ItemContainer itemContainer, WorldChunk worldChunk, CommandBuffer<ChunkStore> commandBuffer) {
+    private boolean transferFromContainer(World world, Vector3i sourcePos, ItemContainer itemContainer, WorldChunk worldChunk, CommandBuffer<ChunkStore> commandBuffer) {
         BlockType blockType = world.getBlockType(sourcePos);
-        if (blockType == null) return;
+        if (blockType == null) return false;
 
         if (blockType.getId().contains("Essence_Pipe")) {
             List<Vector3i> jars = EssencePipeSystem.findConnectedJars(world, sourcePos);
@@ -119,10 +125,11 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
                         StoreEssenceInteraction.displayEssence(worldChunk, jarPos, c);
                         worldChunk.markNeedsSaving();
 
-                        return;
+                        return true;
                     }
                 }
             }
         }
+        return false;
     }
 }

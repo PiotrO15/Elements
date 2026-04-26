@@ -4,6 +4,10 @@
       "Type": "TextPage",
       "Title": "Alchemical Furnace",
       "Text": "Alchemical Furnace is an attuned furnace capable of isolating pure essence out of various blocks and items. For it to work, it has to be fueled, similar to a normal furnace. Additionally, produced essence can be transferred into essence jars by essence pipes connected to the top of the furnace."
+    },
+    {
+      "Type": "RootboundPage",
+      "RecipeId": "Alchemical_Furnace"
     }
   ]
 }
