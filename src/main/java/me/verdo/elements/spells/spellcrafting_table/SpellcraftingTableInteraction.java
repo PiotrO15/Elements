@@ -110,7 +110,7 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
                 PlayerRef playerRefComponent = commandBuffer.getStore().getComponent(entityRef, PlayerRef.getComponentType());
 
                 if (playerRefComponent != null) {
-                    player.getPageManager().openCustomPage(entityRef, commandBuffer.getStore(), new SpellcraftingScreen(playerRefComponent, storedItem.getStoredItem()));
+                    player.getPageManager().openCustomPage(entityRef, commandBuffer.getStore(), new SpellcraftingScreen(playerRefComponent, storedItem.getStoredItem(), storedItem));
                 }
             } else {
                 ItemStack stored = storedItem.getStoredItem();

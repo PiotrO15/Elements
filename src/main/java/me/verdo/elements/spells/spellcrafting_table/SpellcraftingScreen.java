@@ -21,6 +21,7 @@ import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
+import me.verdo.elements.component.StoredItemComponent;
 import me.verdo.elements.spells.SpellDefinition;
 import me.verdo.elements.spells.SpellEffectType;
 import me.verdo.elements.spells.SpellTargetType;
@@ -28,6 +29,7 @@ import me.verdo.elements.spells.SpellSlotsComponent;
 
 public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingScreen.Data> {
   private ItemStack editedItem;
+  private final StoredItemComponent tableStoredItemComponent;
 
   public static class Data {
     static BuilderCodec<Data> CODEC = BuilderCodec.builder(Data.class, Data::new)
@@ -62,9 +64,11 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
   private final static List<String> spellTargetTypes = SpellTargetType.getValidTypes();
   private final static List<String> spellEffectTypes = SpellEffectType.getValidTypes();
 
-  public SpellcraftingScreen(@NonNullDecl PlayerRef playerRef, ItemStack editedItem) {
+  public SpellcraftingScreen(@NonNullDecl PlayerRef playerRef, ItemStack editedItem,
+      StoredItemComponent tableStoredItemComponent) {
     super(playerRef, CustomPageLifetime.CanDismiss, Data.CODEC);
     this.editedItem = editedItem;
+    this.tableStoredItemComponent = tableStoredItemComponent;
   }
 
   @Override
@@ -283,12 +287,10 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
 
     if ("Save".equals(data.action)) {
       if (data.editedItem != null && data.currentSpell != null) {
-        System.out.println("Saving spell: target=" + data.currentSpell.getTargetType() + ", effect=" + data.currentSpell.getEffectType() + " to slot " + data.currentSlot);
         data.editedItem = SpellSlotsComponent.setSpellInItemBySlot(data.editedItem, data.currentSpell, data.currentSlot);
         editedItem = data.editedItem;
         spellSlotsComponent = SpellSlotsComponent.getSpellsFromItem(data.editedItem);
         data.currentSpell = spellSlotsComponent != null ? spellSlotsComponent.getSpell(data.currentSlot) : null;
-        SpellSlotsComponent.printSpellsInItem(data.editedItem); // debug - print spells after saving
       }
       data.action = null;
     } else if ("Reset".equals(data.action)) {
@@ -300,6 +302,15 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
       data.selectedTargetType = null;
       data.selectedEffectType = null;
       data.action = null;
+    }
+
+    if (data.editedItem != null && spellSlotsComponent != null) {
+      data.editedItem = SpellSlotsComponent.setSpellsInItem(data.editedItem, spellSlotsComponent);
+      editedItem = data.editedItem;
+
+      if (tableStoredItemComponent != null) {
+        tableStoredItemComponent.setStoredItem(data.editedItem);
+      }
     }
 
     updateTargetButtons(commandBuilder, eventBuilder, spellTargetTypes, data.currentSlot, data.currentSpell);
