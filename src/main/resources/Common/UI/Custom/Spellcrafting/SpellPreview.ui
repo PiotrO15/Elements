@@ -1,19 +1,19 @@
 Group {
   Group #SpellPreviewPanel {
-      Anchor: (Top: 380, Left: 80, Width: 1430, Height: 310);
-      Background: (TexturePath: "./test.png");
+      Anchor: (Top: 500, Left: 260, Width: 1430, Height: 310);
+      Background: (TexturePath: "Assets/section_background.png");
 
       Label #YourSpellLabel {
-          Anchor: (Top: 12, Left: 10, Width: 250, Height: 40);
-          Text: "Your Spell";
+          Anchor: (Top: -50, Left: 35, Width: 250, Height: 40);
+          Text: "Current Spell";
           Style: (TextColor: #000000, FontSize: 30, FontName: "Secondary");
       }
 
       Button #PreviewTargetTypeNode {
-          Anchor: (Top: 150, Left: 70, Width: 165, Height: 95);
+          Anchor: (Top: 110, Left: 70, Width: 165, Height: 95);
           Style: ButtonStyle(
-              Default: (Background: PatchStyle(TexturePath: "./test.png")),
-              Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+              Default: (Background: PatchStyle(TexturePath: "Assets/spell_node.png")),
+              Hovered: (Background: PatchStyle(TexturePath: "Assets/spell_node_hover.png"))
           );
 
           Label #PreviewTargetTypeText {
@@ -24,19 +24,19 @@ Group {
       }
 
       Group #PreviewConnector {
-          Anchor: (Top: 192, Left: 235, Width: 140, Height: 8);
-          Background: (TexturePath: "./test.png");
+          Anchor: (Top: 152, Left: 235, Width: 140, Height: 15);
+          Background: (TexturePath: "Assets/connector.png");
       }
 
       Button #PreviewSpellEffectNode {
-          Anchor: (Top: 150, Left: 375, Width: 220, Height: 95);
+          Anchor: (Top: 110, Left: 375, Width: 180, Height: 95);
           Style: ButtonStyle(
-              Default: (Background: PatchStyle(TexturePath: "./test.png")),
-              Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+              Default: (Background: PatchStyle(TexturePath: "Assets/spell_node.png")),
+              Hovered: (Background: PatchStyle(TexturePath: "Assets/spell_node_hover.png"))
           );
 
           Label #PreviewSpellEffectText {
-              Anchor: (Top: 28, Left: 45, Width: 130, Height: 40);
+              Anchor: (Top: 28, Left: 25, Width: 130, Height: 40);
               Text: "effect";
               Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
           }

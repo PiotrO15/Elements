@@ -87,16 +87,18 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
 
             if (context.getHeldItem() != null && storedItem.getStoredItem().isEmpty()) {
                 ItemStack placedItem = context.getHeldItem().withQuantity(1);
-                
-                //don't allow placing of items that aren't spellbooks or already have spells in them
+
+                // don't allow placing of items that aren't spellbooks or already have spells in
+                // them
                 if (!"Test_Spellbook".equals(placedItem.getItemId())) {
                     return;
                 }
 
-                // if item is a spellbook without spell metadata, add empty spell metadata so the UI has something to read from
+                // if item is a spellbook without spell metadata, add empty spell component
                 if ("Test_Spellbook".equals(placedItem.getItemId())
                         && SpellSlotsComponent.getSpellsFromItem(placedItem) == null) {
                     placedItem = SpellSlotsComponent.setSpellsInItem(placedItem, new SpellSlotsComponent(3));
+                    System.out.println("Added empty SpellSlotsComponent to item: " + placedItem);
                 }
 
                 storedItem.setStoredItem(placedItem);
@@ -107,10 +109,12 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
                 inventory.removeItemStackFromSlot(context.getHeldItemSlot(), 1);
 
                 // open spell crafting UI here
-                PlayerRef playerRefComponent = commandBuffer.getStore().getComponent(entityRef, PlayerRef.getComponentType());
+                PlayerRef playerRefComponent = commandBuffer.getStore().getComponent(entityRef,
+                        PlayerRef.getComponentType());
 
                 if (playerRefComponent != null) {
-                    player.getPageManager().openCustomPage(entityRef, commandBuffer.getStore(), new SpellcraftingScreen(playerRefComponent, storedItem.getStoredItem(), storedItem));
+                    player.getPageManager().openCustomPage(entityRef, commandBuffer.getStore(),
+                            new SpellcraftingScreen(playerRefComponent, storedItem.getStoredItem(), storedItem));
                 }
             } else {
                 ItemStack stored = storedItem.getStoredItem();
@@ -122,7 +126,6 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
                 }
             }
         }
-        System.out.println("Item on spellcrafting table: " + storedItem.toString());
     }
 
     @Override

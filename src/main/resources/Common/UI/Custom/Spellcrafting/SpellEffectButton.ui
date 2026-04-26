@@ -1,13 +1,13 @@
-Button #EffectButtonATTACK {
+Button #SpellEffectButton{
         Anchor: (Top: 85, Left: 35, Width: 130, Height: 95);
         Style: ButtonStyle(
-            Default: (Background: PatchStyle(TexturePath: "./test.png")),
-            Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
+            Default: (Background: PatchStyle(TexturePath: "Assets/spell_node.png")),
+            Hovered: (Background: PatchStyle(TexturePath: "Assets/spell_node_hover.png"))
         );
 
         Label #EffectTypeName {
-            Anchor: (Top: 28, Left: 15, Width: 100, Height: 40);
+            Anchor: (Top: 28, Left: 0, Width: 120, Height: 40);
             Text: "attack";
-            Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+            Style: (TextColor: #000000, FontSize: 22, Alignment: Center);
         }
     }

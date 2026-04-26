@@ -1,7 +1,7 @@
 Group {
   Group #TargetTypeSelector {
-    Anchor: (Top: 50, Left: 70, Width: 530, Height: 260);
-    Background: (TexturePath: "./test.png");
+    Anchor: (Top: 140, Left: 260, Width: 530, Height: 260);
+    Background: (TexturePath: "Assets/section_background.png");
 
     Label #TargetTypeSelectorLabel {
         Anchor: (Top: 20, Left: 35, Width: 250, Height: 50);

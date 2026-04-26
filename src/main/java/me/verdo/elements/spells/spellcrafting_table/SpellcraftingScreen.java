@@ -93,7 +93,7 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
       uiCommandBuilder.append("#TargetTypeSelector #TargetButtons", "Spellcrafting/TargetTypeButton.ui");
 
       Anchor anchor = new Anchor();
-      anchor.setLeft(Value.of(35 + (i % targetColumns) * 150));
+      anchor.setLeft(Value.of(25 + (i % targetColumns) * 150));
       anchor.setTop(Value.of(20 + (i / targetColumns) * 110));
       anchor.setWidth(Value.of(120));
       anchor.setHeight(Value.of(95));
@@ -122,7 +122,7 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
       uiCommandBuilder.append("#SpellEffectSelector #EffectButtons", "Spellcrafting/SpellEffectButton.ui");
 
       Anchor anchor = new Anchor();
-      anchor.setLeft(Value.of(35 + i % targetColumns * (150)));
+      anchor.setLeft(Value.of(25 + i % targetColumns * (150)));
       anchor.setTop(Value.of(20 + (i / targetColumns) * 110));
       anchor.setWidth(Value.of(120));
       anchor.setHeight(Value.of(95));
@@ -143,18 +143,19 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
   private static void updateRightTabButtons(UICommandBuilder uiCommandBuilder, UIEventBuilder uiEventBuilder,
       int maxSlots, int currentSlot) {
     for (int i = 0; i < maxSlots; i++) {
-      String buttonSelector = "#SpellcraftingRoot #RightTabs[" + i + "]";
+      String buttonSelector = "#RightTabs[" + i + "]";
       boolean isActive = i == currentSlot;
 
-      uiCommandBuilder.append("#SpellcraftingRoot #RightTabs", "Spellcrafting/RightTabButton.ui");
+      uiCommandBuilder.append("#RightTabs",
+          isActive ? "Spellcrafting/RightTabButtonSelected.ui" : "Spellcrafting/RightTabButton.ui");
 
       Anchor anchor = new Anchor();
       anchor.setLeft(Value.of(isActive ? -10 : 0));
-      anchor.setTop(Value.of(i * 95));
+      anchor.setTop(Value.of(i * 90));
       anchor.setWidth(Value.of(isActive ? 120 : 110));
       anchor.setHeight(Value.of(72));
       uiCommandBuilder.setObject(buttonSelector + ".Anchor", anchor);
-      uiCommandBuilder.set(buttonSelector + " #RightTabText.Text", isActive ? ">" + (i + 1) + "<" : String.valueOf(i + 1));
+      uiCommandBuilder.set(buttonSelector + " #RightTabText.Text", String.valueOf(i + 1));
 
       uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, buttonSelector,
           EventData.of("CurrentSlot", String.valueOf(i)),

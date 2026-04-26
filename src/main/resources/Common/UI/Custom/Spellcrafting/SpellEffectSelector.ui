@@ -1,7 +1,7 @@
 Group {
   Group #SpellEffectSelector {
-    Anchor: (Top: 50, Left: 650, Width: 860, Height: 300);
-    Background: (TexturePath: "./test.png");
+    Anchor: (Top: 140, Left: 840, Width: 850, Height: 300);
+    Background: (TexturePath: "Assets/section_background.png");
 
     Label #SpellEffectSelectorLabel {
         Anchor: (Top: 20, Left: 35, Width: 300, Height: 50);
