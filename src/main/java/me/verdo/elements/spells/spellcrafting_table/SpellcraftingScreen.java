@@ -27,19 +27,34 @@ import me.verdo.elements.spells.SpellTargetType;
 import me.verdo.elements.spells.SpellSlotsComponent;
 
 public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingScreen.Data> {
-  private final ItemStack editedItem;
+  private ItemStack editedItem;
 
   public static class Data {
     static BuilderCodec<Data> CODEC = BuilderCodec.builder(Data.class, Data::new)
-      .append(new KeyedCodec<>("CurrentSlot", Codec.STRING),
+      .append(new KeyedCodec<>("CurrentSlot", Codec.STRING, true),
         (d, v) -> d.currentSlot = Integer.parseInt(v),
         d -> String.valueOf(d.currentSlot))
+      .add()
+      .append(new KeyedCodec<>("SelectedTargetType", Codec.STRING, true),
+        (d, v) -> d.selectedTargetType = v,
+        d -> d.selectedTargetType)
+      .add()
+      .append(new KeyedCodec<>("SelectedEffectType", Codec.STRING, true),
+        (d, v) -> d.selectedEffectType = v,
+        d -> d.selectedEffectType)
+      .add()
+      .append(new KeyedCodec<>("Action", Codec.STRING, true),
+        (d, v) -> d.action = v,
+        d -> d.action)
       .add()
         .build();
 
     public ItemStack editedItem = null;
     public int currentSlot = 0;
     public SpellDefinition currentSpell = null;
+    public String selectedTargetType = null;
+    public String selectedEffectType = null;
+    public String action = null;
   }
 
   public List<SpellDefinition> spellsOnItem; // TODO: populate with actual spells from current item
@@ -63,8 +78,8 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     handleDataEvent(ref, store, baseData);
   }
 
-  private static void updateTargetButtons(UICommandBuilder uiCommandBuilder, UIEventBuilder uiEventBuilder,
-      List<String> targetTypes) {
+    private static void updateTargetButtons(UICommandBuilder uiCommandBuilder, UIEventBuilder uiEventBuilder,
+      List<String> targetTypes, int currentSlot, SpellDefinition currentSpell) {
 
     int targetColumns = 3;
     for (int i = 0; i < targetTypes.size(); i++) {
@@ -80,11 +95,20 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
       anchor.setHeight(Value.of(95));
       uiCommandBuilder.setObject(buttonSelector + ".Anchor", anchor);
       uiCommandBuilder.set(buttonSelector + " #TargetTypeName.Text", formatButtonText(targetType));
+
+      EventData eventData = EventData.of("CurrentSlot", String.valueOf(currentSlot))
+          .append("SelectedTargetType", targetType);
+
+      if (currentSpell != null && currentSpell.getEffectType() != null) {
+        eventData.append("SelectedEffectType", currentSpell.getEffectType().toString());
+      }
+
+      uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, buttonSelector, eventData, false);
     }
   }
 
   private static void updateEffectButtons(UICommandBuilder uiCommandBuilder, UIEventBuilder uiEventBuilder,
-      List<String> effectTypes) {
+        List<String> effectTypes, int currentSlot, SpellDefinition currentSpell) {
     int targetColumns = 5;
 
     for (int i = 0; i < effectTypes.size(); i++) {
@@ -100,6 +124,15 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
       anchor.setHeight(Value.of(95));
       uiCommandBuilder.setObject(buttonSelector + ".Anchor", anchor);
       uiCommandBuilder.set(buttonSelector + " #EffectTypeName.Text", formatButtonText(effectType));
+
+      EventData eventData = EventData.of("CurrentSlot", String.valueOf(currentSlot))
+          .append("SelectedEffectType", effectType);
+
+      if (currentSpell != null && currentSpell.getTargetType() != null) {
+        eventData.append("SelectedTargetType", currentSpell.getTargetType().toString());
+      }
+
+      uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, buttonSelector, eventData, false);
     }
   }
 
@@ -158,6 +191,53 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     uiCommandBuilder.set("#SpellPreviewPanel #PreviewSpellEffectText.Text", effectTypeText);
   }
 
+  private static void updateSaveResetButtons(UIEventBuilder uiEventBuilder, int currentSlot, SpellDefinition currentSpell) {
+    EventData saveEventData = EventData.of("CurrentSlot", String.valueOf(currentSlot))
+        .append("Action", "Save");
+
+    EventData resetEventData = EventData.of("CurrentSlot", String.valueOf(currentSlot))
+        .append("Action", "Reset");
+
+    if (currentSpell != null) {
+      if (currentSpell.getTargetType() != null) {
+        String selectedTargetType = currentSpell.getTargetType().toString();
+        saveEventData.append("SelectedTargetType", selectedTargetType);
+        resetEventData.append("SelectedTargetType", selectedTargetType);
+      }
+
+      if (currentSpell.getEffectType() != null) {
+        String selectedEffectType = currentSpell.getEffectType().toString();
+        saveEventData.append("SelectedEffectType", selectedEffectType);
+        resetEventData.append("SelectedEffectType", selectedEffectType);
+      }
+    }
+
+    uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#SaveButton", saveEventData, false);
+    uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#ResetButton", resetEventData, false);
+  }
+
+  private static SpellDefinition ensureCurrentSpell(Data data, SpellSlotsComponent spellSlotsComponent, int maxSlots) {
+    if (data.currentSpell != null) {
+      return data.currentSpell;
+    }
+
+    if (data.currentSlot < 0 || data.currentSlot >= maxSlots) {
+      return null;
+    }
+
+    SpellDefinition createdSpell = new SpellDefinition(
+        "spell_" + (data.currentSlot + 1),
+        SpellTargetType.SELF,
+        SpellEffectType.DAMAGE);
+
+    if (spellSlotsComponent != null) {
+      spellSlotsComponent.addSpell(createdSpell, data.currentSlot);
+    }
+
+    data.currentSpell = createdSpell;
+    return data.currentSpell;
+  }
+
   @Override
   public void handleDataEvent(@NonNullDecl Ref<EntityStore> ref, @NonNullDecl Store<EntityStore> store,
       @NonNullDecl Data data) {
@@ -185,9 +265,47 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
 
     data.currentSpell = spellSlotsComponent != null ? spellSlotsComponent.getSpell(data.currentSlot) : null;
 
-    updateTargetButtons(commandBuilder, eventBuilder, spellTargetTypes);
-    updateEffectButtons(commandBuilder, eventBuilder, spellEffectTypes);
+    if (data.selectedTargetType != null && !data.selectedTargetType.isBlank()) {
+      SpellDefinition spell = ensureCurrentSpell(data, spellSlotsComponent, maxSlots);
+      if (spell != null) {
+        spell.setTargetType(SpellTargetType.fromString(data.selectedTargetType));
+      }
+      data.selectedTargetType = null;
+    }
+
+    if (data.selectedEffectType != null && !data.selectedEffectType.isBlank()) {
+      SpellDefinition spell = ensureCurrentSpell(data, spellSlotsComponent, maxSlots);
+      if (spell != null) {
+        spell.setEffectType(SpellEffectType.fromString(data.selectedEffectType));
+      }
+      data.selectedEffectType = null;
+    }
+
+    if ("Save".equals(data.action)) {
+      if (data.editedItem != null && data.currentSpell != null) {
+        System.out.println("Saving spell: target=" + data.currentSpell.getTargetType() + ", effect=" + data.currentSpell.getEffectType() + " to slot " + data.currentSlot);
+        data.editedItem = SpellSlotsComponent.setSpellInItemBySlot(data.editedItem, data.currentSpell, data.currentSlot);
+        editedItem = data.editedItem;
+        spellSlotsComponent = SpellSlotsComponent.getSpellsFromItem(data.editedItem);
+        data.currentSpell = spellSlotsComponent != null ? spellSlotsComponent.getSpell(data.currentSlot) : null;
+        SpellSlotsComponent.printSpellsInItem(data.editedItem); // debug - print spells after saving
+      }
+      data.action = null;
+    } else if ("Reset".equals(data.action)) {
+      if (data.editedItem != null) {
+        data.currentSpell = SpellSlotsComponent.getSpellFromItemBySlot(data.editedItem, data.currentSlot);
+      } else {
+        data.currentSpell = null;
+      }
+      data.selectedTargetType = null;
+      data.selectedEffectType = null;
+      data.action = null;
+    }
+
+    updateTargetButtons(commandBuilder, eventBuilder, spellTargetTypes, data.currentSlot, data.currentSpell);
+    updateEffectButtons(commandBuilder, eventBuilder, spellEffectTypes, data.currentSlot, data.currentSpell);
     updateRightTabButtons(commandBuilder, eventBuilder, maxSlots, data.currentSlot);
+    updateSaveResetButtons(eventBuilder, data.currentSlot, data.currentSpell);
     updateSpellPreview(commandBuilder, data.currentSpell);
 
     sendUpdate(commandBuilder, eventBuilder, true);
