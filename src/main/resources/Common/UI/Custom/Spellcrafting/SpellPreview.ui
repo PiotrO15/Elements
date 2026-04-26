@@ -9,16 +9,16 @@ Group {
           Style: (TextColor: #000000, FontSize: 30, FontName: "Secondary");
       }
 
-      Button #PreviewSelfNode {
+      Button #PreviewTargetTypeNode {
           Anchor: (Top: 150, Left: 70, Width: 165, Height: 95);
           Style: ButtonStyle(
               Default: (Background: PatchStyle(TexturePath: "./test.png")),
               Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
           );
 
-          Label #PreviewSelfText {
+          Label #PreviewTargetTypeText {
               Anchor: (Top: 28, Left: 25, Width: 110, Height: 40);
-              Text: "self";
+              Text: "target";
               Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
           }
       }
@@ -28,16 +28,16 @@ Group {
           Background: (TexturePath: "./test.png");
       }
 
-      Button #PreviewAttackNode {
+      Button #PreviewSpellEffectNode {
           Anchor: (Top: 150, Left: 375, Width: 220, Height: 95);
           Style: ButtonStyle(
               Default: (Background: PatchStyle(TexturePath: "./test.png")),
               Hovered: (Background: PatchStyle(TexturePath: "./test.png"))
           );
 
-          Label #PreviewAttackText {
+          Label #PreviewSpellEffectText {
               Anchor: (Top: 28, Left: 45, Width: 130, Height: 40);
-              Text: "attack";
+              Text: "effect";
               Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
           }
       }

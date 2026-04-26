@@ -145,6 +145,19 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     return value.toLowerCase();
   }
 
+  private static void updateSpellPreview(UICommandBuilder uiCommandBuilder, SpellDefinition spell) {
+    String targetTypeText = "";
+    String effectTypeText = "";
+
+    if (spell != null) {
+      targetTypeText = formatButtonText(spell.getTargetType().toString());
+      effectTypeText = formatButtonText(spell.getEffectType().toString());
+    }
+
+    uiCommandBuilder.set("#SpellPreviewPanel #PreviewTargetTypeText.Text", targetTypeText);
+    uiCommandBuilder.set("#SpellPreviewPanel #PreviewSpellEffectText.Text", effectTypeText);
+  }
+
   @Override
   public void handleDataEvent(@NonNullDecl Ref<EntityStore> ref, @NonNullDecl Store<EntityStore> store,
       @NonNullDecl Data data) {
@@ -175,6 +188,7 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     updateTargetButtons(commandBuilder, eventBuilder, spellTargetTypes);
     updateEffectButtons(commandBuilder, eventBuilder, spellEffectTypes);
     updateRightTabButtons(commandBuilder, eventBuilder, maxSlots, data.currentSlot);
+    updateSpellPreview(commandBuilder, data.currentSpell);
 
     sendUpdate(commandBuilder, eventBuilder, true);
   }
