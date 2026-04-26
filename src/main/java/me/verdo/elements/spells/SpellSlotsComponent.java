@@ -20,7 +20,7 @@ public class SpellSlotsComponent implements Component<EntityStore> { // Currentl
     private Map<String, SpellDefinition> storedSpells;
 
     public SpellSlotsComponent() {
-        this.maxSlots = 0;
+        this.maxSlots = 3; // default to 3 slots if not specified
         this.storedSpells = new HashMap<>();
     }
 
@@ -139,8 +139,7 @@ public class SpellSlotsComponent implements Component<EntityStore> { // Currentl
         // printSpellsInItem(itemStack); // debug - before
         SpellDefinition defaultSpell = SpellDefinition.makeTestSpell();
 
-        // add spell to held item's metadata for testing - in the future, this will be
-        // customiseable
+        // add spell to held item's metadata for testing - in the future, this will be customiseable
         SpellSlotsComponent spellSlotsComponent = getSpellSlotsComponent(itemStack);
         if (spellSlotsComponent == null) {
             spellSlotsComponent = new SpellSlotsComponent(3);

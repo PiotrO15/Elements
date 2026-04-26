@@ -29,6 +29,7 @@ import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.component.StoredItemComponent;
 import me.verdo.elements.display.ItemDisplayManager;
 import me.verdo.elements.recipe.RootboundCraftingRecipe;
+import me.verdo.elements.spells.SpellSlotsComponent;
 import me.verdo.elements.util.ModChunkUtil;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.vector.Vector3i;
@@ -85,7 +86,20 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
             }
 
             if (context.getHeldItem() != null && storedItem.getStoredItem().isEmpty()) {
-                storedItem.setStoredItem(context.getHeldItem().withQuantity(1));
+                ItemStack placedItem = context.getHeldItem().withQuantity(1);
+                
+                //don't allow placing of items that aren't spellbooks or already have spells in them
+                if (!"Test_Spellbook".equals(placedItem.getItemId())) {
+                    return;
+                }
+
+                // if item is a spellbook without spell metadata, add empty spell metadata so the UI has something to read from
+                if ("Test_Spellbook".equals(placedItem.getItemId())
+                        && SpellSlotsComponent.getSpellsFromItem(placedItem) == null) {
+                    placedItem = SpellSlotsComponent.setSpellsInItem(placedItem, new SpellSlotsComponent(3));
+                }
+
+                storedItem.setStoredItem(placedItem);
                 commandBuffer.run(_ -> ItemDisplayManager.createOrUpdateDisplay(storedItem, world, targetBlock.x,
                         targetBlock.y, targetBlock.z, chunkStoreRef));
                 chunk.markNeedsSaving();

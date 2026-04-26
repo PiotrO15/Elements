@@ -46,11 +46,10 @@ public class SpellCastInteraction extends SimpleInstantInteraction {
             // update held item with new spell metadata
             // ItemStackUtil.replaceActiveItemInPlayerHand(player, heldItem);
 
-            SpellDefinition spell = SpellSlotsComponent.getSpellFromItemBySlot(heldItem, 1);
+            SpellDefinition spell = SpellSlotsComponent.getSpellFromItemBySlot(heldItem, 0);
 
             PlayerRef playerRefComponent = buffer.getStore().getComponent(entityRef, PlayerRef.getComponentType());
-            if (playerRefComponent != null) {
-
+            if (playerRefComponent != null && spell != null) {
                 player.sendMessage(Message.raw("Casting spell of type - " + spell.getEffectType().name()));
 
                 SpellCastResolver.handleSpellCast(entityRef, spell, null, buffer.getStore(), buffer);
