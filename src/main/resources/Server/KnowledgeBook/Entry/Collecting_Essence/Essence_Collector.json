@@ -3,7 +3,7 @@
     {
       "Type": "TextPage",
       "Title": "Essence Collector",
-      "Text": "Every interaction with organic life releases trace amounts of distinct life essences. Over time, these essences decay and are naturally reabsorbed by the environment.\n\nEssence collectors allow you to absorb some of the particles emitted while harvesting grown crops, providing additional essence of life from farming."
+      "Text": "Every interaction with organic life releases trace amounts of distinct life essences. Over time, these essences decay and are naturally reabsorbed by the environment.\n\nEssence collectors allow you to absorb some of the particles emitted while breaking grown crops, providing additional essence of life from farming."
     },
     {
       "Type": "RecipePage",

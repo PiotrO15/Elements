@@ -38,7 +38,7 @@ public class HarvestCropEventSystem extends EntityEventSystem<EntityStore, Break
     @Override
     public void handle(int i, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer, @NonNullDecl BreakBlockEvent event) {
         BlockType blockType = event.getBlockType();
-        if (!blockType.getId().contains("Crop")) {
+        if (!blockType.getId().contains("Plant_Crop") || !blockType.getId().contains("StageFinal")) {
             return;
         }
 

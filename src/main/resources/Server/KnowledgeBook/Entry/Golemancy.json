@@ -23,11 +23,6 @@
           "ItemIcon": "Harvesting_Seal",
           "Title": "Harvesting Will",
           "Link": "Harvesting_Seal"
-        },
-        {
-          "Title": "Gathering Will",
-          "ItemIcon": "Gathering_Seal",
-          "Link": "Gathering_Seal"
         }
       ]
     }
