@@ -1,0 +1,13 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Gathering Will",
+      "Text": "Gathering will allows the golem to collect nearby items from the ground and to drop them in nearby chests.\n\nThe golem will prioritize chests closer to its center (spawn point)."
+    },
+    {
+      "Type": "RootboundPage",
+      "RecipeId": "Gathering_Seal"
+    }
+  ]
+}

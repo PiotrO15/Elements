@@ -1,0 +1,13 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Essence Jar",
+      "Text": "Essence Jar provides a simple and elegant solution to essence storage, holding up to 250 essence of a single type.\n\nYou can fill it by interacting with essence or via essence pipes and empty it by hand. Essence stored in a jar can be used in rootbound rituals."
+    },
+    {
+      "Type": "RecipePage",
+      "CraftedItem": "Essence_Jar"
+    }
+  ]
+}

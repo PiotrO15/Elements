@@ -1,0 +1,92 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Essence_Collector.name"
+  },
+  "Icon": "Icons/ItemsGenerated/Essence_Collector.png",
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": "Block_Secondary"
+  },
+  "BlockType": {
+    "Opacity": "Transparent",
+    "CustomModelTexture": [
+      {
+        "Weight": 1,
+        "Texture": "Items/Blocks/Essence_Collector.png"
+      }
+    ],
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Benches"
+      }
+    },
+    "Supporting": {
+      "Down": [
+        {}
+      ],
+      "Up": [
+        {}
+      ]
+    },
+    "ParticleColor": "#d5d5c8",
+    "HitboxType": "Essence_Collector",
+    "InteractionHint": "server.interactionHints.openDoor",
+    "Interactions": {
+      "Use": "Open_Container"
+    },
+    "CustomModel": "Items/Blocks/Essence_Collector.blockymodel",
+    "Material": "Solid",
+    "VariantRotation": "NESW",
+    "RandomRotation": "None",
+    "BlockEntity": {
+      "Components": {
+        "EssenceCollectorBlock": {},
+        "ItemContainerBlock": {
+          "Capacity": 9
+        },
+        "EssenceExtractorBlock": {}
+      }
+    },
+    "CustomModelAnimation": "Blocks/Animations/Essence_Collector/Essence_Collector_Idle.blockyanim",
+    "Looping": true,
+    "DrawType": "Model"
+  },
+  "Recipe": {
+    "TimeSeconds": 3,
+    "Input": [
+      {
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 8
+      },
+      {
+        "ItemId": "Ingredient_Bar_Copper",
+        "Quantity": 4
+      },
+      {
+        "ItemId": "Plant_Crop_Cotton_Item",
+        "Quantity": 16
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Rooted_Workbench",
+        "Type": "Crafting",
+        "Categories": [
+          "Core"
+        ]
+      }
+    ]
+  },
+  "IconProperties": {
+    "Scale": 0.27,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -46
+    ]
+  }
+}

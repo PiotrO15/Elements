@@ -1,0 +1,25 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Harvesting_Seal.name",
+    "Description": "server.items.Harvesting_Seal.description"
+  },
+  "Model": "Items/Empty_Will.blockymodel",
+  "Texture": "Items/Harvesting_Will.png",
+  "PlayerAnimationsId": "Wand",
+  "IconProperties": {
+    "Scale": 1.3,
+    "Rotation": [
+      30,
+      60,
+      0
+    ],
+    "Translation": [
+      -3,
+      -4
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Harvesting_Seal.png",
+  "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
+  "ItemSoundSetId": "ISS_Weapons_Wood",
+  "MaxStack": 1
+}

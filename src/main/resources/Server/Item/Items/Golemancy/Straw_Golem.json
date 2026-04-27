@@ -1,0 +1,33 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Straw_Golem.name"
+  },
+  "Model": "NPC/Straw_Golem/Models/Model.blockymodel",
+  "Texture": "NPC/Straw_Golem/Models/Texture.png",
+  "PlayerAnimationsId": "Block",
+  "IconProperties": {
+    "Scale": 0.6,
+    "Rotation": [
+      15,
+      45,
+      15
+    ],
+    "Translation": [
+      -6,
+      -18
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Straw_Golem.png",
+  "ItemSoundSetId": "ISS_Weapons_Wood",
+  "MaxStack": 1,
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "SpawnGolem"
+        }
+      ]
+    }
+  }
+}

@@ -10,6 +10,7 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
+import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
@@ -48,27 +49,51 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
             return;
         }
 
-        WorldChunk worldChunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(blockPos.x, blockPos.z));
+        BlockType baseBlock = world.getBlockType(blockPos);
+        if (baseBlock == null) return;
 
-        if (worldChunk == null) {
-            return;
+        if (baseBlock.getId().contains("Alchemical_Furnace")) {
+            ProcessingBenchBlock processingBenchBlock = archetypeChunk.getComponent(i, ProcessingBenchBlock.getComponentType());
+            if (processingBenchBlock == null || processingBenchBlock.getItemContainer() == null) return;
+
+            ItemContainer outputContainer = processingBenchBlock.getItemContainer().getContainer(2);
+            if (outputContainer.isEmpty()) return;
+
+            transferFromContainer(world, blockPos.clone().add(0, 2, 0), outputContainer, commandBuffer);
+        } else if (baseBlock.getId().contains("Essence_Collector")) {
+            ItemContainerBlock containerBlock = archetypeChunk.getComponent(i, ItemContainerBlock.getComponentType());
+            if (containerBlock == null || containerBlock.getItemContainer().isEmpty()) return;
+
+            List<Vector3i> connectors = List.of(Vector3i.EAST, Vector3i.WEST, Vector3i.NORTH, Vector3i.SOUTH);
+
+            for (Vector3i connector : connectors) {
+                if (transferFromContainer(world, blockPos.clone().add(connector), containerBlock.getItemContainer(), commandBuffer)) {
+                    return;
+                }
+            }
         }
+    }
 
-        ProcessingBenchBlock processingBenchBlock = archetypeChunk.getComponent(i, ProcessingBenchBlock.getComponentType());
+    @NullableDecl
+    @Override
+    public Query<ChunkStore> getQuery() {
+        return this.componentType;
+    }
 
-        ItemContainer outputContainer = processingBenchBlock.getItemContainer().getContainer(2);
+    @Override
+    public void onSystemRegistered() {
+        super.onSystemRegistered();
+    }
 
-        if (outputContainer.isEmpty()) {
-            return;
-        }
+    private boolean transferFromContainer(World world, Vector3i sourcePos, ItemContainer itemContainer, CommandBuffer<ChunkStore> commandBuffer) {
+        BlockType blockType = world.getBlockType(sourcePos);
+        if (blockType == null) return false;
 
-        BlockType blockType = world.getBlockType(blockPos.clone().add(0, 2, 0));
+        if (blockType.getId().contains("Essence_Pipe")) {
+            List<Vector3i> jars = EssencePipeSystem.findConnectedJars(world, sourcePos);
 
-        if (blockType != null && blockType.getId().contains("Essence_Pipe")) {
-            List<Vector3i> jars = EssencePipeSystem.findConnectedJars(world, blockPos.clone().add(0, 2, 0));
-
-            for (int slot = 0; slot < outputContainer.getCapacity(); slot++) {
-                ItemStack stack = outputContainer.getItemStack((short) slot);
+            for (int slot = 0; slot < itemContainer.getCapacity(); slot++) {
+                ItemStack stack = itemContainer.getItemStack((short) slot);
                 if (stack == null || stack.isEmpty()) {
                     continue;
                 }
@@ -89,26 +114,17 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
                     int amountToTransfer = Math.min(Math.min(stack.getQuantity(), ElementsPlugin.get().getCommonConfig().get().getMaxEssenceStorage() - c.getStoredEssenceAmount()), 2);
 
                     if (c.storeEssence(EssenceType.fromId(stack.getItemId()), amountToTransfer)) {
-                        outputContainer.removeItemStackFromSlot((short) slot, amountToTransfer);
+                        itemContainer.removeItemStackFromSlot((short) slot, amountToTransfer);
                         commandBuffer.replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
-                        StoreEssenceInteraction.displayEssence(worldChunk, jarPos, c);
-                        worldChunk.markNeedsSaving();
+                        WorldChunk chunk = ModChunkUtil.getWorldChunk(world, jarPos);
+                        StoreEssenceInteraction.displayEssence(chunk, jarPos, c);
+                        chunk.markNeedsSaving();
 
-                        return;
+                        return true;
                     }
                 }
             }
         }
-    }
-
-    @NullableDecl
-    @Override
-    public Query<ChunkStore> getQuery() {
-        return this.componentType;
-    }
-
-    @Override
-    public void onSystemRegistered() {
-        super.onSystemRegistered();
+        return false;
     }
 }

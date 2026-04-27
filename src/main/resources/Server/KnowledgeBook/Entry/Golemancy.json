@@ -1,0 +1,30 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Golemancy",
+      "Text": "With so much to explore in the world of Orbis, automation of mundane tasks might be exactly what you need.\n\nWhile the golem body is worth as much as a statue, Essence of Life can be used to build a will. The art of golemancy is about connecting the mind and body to create helpful golems.\n\nNote: While golems can work, these little beings can only do as much as the will allows."
+    },
+    {
+      "Type": "ListPage",
+      "Title": "Entries",
+      "Entries": [
+        {
+          "ItemIcon": "Straw_Golem",
+          "Title": "Straw Golem",
+          "Link": "Straw_Golem"
+        },
+        {
+          "ItemIcon": "Dominion_Wand",
+          "Title": "Dominion Wand",
+          "Link": "Dominion_Wand"
+        },
+        {
+          "ItemIcon": "Harvesting_Seal",
+          "Title": "Harvesting Will",
+          "Link": "Harvesting_Seal"
+        }
+      ]
+    }
+  ]
+}

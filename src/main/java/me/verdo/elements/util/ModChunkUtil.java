@@ -47,4 +47,8 @@ public class ModChunkUtil {
 
         return new Vector3i(worldX, localY, worldZ);
     }
+
+    public static WorldChunk getWorldChunk(World world, Vector3i blockPos) {
+        return world.getChunk(ChunkUtil.indexChunkFromBlock(blockPos.x, blockPos.z));
+    }
 }

@@ -1,0 +1,20 @@
+Group {
+    Anchor: (Top: 0, Left: 0, Width: 80, Height: 110);
+
+    ItemIcon #ItemIcon {
+        Anchor: (Top: 0, Left: 0, Width: 80, Height: 80);
+        ItemId: "Furniture_Construction_Sign";
+    }
+
+    AssetImage #ResourceTypeIcon {
+        Anchor: (Top: 0, Left: 0, Width: 80, Height: 80);
+        AssetPath: "Icons/ResourceTypes/Any_Trunk.png";
+        Visible: false;
+    }
+
+    Label #Quantity {
+        Anchor: (Top: 80, Left: 0, Width: 80, Height: 30);
+        Text: "1";
+        Style: (TextColor: #cccccc, FontSize: 24, Alignment: Center);
+    }
+}

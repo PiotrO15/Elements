@@ -1,0 +1,13 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Dominion Wand",
+      "Text": "Dominion Wand is a utility item that allows you to control golems.\n\nGolems can only be picked up by interaction while crouching."
+    },
+    {
+      "Type": "RecipePage",
+      "CraftedItem": "Dominion_Wand"
+    }
+  ]
+}

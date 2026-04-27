@@ -13,6 +13,7 @@ import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import me.verdo.elements.EssenceType;
 import me.verdo.elements.display.ItemDisplayManager;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
 import me.verdo.elements.component.EssenceStorageComponent;
@@ -75,7 +76,7 @@ public class RecipeUtil {
         return true;
     }
 
-    public static void consumeEssence(List<RootboundCraftingRecipe.EssenceJarData> essenceContainers, EssenceStorageComponent[] requiredEssence, World world) {
+    public static void consumeEssence(List<RootboundCraftingRecipe.EssenceJarData> essenceContainers, EssenceStorageComponent[] requiredEssence, World world, Vector3d center) {
         if (requiredEssence == null) {
             return;
         }
@@ -89,6 +90,7 @@ public class RecipeUtil {
                 if (container.component().getStoredEssenceType() != null &&
                         container.component().getStoredEssenceType().equals(required.getStoredEssenceType())) {
                     int available = container.component().getStoredEssenceAmount();
+                    EssenceType essenceType = container.component().getStoredEssenceType();
                     int toConsume = Math.min(available, remaining);
 
                     container.component().setStoredEssenceAmount(available - toConsume);
@@ -99,12 +101,14 @@ public class RecipeUtil {
                     WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(container.pos().x, container.pos().z));
                     StoreEssenceInteraction.displayEssence(chunk, container.pos(), container.component());
                     remaining -= toConsume;
+
+                    ModParticleUtil.createParticleFlow(world, container.pos().toVector3d().add(0.5, 1.25, 0.5), center, essenceType.getColor());
                 }
             }
         }
     }
 
-    public static void consumeMaterials(List<RootboundCraftingRecipe.PedestalData> containers, MaterialQuantity[] requiredMaterials, World world, CommandBuffer<EntityStore> commandBuffer) {
+    public static void consumeMaterials(List<RootboundCraftingRecipe.PedestalData> containers, MaterialQuantity[] requiredMaterials, World world, CommandBuffer<EntityStore> commandBuffer, Vector3d center) {
         if (requiredMaterials == null) {
             return;
         }
@@ -124,6 +128,8 @@ public class RecipeUtil {
                     WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(container.pos().x, container.pos().z));
                     commandBuffer.run(_ -> ItemDisplayManager.removeDisplayEntity(world, container.ref(), chunk));
                     remaining -= toConsume;
+
+                    ModParticleUtil.createParticleFlow(world, container.pos().toVector3d().add(0.5, 1.25, 0.5), center);
 
                     ParticleUtil.spawnParticleEffect("GreenOrbImpact", container.pos().toVector3d().add(0.5, 1.25, 0.5), world.getEntityStore().getStore());
                 }

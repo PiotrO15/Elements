@@ -1,0 +1,41 @@
+Group {
+    Anchor: (Top: 0, Left: 0, Width: 580, Height: 760);
+    // OutlineColor: #FFFFFF;
+    // OutlineSize: 1;
+
+    Label #Title {
+        Anchor: (Top: 0, Left: 0, Width: 580, Height: 50);
+        Text: "Placeholder text";
+        Style: (TextColor: #000000, FontSize: 36, FontName: "Secondary", Alignment: Center);
+    }
+
+    Group #Divider {
+        Anchor: (Top: 60, Left: 0, Width: 580, Height: 41);
+        Background: (TexturePath: "../../divider.png");
+    }
+
+    Group #Entries {
+        Anchor: (Top: 120, Left: 0, Width: 580, Height: 600);
+        LayoutMode: Top;
+    }
+}
+
+@Entry = Button {
+    Anchor: (Top: 0, Left: 0, Bottom: 10, Width: 580, Height: 90);
+
+    Style: ButtonStyle(
+        Default: (Background: PatchStyle(TexturePath: "../../category_background.png")),
+        Hovered: (Background: PatchStyle(TexturePath: "../../category_background_highlighted.png"))
+    );
+
+    ItemIcon #ItemIcon {
+        Anchor: (Top: 20, Left: 20, Width: 50, Height: 50);
+        ItemId: @ItemId;
+    }
+
+    Label #Title {
+        Anchor: (Top: 25, Left: 95, Width: 580, Height: 50);
+        Text: @Title;
+        Style: (TextColor: #000000, FontSize: 32, Wrap: true);
+    }
+};

@@ -1,0 +1,305 @@
+{
+  "Debug": "DisplayState",
+  "Type": "Generic",
+  "Appearance": "Straw_Golem",
+  "MaxHealth": 100,
+  "StartState": "Idle",
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 2,
+      "Gravity": 10,
+      "MaxFallSpeed": 8,
+      "Acceleration": 10
+    }
+  ],
+  "Instructions": [
+    {
+      "Sensor": {
+        "Type": "CheckActiveSeal",
+        "SealType": "Harvesting"
+      },
+      "Instructions": [
+        {
+          "Sensor": { "Type": "State", "State": "Idle" },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Inventory",
+                        "Items": [
+                          "*"
+                        ],
+                        "CountRange": [
+                          0,
+                          0
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "Type": "FindCrop",
+                    "Range": 99
+                  }
+                ]
+              },
+              "Actions": [
+                { "Type": "State", "State": "Harvesting" }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Inventory",
+                        "Items": [
+                          "*"
+                        ],
+                        "CountRange": [
+                          1,
+                          99
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "Type": "FindItemContainer",
+                    "Range": 99
+                  }
+                ]
+              },
+              "Actions": [
+                { "Type": "State", "State": "Deposit" }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": { "Type": "State", "State": "Harvesting" },
+          "Instructions": [
+            {
+              "$Comment": "Harvest the nearest crop.",
+              "Sensor": {
+                "Type": "FindCrop",
+                "Range": 1.0
+              },
+              "BodyMotion": {
+                "Type": "Nothing"
+              },
+              "ActionsBlocking": true,
+              "Actions": [
+                { "Type": "HarvestCrop" },
+                { "Type": "State", "State": "Deposit" },
+                {
+                  "Type": "Timeout",
+                  "Delay": [ 2, 3 ]
+                }
+              ]
+            },
+            {
+              "$Comment": "Go to the nearest crop.",
+              "Sensor": {
+                "Type": "FindCrop",
+                "Range": 99
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 0.5,
+                "StopDistance": 0.5,
+                "RelativeSpeed": 1.0
+              }
+            },
+            {
+              "Sensor": {
+                "Type": "Any"
+              },
+              "ActionsBlocking": true,
+              "Actions": [
+                {
+                  "Type": "Timeout",
+                  "Delay": [ 2, 4 ]
+                },
+                {
+                  "Type": "ResetBlockSensors"
+                },
+                {
+                  "Type": "State",
+                  "State": "Idle"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": { "Type": "State", "State": "Deposit" },
+          "Instructions": [
+            {
+              "$Comment": "Deposit items in the container",
+              "Sensor": {
+                "Type": "FindItemContainer",
+                "Range": 1.5
+              },
+              "ActionsBlocking": true,
+              "BodyMotion": {
+                "Type": "Nothing"
+              },
+              "Actions": [
+                { "Type": "DepositInContainer" },
+                {
+                  "Type": "Timeout",
+                  "Delay": [ 2, 3 ]
+                },
+                { "Type": "State", "State": "Idle" }
+              ]
+            },
+            {
+              "$Comment": "Move to the container.",
+              "Sensor": {
+                "Type": "FindItemContainer",
+                "Range": 99
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 0.5,
+                "StopDistance": 0.5,
+                "RelativeSpeed": 1.0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Sensor": {
+        "Type": "CheckActiveSeal",
+        "SealType": "Gathering"
+      },
+      "Instructions": [
+        {
+          "Sensor": { "Type": "State", "State": "Idle" },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "FindItem",
+                "Range": 10
+              },
+              "Actions": [
+                { "Type": "State", "State": "Gathering" }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": { "Type": "State", "State": "Gathering" },
+          "Instructions": [
+            {
+              "$Comment": "This instruction triggers when we are close enough.",
+              "Sensor": {
+                "Type": "FindItem",
+                "Range": 1.0
+              },
+              "BodyMotion": {
+                "Type": "AimCharge"
+              },
+              "ActionsBlocking": true,
+              "Actions": [
+                {
+                  "Type": "Timeout",
+                  "Delay": [ 1, 2 ]
+                },
+                {
+                  "Type": "PickUpItem",
+                  "StorageTarget": "Hotbar",
+                  "Items": [ "*" ],
+                  "Range": 1.0
+                },
+                { "Type": "State", "State": "Idle" }
+              ]
+            },
+            {
+              "$Comment": "This instruction handles the actual MOVEMENT.",
+              "Sensor": {
+                "Type": "FindItem",
+                "Range": 10
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 1.0,
+                "StopDistance": 0.5,
+                "RelativeSpeed": 1.0
+              }
+            },
+            {
+              "Sensor": {
+                "Type": "Any"
+              },
+              "ActionsBlocking": true,
+              "Actions": [
+                {
+                  "Type": "Timeout",
+                  "Delay": [ 2, 4 ]
+                },
+                {
+                  "Type": "ResetBlockSensors"
+                },
+                {
+                  "Type": "State",
+                  "State": "Idle"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      }
+    }
+  ],
+  "InteractionInstruction": {
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": { "Type": "Any" },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true,
+            "Hint": "server.interactionHints.trade",
+            "ShowPrompt": true
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "ApplySeal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "NameTranslationKey": "server.npcRoles.Straw_Golem.name"
+}

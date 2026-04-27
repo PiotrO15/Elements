@@ -1,0 +1,40 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Essence Manipulation",
+      "Text": "Essence is the main building block of everything that can be found in Orbis, both visible and invisible.\n\nThere are various methods and items used to obtain essence, depending on the type.\n\nThis chapter provides valuable insight into basic essence manipulation."
+    },
+    {
+      "Type": "ListPage",
+      "Title": "Entries",
+      "Entries": [
+        {
+          "ItemIcon": "Essence_Jar",
+          "Title": "Essence Jar",
+          "Link": "Essence_Jar"
+        },
+        {
+          "ItemIcon": "Essence_Pipe",
+          "Title": "Essence Pipe",
+          "Link": "Essence_Pipe"
+        },
+        {
+          "ItemIcon": "Essence_Collector",
+          "Title": "Essence Collector",
+          "Link": "Essence_Collector"
+        },
+        {
+          "Title": "Rootbound Nexus",
+          "ItemIcon": "Rootbound_Nexus",
+          "Link": "Rootbound_Nexus"
+        },
+        {
+          "ItemIcon": "Alchemical_Furnace",
+          "Link": "Alchemical_Furnace",
+          "Title": "Alchemical Furnace"
+        }
+      ]
+    }
+  ]
+}

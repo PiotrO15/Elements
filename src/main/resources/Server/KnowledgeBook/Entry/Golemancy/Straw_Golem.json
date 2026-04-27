@@ -1,0 +1,13 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Straw Golem",
+      "Text": "Straw golem is the simplest golem that can be constructed, as it only requires some wheat, rope and essence of life and earth.\n\nStraw golem moves slowly and can only perform actions up to 8 blocks from its placement.\n\nA will has to be applied to a placed golem for it to start working."
+    },
+    {
+      "Type": "RootboundPage",
+      "RecipeId": "Straw_Golem"
+    }
+  ]
+}

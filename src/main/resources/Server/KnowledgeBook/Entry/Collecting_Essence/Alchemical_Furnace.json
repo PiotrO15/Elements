@@ -1,0 +1,18 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Alchemical Furnace",
+      "Text": "Alchemical Furnace is a specialized furnace capable of distilling various blocks and items into pure essence.\n\nIt requires fuel to operate, functioning much like a standard furnace.\n\nOnce processed, the distilled essence can be transferred into essence jars via essence pipes connected at the top."
+    },
+    {
+      "Type": "RootboundPage",
+      "RecipeId": "Alchemical_Furnace"
+    },
+    {
+      "Type": "TextPage",
+      "Title": "Recipes",
+      "Text": "As of now, alchemical furnace can be used to distill various crops, dirt, stone and sand blocks."
+    }
+  ]
+}

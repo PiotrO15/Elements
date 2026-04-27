@@ -1,0 +1,47 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Empty_Seal.name",
+    "Description": "server.items.Empty_Seal.description"
+  },
+  "Model": "Items/Empty_Will.blockymodel",
+  "Texture": "Items/Empty_Will.png",
+  "PlayerAnimationsId": "Wand",
+  "IconProperties": {
+    "Scale": 1.3,
+    "Rotation": [
+      30,
+      60,
+      0
+    ],
+    "Translation": [
+      -3,
+      -4
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Empty_Seal.png",
+  "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
+  "ItemSoundSetId": "ISS_Weapons_Wood",
+  "MaxStack": 1,
+  "Recipe": {
+    "TimeSeconds": 3,
+    "Input": [
+      {
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 8
+      },
+      {
+        "ItemId": "Ingredient_Bar_Copper",
+        "Quantity": 4
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Rooted_Workbench",
+        "Type": "Crafting",
+        "Categories": [
+          "Core"
+        ]
+      }
+    ]
+  }
+}
