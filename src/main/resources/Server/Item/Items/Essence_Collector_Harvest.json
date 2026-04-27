@@ -2,7 +2,7 @@
   "TranslationProperties": {
     "Name": "server.items.Essence_Collector_Harvest.name"
   },
-  "Icon": "Icons/ItemsGenerated/Essence_Collector.png",
+  "Icon": "Icons/ItemsGenerated/Essence_Collector_Harvest.png",
   "Interactions": {
     "Primary": "Block_Primary",
     "Secondary": "Block_Secondary"
@@ -12,7 +12,7 @@
     "CustomModelTexture": [
       {
         "Weight": 1,
-        "Texture": "Items/Blocks/Essence_Collector.png"
+        "Texture": "Items/Blocks/Essence_Collector_Harvest.png"
       }
     ],
     "Gathering": {
@@ -34,7 +34,7 @@
     "Interactions": {
       "Use": "Open_Container"
     },
-    "CustomModel": "Items/Blocks/Essence_Collector.blockymodel",
+    "CustomModel": "Items/Blocks/Essence_Collector_Harvest.blockymodel",
     "Material": "Solid",
     "VariantRotation": "NESW",
     "RandomRotation": "None",
