@@ -4,12 +4,16 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.math.vector.Vector4d;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
+import com.hypixel.hytale.server.core.modules.entity.damage.Damage.EntitySource;
+import com.hypixel.hytale.server.core.modules.entity.damage.DamageCause;
 import com.hypixel.hytale.server.core.modules.projectile.ProjectileModule;
 import com.hypixel.hytale.server.core.modules.projectile.config.ProjectileConfig;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -19,6 +23,7 @@ import me.verdo.elements.ElementsPlugin;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +34,7 @@ public abstract class SpellCastResolver {
     public static void handleSpellCast(@Nonnull Ref<EntityStore> casterRef, @Nonnull SpellDefinition spell,
             @Nullable Ref<EntityStore> target, @Nonnull Store<EntityStore> store,
             @Nonnull CommandBuffer<EntityStore> commandBuffer) {
-        List<Ref<EntityStore>> targets = selectTargets(casterRef, spell, target, commandBuffer);
+        List<Ref<EntityStore>> targets = selectTargets(casterRef, spell, target, commandBuffer, store);
         if (targets.isEmpty()) {
             notifyPlayer(store, casterRef, "Spell failed: no valid target.");
             return;
@@ -44,25 +49,25 @@ public abstract class SpellCastResolver {
         int casts = 1; // TODO: implement modifiers
         int delayTicks = 0; // TODO: implement modifiers
 
-        if (delayTicks <= 0) {
-            for (int castIndex = 0; castIndex < casts; castIndex++) {
-                applySpellOnce(store, casterRef, spell, finalTargets, castIndex + 1, casts);
-            }
-            return;
-        }
+        // if (delayTicks <= 0) {
+        //     for (int castIndex = 0; castIndex < casts; castIndex++) {
+        //         applySpellOnce(store, casterRef, spell, finalTargets);
+        //     }
+        //     return;
+        // }
 
         World world = store.getExternalData().getWorld();
         for (int castIndex = 0; castIndex < casts; castIndex++) {
             final int iteration = castIndex + 1;
             long delayMs = (long) delayTicks * castIndex * MILLIS_PER_TICK;
             HytaleServer.SCHEDULED_EXECUTOR.schedule(
-                    () -> world.execute(() -> applySpellOnce(store, casterRef, spell, finalTargets, iteration, casts)),
+                    () -> world.execute(() -> applySpellOnce(store, casterRef, spell, finalTargets)),
                     delayMs, TimeUnit.MILLISECONDS);
         }
     }
 
     private static List<Ref<EntityStore>> selectTargets(Ref<EntityStore> casterRef, SpellDefinition spell,
-            @Nullable Ref<EntityStore> initialTarget, CommandBuffer<EntityStore> commandBuffer) {
+            @Nullable Ref<EntityStore> initialTarget, CommandBuffer<EntityStore> commandBuffer, @Nonnull Store<EntityStore> store) {
 
         return switch (spell.getTargetType()) {
             case SELF -> List.of(casterRef);
@@ -74,12 +79,12 @@ public abstract class SpellCastResolver {
                     yield List.of(target);
                 }
             }
-            case PROJECTILE -> shootProjectile(casterRef, spell, commandBuffer); // TODO: implement projectile logic
+            case PROJECTILE -> shootProjectile(casterRef, spell, commandBuffer, store); // TODO: implement projectile logic
         };
     }
 
     private static List<Ref<EntityStore>> shootProjectile(Ref<EntityStore> casterRef, SpellDefinition spell,
-            CommandBuffer<EntityStore> commandBuffer) {
+            CommandBuffer<EntityStore> commandBuffer, @Nonnull Store<EntityStore> store) {
 
         // TODO: set based on spell properties/modifiers
         // SpellProjectileConfig config = spell.getProjectileConfig();
@@ -93,14 +98,14 @@ public abstract class SpellCastResolver {
         // "SpellProjectileImpactInteraction");
 
         // Get caster position, with direction based on caster look vector
-        TransformComponent transform = commandBuffer.getComponent(casterRef, TransformComponent.getComponentType());
+        TransformComponent transform = store.getComponent(casterRef, TransformComponent.getComponentType());
         if (transform == null)
             return List.of();
 
         Vector3d position = transform.getPosition().clone();
         position.y += 1.6; // Eye height
 
-        HeadRotation headRotation = commandBuffer.getComponent(casterRef, HeadRotation.getComponentType());
+        HeadRotation headRotation = store.getComponent(casterRef, HeadRotation.getComponentType());
         Vector3d direction = headRotation.getDirection();
 
         // Create projectile
@@ -120,8 +125,23 @@ public abstract class SpellCastResolver {
             return List.of();
         }
 
+        System.out.println("Spawned projectile with entity ref: " + projectileRef);
+
         // Attach spell data to projectile so we can apply effects on hit
-        commandBuffer.addComponent(projectileRef, ElementsPlugin.get().spellProjectileComponent);
+        SpellProjectileComponent spellProjectileComponent = new SpellProjectileComponent(spell);
+        commandBuffer.run((writeStore) ->
+            writeStore.addComponent(projectileRef, ElementsPlugin.get().spellProjectileComponent, spellProjectileComponent));
+
+        // //check if component was added successfully
+        // SpellProjectileComponent projectileComponent = commandBuffer.getComponent(projectileRef, ElementsPlugin.get().spellProjectileComponent);
+        // if (projectileComponent == null) {
+        //     System.out.println("Failed to add SpellProjectileComponent to projectile.");
+        //     return List.of();
+        // }
+        // else {
+        //     projectileComponent.setSpell(spell);
+        //     System.out.println("Attached spell data to projectile: " + spell.getName());
+        // }
 
         // Wait until the projectile hits something, no target selection for now
         return List.of();
@@ -137,17 +157,27 @@ public abstract class SpellCastResolver {
         return selectedTargets;
     }
 
-    private static void applySpellOnce(
+    public static void applySpellOnce(
             @Nonnull Store<EntityStore> store,
             @Nonnull Ref<EntityStore> casterRef,
             @Nonnull SpellDefinition spell,
-            @Nonnull List<Ref<EntityStore>> targets,
-            int currentCast,
-            int totalCasts) {
+            @Nonnull List<Ref<EntityStore>> targets) {
         switch (spell.getEffectType()) {
             case DAMAGE -> {
                 for (Ref<EntityStore> target : targets) {
                     notifyPlayer(store, target, "You take " + spell.getStrength() + " spell damage.");
+
+                    EntitySource damageSource = new EntitySource(casterRef);                    
+
+                    Damage damage = new Damage(damageSource, 1, spell.getStrength()); // TODO: add damage source/type
+                    // Add metadata
+
+                    Vector4d targetLocation = Vector4d.newPosition(store.getComponent(target, TransformComponent.getComponentType()).getPosition());
+                    damage.putMetaObject(Damage.HIT_LOCATION, targetLocation);
+                    damage.putMetaObject(Damage.HIT_ANGLE, 0f); // TODO: determine hit angle based on spell/target properties
+
+                    // Fire the damage event
+                    store.invoke(target, damage);
                 }
             }
             case BUFF -> {
@@ -163,7 +193,7 @@ public abstract class SpellCastResolver {
         }
 
         notifyPlayer(store, casterRef,
-                "Cast " + currentCast + "/" + totalCasts + " hit " + targets.size() + " target(s).");
+                "Cast " + spell.getName() + " hit " + targets.size() + " target(s).");
     }
 
     private static void printProjectileConfigs() {
