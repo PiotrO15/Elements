@@ -15,19 +15,24 @@ Group {
     }
 
     Group #RecipeContent {
-        Anchor: (Top: 120, Left: 0, Width: 580, Height: 380);
+        Anchor: (Top: 170, Left: 0, Width: 580, Height: 380);
 
         Group #Output {
-            Anchor: (Top: 0, Left: 0, Width: 580, Height: 160);
+            Anchor: (Top: 0, Left: 0, Width: 580, Height: 180);
             LayoutMode: Center;
             Group {
+                Group #Background {
+                    Anchor: (Top: 12, Left: 0, Width: 128, Height: 128);
+                    Background: (TexturePath: "../../output_background.png");
+                }
+
                 ItemIcon #ItemIcon {
-                    Anchor: (Top: 0, Left: 0, Width: 120, Height: 120);
+                    Anchor: (Top: 0, Left: 4, Width: 120, Height: 120);
                     ItemId: "Furniture_Construction_Sign";
                 }
 
                 Label #Count {
-                    Anchor: (Top: 130, Left: 0, Width: 120, Height: 30);
+                    Anchor: (Top: 150, Left: 4, Width: 120, Height: 30);
                     Text: "1";
                     Style: (TextColor: #333333, FontSize: 28, Alignment: Center);
                 }
@@ -36,14 +41,14 @@ Group {
 
         Group #Input {
             Background: (Color: #877056);
-            Anchor: (Top: 180, Left: 0, Width: 580, Height: 150);
+            Anchor: (Top: 230, Left: 0, Width: 580, Height: 150);
             Padding: (Full: 20);
 
             LayoutMode: LeftCenterWrap;
         }
 
         Label #Workbench {
-            Anchor: (Top: 350, Left: 0, Width: 580, Height: 30);
+            Anchor: (Top: 400, Left: 0, Width: 580, Height: 30);
             Text: "Rootbound Workbench";
             Style: (TextColor: #333333, FontSize: 28, Alignment: Center);
         }

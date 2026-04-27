@@ -15,13 +15,13 @@
           "Link": "Collecting_Essence"
         },
         {
-          "ItemIcon": "Harvesting_Seal",
+          "ItemIcon": "Dominion_Wand",
           "Title": "Golemancy",
           "Link": "Golemancy"
         },
         {
-          "ItemIcon": "Weapon_Staff_Crystal_Ice",
-          "Title": "Spellcrafting",
+          "ItemIcon": "Furniture_Construction_Sign",
+          "Title": "Spellcrafting (Coming Soon!)",
           "Link": "Spellcrafting"
         }
       ]

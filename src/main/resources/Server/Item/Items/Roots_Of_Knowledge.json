@@ -3,8 +3,6 @@
     "Name": "server.items.Roots_Of_Knowledge.name",
     "Description": "server.items.Roots_Of_Knowledge.description"
   },
-  "Quality": "Common",
-  "ItemLevel": 40,
   "Model": "Items/Weapons/Spellbook/Book.blockymodel",
   "Texture": "Items/Roots_Of_Knowledge_Texture.png",
   "PlayerAnimationsId": "Spellbook",
@@ -27,5 +25,29 @@
   "Scale": 1.3,
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "Icon": "Icons/ItemsGenerated/Roots_Of_Knowledge.png",
-  "ItemSoundSetId": "ISS_Weapons_Books"
+  "ItemSoundSetId": "ISS_Weapons_Books",
+  "Recipe": {
+    "PrimaryOutput": {
+      "ItemId": "Roots_Of_Knowledge"
+    },
+    "Input": [
+      {
+        "ItemId": "Ingredient_Leather_Medium",
+        "Quantity": 4
+      },
+      {
+        "ItemId": "Ingredient_Fabric_Scrap_Linen",
+        "Quantity": 10
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Id": "Workbench",
+        "Categories": [
+          "Workbench_Tinkering"
+        ]
+      }
+    ]
+  }
 }

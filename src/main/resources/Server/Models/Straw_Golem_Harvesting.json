@@ -1,5 +1,5 @@
 {
-  "Model": "NPC/Straw_Golem/Models/Model.blockymodel",
+  "Model": "NPC/Straw_Golem/Models/Model_Harvesting.blockymodel",
   "Texture": "NPC/Straw_Golem/Models/Harvesting_Golem_Texture.png",
   "EyeHeight": 1.05,
   "CrouchOffset": -0.3,

@@ -49,13 +49,7 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
             return;
         }
 
-        WorldChunk worldChunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(blockPos.x, blockPos.z));
-
-        if (worldChunk == null) {
-            return;
-        }
-
-        BlockType baseBlock = worldChunk.getBlockType(blockPos);
+        BlockType baseBlock = world.getBlockType(blockPos);
         if (baseBlock == null) return;
 
         if (baseBlock.getId().contains("Alchemical_Furnace")) {
@@ -65,7 +59,7 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
             ItemContainer outputContainer = processingBenchBlock.getItemContainer().getContainer(2);
             if (outputContainer.isEmpty()) return;
 
-            transferFromContainer(world, blockPos.clone().add(0, 2, 0), outputContainer, worldChunk, commandBuffer);
+            transferFromContainer(world, blockPos.clone().add(0, 2, 0), outputContainer, commandBuffer);
         } else if (baseBlock.getId().contains("Essence_Collector")) {
             ItemContainerBlock containerBlock = archetypeChunk.getComponent(i, ItemContainerBlock.getComponentType());
             if (containerBlock == null || containerBlock.getItemContainer().isEmpty()) return;
@@ -73,7 +67,7 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
             List<Vector3i> connectors = List.of(Vector3i.EAST, Vector3i.WEST, Vector3i.NORTH, Vector3i.SOUTH);
 
             for (Vector3i connector : connectors) {
-                if (transferFromContainer(world, blockPos.clone().add(connector), containerBlock.getItemContainer(), worldChunk, commandBuffer)) {
+                if (transferFromContainer(world, blockPos.clone().add(connector), containerBlock.getItemContainer(), commandBuffer)) {
                     return;
                 }
             }
@@ -91,7 +85,7 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
         super.onSystemRegistered();
     }
 
-    private boolean transferFromContainer(World world, Vector3i sourcePos, ItemContainer itemContainer, WorldChunk worldChunk, CommandBuffer<ChunkStore> commandBuffer) {
+    private boolean transferFromContainer(World world, Vector3i sourcePos, ItemContainer itemContainer, CommandBuffer<ChunkStore> commandBuffer) {
         BlockType blockType = world.getBlockType(sourcePos);
         if (blockType == null) return false;
 
@@ -122,8 +116,9 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
                     if (c.storeEssence(EssenceType.fromId(stack.getItemId()), amountToTransfer)) {
                         itemContainer.removeItemStackFromSlot((short) slot, amountToTransfer);
                         commandBuffer.replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
-                        StoreEssenceInteraction.displayEssence(worldChunk, jarPos, c);
-                        worldChunk.markNeedsSaving();
+                        WorldChunk chunk = ModChunkUtil.getWorldChunk(world, jarPos);
+                        StoreEssenceInteraction.displayEssence(chunk, jarPos, c);
+                        chunk.markNeedsSaving();
 
                         return true;
                     }

@@ -1,0 +1,25 @@
+{
+  "Input": [
+    {
+      "ResourceTypeId": "Sands"
+    }
+  ],
+  "PrimaryOutput": {
+    "ItemId": "Earth_Essence"
+  },
+  "TimeSeconds": 10,
+  "BenchRequirement": [
+    {
+      "Type": "Processing",
+      "Id": "AlchemicalFurnace"
+    }
+  ],
+  "Output": [
+    {
+      "ItemId": "Earth_Essence"
+    },
+    {
+      "ItemId": "Ingredient_Fire_Essence"
+    }
+  ]
+}

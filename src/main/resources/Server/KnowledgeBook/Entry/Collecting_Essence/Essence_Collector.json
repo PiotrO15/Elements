@@ -3,7 +3,21 @@
     {
       "Type": "TextPage",
       "Title": "Essence Collector",
-      "Text": "Essence Collector can be placed to absorb low amounts of essence produced by various processes, such as harvesting crops. By default, it produces essence of life, but it can also be attuned to only collect rarer, more valueable essence types."
+      "Text": "Every interaction with organic life releases trace amounts of distinct life essences. Over time, these essences decay and are naturally reabsorbed by the environment.\n\nEssence collectors allow you to absorb some of the particles emitted while breaking grown crops, providing additional essence of life from farming."
+    },
+    {
+      "Type": "RecipePage",
+      "CraftedItem": "Essence_Collector"
+    },
+    {
+      "Type": "TextPage",
+      "Title": "Attuning",
+      "Text": "Because essence breaks down rapidly, standard collectors lack the efficiency required to capture compound variants.\n\nLuckily, Rootbound Nexus can be used to attune a collector to a frequency matching a specific action, allowing you to harvest the corresponding compound essence. Note that once attuned, the collector will only listen to the chosen action."
+    },
+    {
+      "Type": "RootboundPage",
+      "RecipeId": "Essence_Collector_Harvest",
+      "Title": "Harvest Attunement"
     }
   ]
 }

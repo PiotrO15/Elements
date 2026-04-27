@@ -3,14 +3,11 @@
     "Name": "server.items.Essence_Jar.name"
   },
   "PlayerAnimationsId": "Item",
-  "Categories": [
-    "Items.Potions"
-  ],
   "Recipe": {
     "TimeSeconds": 1,
     "Input": [
       {
-        "ResourceTypeId": "Wood_Trunk",
+        "ItemId": "Potion_Empty",
         "Quantity": 5
       },
       {
@@ -469,11 +466,6 @@
       }
     },
     "VariantRotation": "NESW"
-  },
-  "Tags": {
-    "Type": [
-      "Potion"
-    ]
   },
   "Scale": 1,
   "MaxStack": 30,

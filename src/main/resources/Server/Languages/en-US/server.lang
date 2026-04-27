@@ -4,10 +4,11 @@ items.Harvest_Essence.name = Essence of the Harvest
 items.Harvest_Essence.description = A rare essence type that can only be found during crop harvest. Since it's very volatile, complex equipment is required to collect even the smallest amounts of this essence.
 
 items.Alchemical_Furnace.name = Alchemical Furnace
-items.Alchemical_Furnace.description = A furnace that breaks down items into essence. Can be crafted in Rootbound Nexus with a Furnace, 4 Essence Pipes on the pedestals and 10 Fire Essence in a nearby Essence Jar.
+items.Alchemical_Furnace.description = A furnace that can break down items into pure essence.
 items.Essence_Jar.name = Essence Jar
 items.Essence_Pipe.name = Essence Pipe
 items.Essence_Collector.name = Essence Collector
+items.Essence_Collector_Harvest.name = Harvest-Attuned Essence Collector
 interactionHints.Essence_Jar = Press [{key}] to store or extract essence
 
 items.Rooted_Workbench.name = Rooted Workbench
@@ -25,8 +26,11 @@ items.Spellcrafting_Table.name = Spellcrafting Table
 items.Spellcrafting_Table.description = A table used for creating spells.
 items.Empty_Seal.name = Empty Seal
 items.Harvesting_Seal.name = Harvesting Seal
+items.Dominion_Wand.name = Dominion Wand
+items.Empty_Seal.name = Empty Will
+items.Harvesting_Seal.name = Harvesting Will
 items.Harvesting_Seal.description = Allows your golem to harvest crops
-items.Gathering_Seal.name = Gathering Seal
+items.Gathering_Seal.name = Gathering Will
 items.Gathering_Seal.description = Allows your golem to gather items from the ground to store in nearby chests
 
 items.Straw_Golem.name = Straw Golem

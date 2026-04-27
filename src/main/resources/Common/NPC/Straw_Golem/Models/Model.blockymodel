@@ -490,6 +490,60 @@
                             "doubleSided": false,
                             "shadingMode": "flat"
                           }
+                        },
+                        {
+                          "id": "16",
+                          "name": "Not-L-Eye",
+                          "position": {"x": 5, "y": 23.25, "z": 15.125},
+                          "orientation": {"x": 0.04362, "y": 0, "z": 0, "w": 0.99905},
+                          "shape": {
+                            "type": "quad",
+                            "offset": {"x": 0.5, "y": -0.5, "z": 0},
+                            "stretch": {"x": 0.9, "y": 0.9, "z": 1},
+                            "settings": {
+                              "isPiece": false,
+                              "size": {"x": 6, "y": 3},
+                              "normal": "+Z"
+                            },
+                            "textureLayout": {
+                              "front": {
+                                "offset": {"x": 93, "y": 4},
+                                "mirror": {"x": false, "y": false},
+                                "angle": 0
+                              }
+                            },
+                            "unwrapMode": "custom",
+                            "visible": true,
+                            "doubleSided": true,
+                            "shadingMode": "flat"
+                          }
+                        },
+                        {
+                          "id": "17",
+                          "name": "Not-R-Eye",
+                          "position": {"x": -2, "y": 23.25, "z": 15.125},
+                          "orientation": {"x": 0.04362, "y": 0, "z": 0, "w": 0.99905},
+                          "shape": {
+                            "type": "quad",
+                            "offset": {"x": -0.5, "y": -0.5, "z": 0},
+                            "stretch": {"x": -0.9, "y": 0.9, "z": 1},
+                            "settings": {
+                              "isPiece": false,
+                              "size": {"x": 6, "y": 3},
+                              "normal": "+Z"
+                            },
+                            "textureLayout": {
+                              "front": {
+                                "offset": {"x": 92, "y": 4},
+                                "mirror": {"x": true, "y": false},
+                                "angle": 0
+                              }
+                            },
+                            "unwrapMode": "custom",
+                            "visible": true,
+                            "doubleSided": true,
+                            "shadingMode": "flat"
+                          }
                         }
                       ]
                     }
@@ -500,7 +554,7 @@
           ]
         },
         {
-          "id": "16",
+          "id": "18",
           "name": "R-Calf",
           "position": {"x": -6.05459, "y": 15.76011, "z": 3.56442},
           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -551,7 +605,7 @@
           },
           "children": [
             {
-              "id": "17",
+              "id": "19",
               "name": "R-Calf--C1",
               "position": {"x": 0, "y": -8.5, "z": 2.5},
               "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -605,7 +659,7 @@
           ]
         },
         {
-          "id": "18",
+          "id": "20",
           "name": "L-Calf",
           "position": {"x": -0.05459, "y": 14.76011, "z": 5.56442},
           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -656,7 +710,7 @@
           },
           "children": [
             {
-              "id": "19",
+              "id": "21",
               "name": "L-Calf--C1",
               "position": {"x": 0, "y": -8.5, "z": 2.5},
               "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},

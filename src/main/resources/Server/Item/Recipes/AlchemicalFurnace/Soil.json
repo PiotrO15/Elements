@@ -1,0 +1,17 @@
+{
+  "Input": [
+    {
+      "ResourceTypeId": "Soils"
+    }
+  ],
+  "PrimaryOutput": {
+    "ItemId": "Earth_Essence"
+  },
+  "TimeSeconds": 10,
+  "BenchRequirement": [
+    {
+      "Type": "Processing",
+      "Id": "AlchemicalFurnace"
+    }
+  ]
+}

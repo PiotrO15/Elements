@@ -57,11 +57,11 @@ public class FindCropSensor extends SensorBase {
 
         Vector3i closest = null;
         double closestDist = Double.MAX_VALUE;
-        int golemRange = 10;
+        int golemRange = 8;
         for (int x = (int) Math.floor(golemCenter.x - golemRange); x <= Math.ceil(golemCenter.x + golemRange); x++) {
             for (int y = (int) Math.floor(golemCenter.y - golemRange); y <= Math.ceil(golemCenter.y + golemRange); y++) {
                 for (int z = (int) Math.floor(golemCenter.z - golemRange); z <= Math.ceil(golemCenter.z + golemRange); z++) {
-                    if (world.getBlockType(x, y, z) != null && world.getBlockType(x, y, z).getId().contains("Crop")) {
+                    if (world.getBlockType(x, y, z) != null && world.getBlockType(x, y, z).getId().contains("Plant_Crop") && world.getBlockType(x, y, z).getId().contains("StageFinal")) {
                         double distFromPos = pos.distanceTo(x + 0.5, y + 0.5, z + 0.5);
                         if (distFromPos > range) continue;
                         if (distFromPos < closestDist) {
