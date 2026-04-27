@@ -23,9 +23,10 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import me.verdo.elements.component.StoredItemComponent;
 import me.verdo.elements.spells.SpellDefinition;
-import me.verdo.elements.spells.SpellEffectType;
 import me.verdo.elements.spells.SpellTargetType;
 import me.verdo.elements.spells.SpellSlotsComponent;
+import me.verdo.elements.spells.spell_parts.AbstractSpellPart;
+import me.verdo.elements.spells.spell_parts.SpellPartRegistry;
 
 public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingScreen.Data> {
   private ItemStack editedItem;
@@ -41,9 +42,9 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
         (d, v) -> d.selectedTargetType = v,
         d -> d.selectedTargetType)
       .add()
-      .append(new KeyedCodec<>("SelectedEffectType", Codec.STRING, true),
-        (d, v) -> d.selectedEffectType = v,
-        d -> d.selectedEffectType)
+      .append(new KeyedCodec<>("SelectedSpellPartId", Codec.STRING, true),
+        (d, v) -> d.selectedSpellPartId = v,
+        d -> d.selectedSpellPartId)
       .add()
       .append(new KeyedCodec<>("Action", Codec.STRING, true),
         (d, v) -> d.action = v,
@@ -55,14 +56,14 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     public int currentSlot = 0;
     public SpellDefinition currentSpell = null;
     public String selectedTargetType = null;
-    public String selectedEffectType = null;
+    public String selectedSpellPartId = null;
     public String action = null;
   }
 
   public List<SpellDefinition> spellsOnItem; // TODO: populate with actual spells from current item
 
   private final static List<String> spellTargetTypes = SpellTargetType.getValidTypes();
-  private final static List<String> spellEffectTypes = SpellEffectType.getValidTypes();
+  private final static List<AbstractSpellPart> spellParts = AbstractSpellPart.getAvailableSpellParts();
 
   public SpellcraftingScreen(@NonNullDecl PlayerRef playerRef, ItemStack editedItem,
       StoredItemComponent tableStoredItemComponent) {
@@ -103,8 +104,8 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
       EventData eventData = EventData.of("CurrentSlot", String.valueOf(currentSlot))
           .append("SelectedTargetType", targetType);
 
-      if (currentSpell != null && currentSpell.getEffectType() != null) {
-        eventData.append("SelectedEffectType", currentSpell.getEffectType().toString());
+      if (currentSpell != null && currentSpell.getEffectPart() != null) {
+        eventData.append("SelectedSpellPartId", currentSpell.getEffectPart().getId());
       }
 
       uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, buttonSelector, eventData, false);
@@ -112,11 +113,11 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
   }
 
   private static void updateEffectButtons(UICommandBuilder uiCommandBuilder, UIEventBuilder uiEventBuilder,
-        List<String> effectTypes, int currentSlot, SpellDefinition currentSpell) {
+        List<AbstractSpellPart> effectParts, int currentSlot, SpellDefinition currentSpell) {
     int targetColumns = 5;
 
-    for (int i = 0; i < effectTypes.size(); i++) {
-      String effectType = effectTypes.get(i);
+    for (int i = 0; i < effectParts.size(); i++) {
+      AbstractSpellPart effectPart = effectParts.get(i);
 
       String buttonSelector = "#SpellEffectSelector #EffectButtons[" + i + "]";
       uiCommandBuilder.append("#SpellEffectSelector #EffectButtons", "Spellcrafting/SpellEffectButton.ui");
@@ -127,10 +128,10 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
       anchor.setWidth(Value.of(120));
       anchor.setHeight(Value.of(95));
       uiCommandBuilder.setObject(buttonSelector + ".Anchor", anchor);
-      uiCommandBuilder.set(buttonSelector + " #EffectTypeName.Text", formatButtonText(effectType));
+        uiCommandBuilder.set(buttonSelector + " #EffectTypeName.Text", effectPart.getName());
 
       EventData eventData = EventData.of("CurrentSlot", String.valueOf(currentSlot))
-          .append("SelectedEffectType", effectType);
+          .append("SelectedSpellPartId", effectPart.getId());
 
       if (currentSpell != null && currentSpell.getTargetType() != null) {
         eventData.append("SelectedTargetType", currentSpell.getTargetType().toString());
@@ -189,7 +190,7 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
 
     if (spell != null) {
       targetTypeText = formatButtonText(spell.getTargetType().toString());
-      effectTypeText = formatButtonText(spell.getEffectType().toString());
+      effectTypeText = spell.getEffectPart() != null ? spell.getEffectPart().getName() : "";
     }
 
     uiCommandBuilder.set("#SpellPreviewPanel #PreviewTargetTypeText.Text", targetTypeText);
@@ -210,10 +211,10 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
         resetEventData.append("SelectedTargetType", selectedTargetType);
       }
 
-      if (currentSpell.getEffectType() != null) {
-        String selectedEffectType = currentSpell.getEffectType().toString();
-        saveEventData.append("SelectedEffectType", selectedEffectType);
-        resetEventData.append("SelectedEffectType", selectedEffectType);
+      if (currentSpell.getEffectPart() != null) {
+        String selectedSpellPartId = currentSpell.getEffectPart().getId();
+        saveEventData.append("SelectedSpellPartId", selectedSpellPartId);
+        resetEventData.append("SelectedSpellPartId", selectedSpellPartId);
       }
     }
 
@@ -232,9 +233,8 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
 
     SpellDefinition createdSpell = new SpellDefinition(
         "spell_" + (data.currentSlot + 1),
-        SpellTargetType.SELF,
-        SpellEffectType.DAMAGE);
-
+        SpellTargetType.SELF, 
+      SpellPartRegistry.getDefault());
     if (spellSlotsComponent != null) {
       spellSlotsComponent.addSpell(createdSpell, data.currentSlot);
     }
@@ -278,12 +278,12 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
       data.selectedTargetType = null;
     }
 
-    if (data.selectedEffectType != null && !data.selectedEffectType.isBlank()) {
+    if (data.selectedSpellPartId != null && !data.selectedSpellPartId.isBlank()) {
       SpellDefinition spell = ensureCurrentSpell(data, spellSlotsComponent, maxSlots);
       if (spell != null) {
-        spell.setEffectType(SpellEffectType.fromString(data.selectedEffectType));
+        spell.setEffectPart(AbstractSpellPart.fromId(data.selectedSpellPartId));
       }
-      data.selectedEffectType = null;
+      data.selectedSpellPartId = null;
     }
 
     if ("Save".equals(data.action)) {
@@ -301,7 +301,7 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
         data.currentSpell = null;
       }
       data.selectedTargetType = null;
-      data.selectedEffectType = null;
+      data.selectedSpellPartId = null;
       data.action = null;
     }
 
@@ -315,7 +315,7 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     }
 
     updateTargetButtons(commandBuilder, eventBuilder, spellTargetTypes, data.currentSlot, data.currentSpell);
-    updateEffectButtons(commandBuilder, eventBuilder, spellEffectTypes, data.currentSlot, data.currentSpell);
+    updateEffectButtons(commandBuilder, eventBuilder, spellParts, data.currentSlot, data.currentSpell);
     updateRightTabButtons(commandBuilder, eventBuilder, maxSlots, data.currentSlot);
     updateSaveResetButtons(eventBuilder, data.currentSlot, data.currentSpell);
     updateSpellPreview(commandBuilder, data.currentSpell);

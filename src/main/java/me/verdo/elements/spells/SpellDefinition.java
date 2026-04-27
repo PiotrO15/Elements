@@ -6,12 +6,15 @@ import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 
+import me.verdo.elements.spells.spell_parts.AbstractSpellPart;
+import me.verdo.elements.spells.spell_parts.SpellPartRegistry;
+
 import java.util.Objects;
 
 public final class SpellDefinition {
     private String name = "";
     private SpellTargetType targetType = SpellTargetType.SELF;
-    private SpellEffectType effectType = SpellEffectType.DAMAGE;
+    private AbstractSpellPart effectPart = SpellPartRegistry.getDefault();
     private int cost = 0; // TODO: implement spell cost
     private int cooldownTicks = 0; // TODO: implement spell cooldown
     private int durationTicks = 1000; // TODO: implement spell duration
@@ -24,11 +27,11 @@ public final class SpellDefinition {
     public SpellDefinition(
             @Nonnull String name,
             @Nonnull SpellTargetType targetType,
-            @Nonnull SpellEffectType effectType
+            @Nonnull AbstractSpellPart effectPart
     ) {
         this.name = Objects.requireNonNull(name, "name must not be null");
         this.targetType = Objects.requireNonNull(targetType, "targetType must not be null");
-        this.effectType = Objects.requireNonNull(effectType, "effectType must not be null");
+        setEffectPart(Objects.requireNonNull(effectPart, "effectPart must not be null"));
     }
 
     @Nonnull
@@ -51,14 +54,14 @@ public final class SpellDefinition {
         return this;
     }
 
-    @Nonnull
-    public SpellEffectType getEffectType() {
-        return effectType;
+    public SpellDefinition setEffectPart(@Nonnull AbstractSpellPart effectPart) {
+        this.effectPart = SpellPartRegistry.fromId(Objects.requireNonNull(effectPart, "effectPart must not be null").getId());
+        return this;
     }
 
-    public SpellDefinition setEffectType(@Nonnull SpellEffectType effectType) {
-        this.effectType = Objects.requireNonNull(effectType, "effectType must not be null");
-        return this;
+    @Nonnull
+    public AbstractSpellPart getEffectPart() {
+        return effectPart;
     }
 
     public int getCost() {
@@ -82,7 +85,7 @@ public final class SpellDefinition {
     }
 
     public static SpellDefinition makeTestSpell() {
-        return new SpellDefinition("test_spell", SpellTargetType.SELF, SpellEffectType.DAMAGE);
+        return new SpellDefinition("test_spell", SpellTargetType.SELF, SpellPartRegistry.getDefault());
     }
 
     // make codecs, equals, hashCode, toString as needed
@@ -93,12 +96,12 @@ public final class SpellDefinition {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SpellDefinition that = (SpellDefinition) o;
-        return cost == that.cost && cooldownTicks == that.cooldownTicks && durationTicks == that.durationTicks && aoeRadius == that.aoeRadius && strength == that.strength && name.equals(that.name) && targetType == that.targetType && effectType == that.effectType;
+        return cost == that.cost && cooldownTicks == that.cooldownTicks && durationTicks == that.durationTicks && aoeRadius == that.aoeRadius && strength == that.strength && name.equals(that.name) && targetType == that.targetType && effectPart.getId().equals(that.effectPart.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, targetType, effectType, cost, cooldownTicks, durationTicks, aoeRadius, strength);
+        return Objects.hash(name, targetType, effectPart.getId(), cost, cooldownTicks, durationTicks, aoeRadius, strength);
     }
 
     @Override
@@ -106,7 +109,7 @@ public final class SpellDefinition {
         return "SpellDefinition{" +
                 "name='" + name + '\'' +
                 ", targetType=" + targetType +
-                ", effectType=" + effectType +
+                ", spellPartId='" + effectPart.getId() + '\'' +
                 ", cost=" + cost +
                 ", cooldownTicks=" + cooldownTicks +
                 ", durationTicks=" + durationTicks +
@@ -118,7 +121,8 @@ public final class SpellDefinition {
     public static final BuilderCodec<SpellDefinition> CODEC = BuilderCodec.builder(SpellDefinition.class, SpellDefinition::new)
             .append(new KeyedCodec<>("Name", Codec.STRING, true), (s, o) -> s.name = o, (s) -> s.name).add()
             .append(new KeyedCodec<>("TargetType", Codec.STRING, true), (s, o) -> s.targetType = SpellTargetType.fromString(o), (s) -> s.targetType.toString()).add()
-            .append(new KeyedCodec<>("EffectType", Codec.STRING, true), (s, o) -> s.effectType = SpellEffectType.fromString(o), (s) -> s.effectType.toString()).add()
+            .append(new KeyedCodec<>("SpellPartId", Codec.STRING, true), (s, o) -> s.setEffectPart(SpellPartRegistry.fromId(o)), (s) -> s.effectPart.getId()).add()
+            .append(new KeyedCodec<>("EffectType", Codec.STRING, true), (s, o) -> s.setEffectPart(SpellPartRegistry.fromId(o)), (s) -> s.effectPart.getId()).add()
             .build();
 }
 

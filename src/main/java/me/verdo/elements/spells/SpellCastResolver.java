@@ -4,7 +4,6 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector4d;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.Message;
@@ -20,6 +19,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import me.verdo.elements.ElementsPlugin;
+import me.verdo.elements.spells.spell_parts.AbstractSpellPart;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -140,73 +140,11 @@ public abstract class SpellCastResolver {
             @Nonnull Ref<EntityStore> casterRef,
             @Nonnull SpellDefinition spell,
             @Nonnull List<Ref<EntityStore>> targets) {
-        switch (spell.getEffectType()) {
-            case DAMAGE -> {
-                handleDamageApplication(store, casterRef, spell, targets);
-            }
-            case HEAL -> {
-                handleHealingApplication(store, casterRef, spell, targets);
-            }
-            case DEBUFF -> {
-                for (Ref<EntityStore> target : targets) {
-                    notifyPlayer(store, target, "You are afflicted for " + spell.getDurationTicks() + " ticks.");
-                }
-            }
-            default -> {
-                System.out.println("Unhandled spell effect type: " + spell.getEffectType());
-            }
-        }
+        AbstractSpellPart effectPart = spell.getEffectPart();
+        effectPart.onResolveEntity(store, casterRef, spell, targets);
 
         notifyPlayer(store, casterRef,
                 "Cast " + spell.getName() + " hit " + targets.size() + " target(s).");
-    }
-
-    private static void handleDamageApplication(
-            @Nonnull Store<EntityStore> store,
-            @Nonnull Ref<EntityStore> casterRef,
-            @Nonnull SpellDefinition spell,
-            @Nonnull List<Ref<EntityStore>> targets) {
-        for (Ref<EntityStore> target : targets) {
-            notifyPlayer(store, target, "You take " + spell.getStrength() + " spell damage.");
-
-            EntitySource damageSource = new EntitySource(casterRef);
-
-            Damage damage = new Damage(damageSource, 1, spell.getStrength()); // TODO: add damage source/type
-            // Add metadata
-
-            Vector4d targetLocation = Vector4d.newPosition(
-                    store.getComponent(target, TransformComponent.getComponentType()).getPosition());
-            damage.putMetaObject(Damage.HIT_LOCATION, targetLocation);
-            damage.putMetaObject(Damage.HIT_ANGLE, 0f); // TODO: determine hit angle based on spell/target
-                                                        // properties
-
-            // Fire the damage event
-            store.invoke(target, damage);
-        }
-    }
-
-    private static void handleHealingApplication(
-            @Nonnull Store<EntityStore> store,
-            @Nonnull Ref<EntityStore> casterRef,
-            @Nonnull SpellDefinition spell,
-            @Nonnull List<Ref<EntityStore>> targets) {
-        for (Ref<EntityStore> target : targets) {
-            notifyPlayer(store, target, "You are healed for " + spell.getStrength() + " health.");
-
-            EntitySource damageSource = new EntitySource(casterRef);
-
-            Damage damage = new Damage(damageSource, 1, -1 * spell.getStrength()); // TODO: add damage source/type
-            // Add metadata
-
-            Vector4d targetLocation = Vector4d.newPosition(
-                    store.getComponent(target, TransformComponent.getComponentType()).getPosition());
-            damage.putMetaObject(Damage.HIT_LOCATION, targetLocation);
-            damage.putMetaObject(Damage.HIT_ANGLE, 0f); // TODO: determine hit angle based on spell/target
-                                                        // properties
-
-            // Fire the damage event
-            store.invoke(target, damage);
-        }
     }
 
     private static void printAvailableProjectileConfigs() {
