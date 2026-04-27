@@ -43,5 +43,16 @@
         ]
       }
     ]
-  }
+  },
+  "Light": {
+    "Radius": 1,
+    "Color": "#252"
+  },
+  "Particles": [
+    {
+      "SystemId": "Dominion_Wand",
+      "TargetNodeName": "Core",
+      "Color": "#ffffff"
+    }
+  ]
 }

@@ -37,10 +37,10 @@
     "Material": "Solid",
     "DrawType": "Model",
     "Opacity": "Transparent",
-    "CustomModel": "Blocks/Benches/Alchemy.blockymodel",
+    "CustomModel": "Items/Blocks/Rooted_Workbench.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "Blocks/Benches/Alchemy_Texture.png",
+        "Texture": "Items/Blocks/Rooted_Workbench.png",
         "Weight": 1
       }
     ],
