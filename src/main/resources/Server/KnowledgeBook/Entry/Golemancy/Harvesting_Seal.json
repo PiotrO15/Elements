@@ -1,6 +1,11 @@
 {
   "Pages": [
     {
+      "Type": "TextPage",
+      "Title": "Harvesting Will",
+      "Text": "Harvesting will allows the golem to harvest grown crops and replant them. This golem isn't capable of picking the drops up.\n\nIf harvesting takes place near an essence collector, the created essence is transferred into it instead of dropping on the ground."
+    },
+    {
       "Type": "RootboundPage",
       "RecipeId": "Harvesting_Seal"
     }

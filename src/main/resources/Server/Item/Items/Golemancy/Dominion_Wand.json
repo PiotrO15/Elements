@@ -27,7 +27,11 @@
     "Input": [
       {
         "ItemId": "Ingredient_Stick",
-        "Quantity": 4
+        "Quantity": 8
+      },
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 25
       }
     ],
     "BenchRequirement": [

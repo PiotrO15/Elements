@@ -23,19 +23,23 @@
   "ItemSoundSetId": "ISS_Weapons_Wood",
   "MaxStack": 1,
   "Recipe": {
-    "TimeSeconds": 2,
+    "TimeSeconds": 3,
     "Input": [
       {
-        "ItemId": "Ingredient_Stick",
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 8
+      },
+      {
+        "ItemId": "Ingredient_Bar_Copper",
         "Quantity": 4
       }
     ],
     "BenchRequirement": [
       {
-        "Id": "Arcanebench",
+        "Id": "Rooted_Workbench",
         "Type": "Crafting",
         "Categories": [
-          "Arcane_Misc"
+          "Core"
         ]
       }
     ]

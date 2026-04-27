@@ -8,6 +8,11 @@
     {
       "Type": "RootboundPage",
       "RecipeId": "Alchemical_Furnace"
+    },
+    {
+      "Type": "TextPage",
+      "Title": "Recipes",
+      "Text": "As of now, alchemical furnace can be used to distill various crops, dirt, stone and sand blocks."
     }
   ]
 }

@@ -21,23 +21,5 @@
   "Icon": "Icons/ItemsGenerated/Weapon_Wand_Wood.png",
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "ItemSoundSetId": "ISS_Weapons_Wood",
-  "MaxStack": 1,
-  "Recipe": {
-    "TimeSeconds": 2,
-    "Input": [
-      {
-        "ItemId": "Ingredient_Stick",
-        "Quantity": 4
-      }
-    ],
-    "BenchRequirement": [
-      {
-        "Id": "Arcanebench",
-        "Type": "Crafting",
-        "Categories": [
-          "Arcane_Misc"
-        ]
-      }
-    ]
-  }
+  "MaxStack": 1
 }
