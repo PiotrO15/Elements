@@ -28,7 +28,7 @@
     "Walk": {
       "Animations": [
         {
-          "Animation": "NPC/Livestock/Sheep/Animations/Default/Walk.blockyanim",    
+          "Animation": "NPC/Livestock/Sheep/Animations/Default/Walk.blockyanim",
           "Speed": 1.2,
           "SoundEventId": "SFX_Sheep_Walk"
         }
@@ -96,7 +96,7 @@
           "Looping": false,
           "Speed": 1.4,
           "BlendingDuration": 0.1
-        }      
+        }
       ]
     },
     "StepRun": {
@@ -105,7 +105,7 @@
           "Animation": "NPC/Livestock/Sheep/Animations/Default/Step_Run.blockyanim",
           "Looping": false,
           "BlendingDuration": 0.1
-        }      
+        }
       ]
     },
     "StepSprint": {
@@ -114,7 +114,7 @@
           "Animation": "NPC/Livestock/Sheep/Animations/Default/Step_Sprint.blockyanim",
           "Looping": false,
           "BlendingDuration": 0.1
-        }      
+        }
       ]
     },
     "Jump": {
