@@ -1,16 +1,20 @@
 package me.verdo.elements.spells;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
 
@@ -53,18 +57,26 @@ public class SpellProjectileImpactInteraction extends SimpleInstantInteraction {
         SpellProjectileComponent projectileComponent = writeStore.getComponent(projectileRef, ElementsPlugin.get().spellProjectileComponent);
         if (projectileComponent == null || !projectileComponent.hasSpell()) {
             System.out.println("Projectile does not have spell metadata.");
+        writeStore.removeEntity(projectileRef, RemoveReason.REMOVE);
             return;
         }
 
         //   System.out.println("Found projectile component with spell metadata: " + projectileComponent.getSpell().getName());
         SpellDefinition spell = projectileComponent.getSpell();
 
-        SpellCastResolver.applySpellOnce(
-            writeStore,
+        World world = commandBuffer.getExternalData().getWorld();
+
+        HytaleServer.SCHEDULED_EXECUTOR.schedule(
+          () -> world.execute(() -> SpellCastResolver.applySpellOnce(
+            commandBuffer.getStore(),
             owningEntityRef,
             spell,
             List.of(targetRef)// TODO: determine targets based on hit area/effect radius
+          )),
+          0,
+          TimeUnit.MILLISECONDS
         );
+        writeStore.removeEntity(projectileRef, RemoveReason.REMOVE);
     });
   }
   

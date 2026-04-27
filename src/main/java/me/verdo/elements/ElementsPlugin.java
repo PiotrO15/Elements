@@ -32,6 +32,7 @@ import me.verdo.elements.interaction.StoreEssenceInteraction;
 import me.verdo.elements.spells.SpellCastInteraction;
 import me.verdo.elements.spells.SpellProjectileComponent;
 import me.verdo.elements.spells.SpellProjectileImpactInteraction;
+import me.verdo.elements.spells.SpellProjectileMissInteraction;
 import me.verdo.elements.system.BlockBreakEventSystem;
 import me.verdo.elements.system.EssenceTransferSystem;
 import me.verdo.elements.system.HarvestCropEventSystem;
@@ -114,6 +115,7 @@ public class ElementsPlugin extends JavaPlugin {
         ElementsNPC.registerComponents();
         getCodecRegistry(Interaction.CODEC).register("SpellCastInteraction", SpellCastInteraction.class, SpellCastInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("SpellProjectileImpactInteraction", SpellProjectileImpactInteraction.class, SpellProjectileImpactInteraction.CODEC);
+        getCodecRegistry(Interaction.CODEC).register("SpellProjectileMissInteraction", SpellProjectileMissInteraction.class, SpellProjectileMissInteraction.CODEC);
         getCodecRegistry(Interaction.CODEC).register("SpellcraftingTableInteraction", SpellcraftingTableInteraction.class, SpellcraftingTableInteraction.CODEC);
 
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
