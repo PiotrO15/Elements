@@ -14,7 +14,7 @@ public final class SpellDefinition {
     private SpellEffectType effectType = SpellEffectType.DAMAGE;
     private int cost = 0; // TODO: implement spell cost
     private int cooldownTicks = 0; // TODO: implement spell cooldown
-    private int durationTicks = 0; // TODO: implement spell duration
+    private int durationTicks = 1000; // TODO: implement spell duration
     private int aoeRadius = 0; // TODO: implement spell AOE radius
     private int strength = 10; // TODO: implement spell strength
 

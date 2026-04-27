@@ -36,7 +36,8 @@ public abstract class SpellCastResolver {
             @Nonnull CommandBuffer<EntityStore> commandBuffer) {
         List<Ref<EntityStore>> targets = selectTargets(casterRef, spell, target, commandBuffer, store);
 
-        // If no targets found, notify player and exit. For projectile spells we allow no initial targets since they will apply effects on hit.
+        // If no targets found, notify player and exit. For projectile spells we allow
+        // no initial targets since they will apply effects on hit.
         if (targets.isEmpty()) {
             if (spell.getTargetType() != SpellTargetType.PROJECTILE) {
                 notifyPlayer(store, casterRef, "Spell failed: no valid target.");
@@ -77,7 +78,8 @@ public abstract class SpellCastResolver {
                     yield List.of(target);
                 }
             }
-            case PROJECTILE -> shootProjectile(casterRef, spell, commandBuffer, store); // logic
+            case PROJECTILE -> shootProjectile(casterRef, spell, commandBuffer, store);
+            default -> List.of();
         };
     }
 
@@ -114,12 +116,11 @@ public abstract class SpellCastResolver {
             return List.of();
         }
 
-        System.out.println("Spawned projectile with entity ref: " + projectileRef);
-
         // Attach spell data to projectile so we can apply effects on hit
         SpellProjectileComponent spellProjectileComponent = new SpellProjectileComponent(spell);
         commandBuffer.run((writeStore) -> writeStore.addComponent(projectileRef,
                 ElementsPlugin.get().spellProjectileComponent, spellProjectileComponent));
+
         // Wait until the projectile hits something, no target selection for now
         return List.of();
     }
@@ -141,38 +142,71 @@ public abstract class SpellCastResolver {
             @Nonnull List<Ref<EntityStore>> targets) {
         switch (spell.getEffectType()) {
             case DAMAGE -> {
-                for (Ref<EntityStore> target : targets) {
-                    notifyPlayer(store, target, "You take " + spell.getStrength() + " spell damage.");
-
-                    EntitySource damageSource = new EntitySource(casterRef);
-
-                    Damage damage = new Damage(damageSource, 1, spell.getStrength()); // TODO: add damage source/type
-                    // Add metadata
-
-                    Vector4d targetLocation = Vector4d.newPosition(
-                            store.getComponent(target, TransformComponent.getComponentType()).getPosition());
-                    damage.putMetaObject(Damage.HIT_LOCATION, targetLocation);
-                    damage.putMetaObject(Damage.HIT_ANGLE, 0f); // TODO: determine hit angle based on spell/target
-                                                                // properties
-
-                    // Fire the damage event
-                    store.invoke(target, damage);
-                }
+                handleDamageApplication(store, casterRef, spell, targets);
             }
-            case BUFF -> {
-                for (Ref<EntityStore> target : targets) {
-                    notifyPlayer(store, target, "You gain a buff for " + spell.getDurationTicks() + " ticks.");
-                }
+            case HEAL -> {
+                handleHealingApplication(store, casterRef, spell, targets);
             }
             case DEBUFF -> {
                 for (Ref<EntityStore> target : targets) {
                     notifyPlayer(store, target, "You are afflicted for " + spell.getDurationTicks() + " ticks.");
                 }
             }
+            default -> {
+                System.out.println("Unhandled spell effect type: " + spell.getEffectType());
+            }
         }
 
         notifyPlayer(store, casterRef,
                 "Cast " + spell.getName() + " hit " + targets.size() + " target(s).");
+    }
+
+    private static void handleDamageApplication(
+            @Nonnull Store<EntityStore> store,
+            @Nonnull Ref<EntityStore> casterRef,
+            @Nonnull SpellDefinition spell,
+            @Nonnull List<Ref<EntityStore>> targets) {
+        for (Ref<EntityStore> target : targets) {
+            notifyPlayer(store, target, "You take " + spell.getStrength() + " spell damage.");
+
+            EntitySource damageSource = new EntitySource(casterRef);
+
+            Damage damage = new Damage(damageSource, 1, spell.getStrength()); // TODO: add damage source/type
+            // Add metadata
+
+            Vector4d targetLocation = Vector4d.newPosition(
+                    store.getComponent(target, TransformComponent.getComponentType()).getPosition());
+            damage.putMetaObject(Damage.HIT_LOCATION, targetLocation);
+            damage.putMetaObject(Damage.HIT_ANGLE, 0f); // TODO: determine hit angle based on spell/target
+                                                        // properties
+
+            // Fire the damage event
+            store.invoke(target, damage);
+        }
+    }
+
+    private static void handleHealingApplication(
+            @Nonnull Store<EntityStore> store,
+            @Nonnull Ref<EntityStore> casterRef,
+            @Nonnull SpellDefinition spell,
+            @Nonnull List<Ref<EntityStore>> targets) {
+        for (Ref<EntityStore> target : targets) {
+            notifyPlayer(store, target, "You are healed for " + spell.getStrength() + " health.");
+
+            EntitySource damageSource = new EntitySource(casterRef);
+
+            Damage damage = new Damage(damageSource, 1, -1 * spell.getStrength()); // TODO: add damage source/type
+            // Add metadata
+
+            Vector4d targetLocation = Vector4d.newPosition(
+                    store.getComponent(target, TransformComponent.getComponentType()).getPosition());
+            damage.putMetaObject(Damage.HIT_LOCATION, targetLocation);
+            damage.putMetaObject(Damage.HIT_ANGLE, 0f); // TODO: determine hit angle based on spell/target
+                                                        // properties
+
+            // Fire the damage event
+            store.invoke(target, damage);
+        }
     }
 
     private static void printAvailableProjectileConfigs() {

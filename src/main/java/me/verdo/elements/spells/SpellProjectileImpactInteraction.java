@@ -50,21 +50,21 @@ public class SpellProjectileImpactInteraction extends SimpleInstantInteraction {
     }
 
     commandBuffer.run((writeStore) -> {
-      SpellProjectileComponent projectileComponent = writeStore.getComponent(projectileRef, ElementsPlugin.get().spellProjectileComponent);
-      if (projectileComponent == null || !projectileComponent.hasSpell()) {
-        System.out.println("Projectile does not have spell metadata.");
-        return;
-      }
+        SpellProjectileComponent projectileComponent = writeStore.getComponent(projectileRef, ElementsPlugin.get().spellProjectileComponent);
+        if (projectileComponent == null || !projectileComponent.hasSpell()) {
+            System.out.println("Projectile does not have spell metadata.");
+            return;
+        }
 
-      System.out.println("Found projectile component with spell metadata: " + projectileComponent.getSpell().getName());
-      SpellDefinition spell = projectileComponent.getSpell();
+        //   System.out.println("Found projectile component with spell metadata: " + projectileComponent.getSpell().getName());
+        SpellDefinition spell = projectileComponent.getSpell();
 
-      SpellCastResolver.applySpellOnce(
-        writeStore,
-        owningEntityRef,
-        spell,
-          List.of(targetRef)// TODO: determine targets based on hit area/effect radius
-      );
+        SpellCastResolver.applySpellOnce(
+            writeStore,
+            owningEntityRef,
+            spell,
+            List.of(targetRef)// TODO: determine targets based on hit area/effect radius
+        );
     });
   }
   

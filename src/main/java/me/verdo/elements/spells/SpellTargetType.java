@@ -6,7 +6,8 @@ import java.util.List;
 public enum SpellTargetType {
     SELF,
     TOUCH,
-    PROJECTILE;
+    PROJECTILE,
+    UNDEFINED; // for error handling when parsing from string
 
     public static SpellTargetType fromString(String value) {
         if (value == null || value.isBlank()) {
@@ -16,14 +17,14 @@ public enum SpellTargetType {
             case "SELF" -> SELF;
             case "TOUCH" -> TOUCH;
             case "PROJECTILE" -> PROJECTILE;
-            default -> throw new IllegalArgumentException("Invalid SpellTargetType: " + value);
+            default -> UNDEFINED;
         };
     }
 
-        public static List<String> getValidTypes() {
+    public static List<String> getValidTypes() {
         return Arrays.stream(SpellTargetType.values())
                 .map(Enum::name)
+                .filter(name -> !name.equals(UNDEFINED.name()))
                 .toList();
     }
 }
-

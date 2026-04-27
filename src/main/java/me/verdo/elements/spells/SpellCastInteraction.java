@@ -32,7 +32,7 @@ public class SpellCastInteraction extends SimpleInstantInteraction {
         }
 
         final Ref<EntityStore> entityRef = interactionContext.getEntity();
-        Entity entity = EntityUtils.getEntity(entityRef, interactionContext.getCommandBuffer());
+        Entity entity = EntityUtils.getEntity(entityRef, interactionContext.getCommandBuffer().getStore());
 
         final World world = buffer.getExternalData().getWorld();
 
