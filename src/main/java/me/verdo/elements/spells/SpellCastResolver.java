@@ -35,8 +35,12 @@ public abstract class SpellCastResolver {
             @Nullable Ref<EntityStore> target, @Nonnull Store<EntityStore> store,
             @Nonnull CommandBuffer<EntityStore> commandBuffer) {
         List<Ref<EntityStore>> targets = selectTargets(casterRef, spell, target, commandBuffer, store);
+
+        // If no targets found, notify player and exit. For projectile spells we allow no initial targets since they will apply effects on hit.
         if (targets.isEmpty()) {
-            notifyPlayer(store, casterRef, "Spell failed: no valid target.");
+            if (spell.getTargetType() != SpellTargetType.PROJECTILE) {
+                notifyPlayer(store, casterRef, "Spell failed: no valid target.");
+            }
             return;
         }
 
@@ -49,13 +53,6 @@ public abstract class SpellCastResolver {
         int casts = 1; // TODO: implement modifiers
         int delayTicks = 0; // TODO: implement modifiers
 
-        // if (delayTicks <= 0) {
-        //     for (int castIndex = 0; castIndex < casts; castIndex++) {
-        //         applySpellOnce(store, casterRef, spell, finalTargets);
-        //     }
-        //     return;
-        // }
-
         World world = store.getExternalData().getWorld();
         for (int castIndex = 0; castIndex < casts; castIndex++) {
             final int iteration = castIndex + 1;
@@ -67,7 +64,8 @@ public abstract class SpellCastResolver {
     }
 
     private static List<Ref<EntityStore>> selectTargets(Ref<EntityStore> casterRef, SpellDefinition spell,
-            @Nullable Ref<EntityStore> initialTarget, CommandBuffer<EntityStore> commandBuffer, @Nonnull Store<EntityStore> store) {
+            @Nullable Ref<EntityStore> initialTarget, CommandBuffer<EntityStore> commandBuffer,
+            @Nonnull Store<EntityStore> store) {
 
         return switch (spell.getTargetType()) {
             case SELF -> List.of(casterRef);
@@ -79,23 +77,14 @@ public abstract class SpellCastResolver {
                     yield List.of(target);
                 }
             }
-            case PROJECTILE -> shootProjectile(casterRef, spell, commandBuffer, store); // TODO: implement projectile logic
+            case PROJECTILE -> shootProjectile(casterRef, spell, commandBuffer, store); // logic
         };
     }
 
     private static List<Ref<EntityStore>> shootProjectile(Ref<EntityStore> casterRef, SpellDefinition spell,
             CommandBuffer<EntityStore> commandBuffer, @Nonnull Store<EntityStore> store) {
 
-        // TODO: set based on spell properties/modifiers
-        // SpellProjectileConfig config = spell.getProjectileConfig();
-
-        // printProjectileConfigs();
-
         ProjectileConfig config = ProjectileConfig.getAssetMap().getAsset("Default_Spell_Projectile");
-        System.out.println(config.getInteractions());
-        // ((SpellProjectileConfig)
-        // config).setInteractions(InteractionType.SpellProjectileImpact,
-        // "SpellProjectileImpactInteraction");
 
         // Get caster position, with direction based on caster look vector
         TransformComponent transform = store.getComponent(casterRef, TransformComponent.getComponentType());
@@ -129,20 +118,8 @@ public abstract class SpellCastResolver {
 
         // Attach spell data to projectile so we can apply effects on hit
         SpellProjectileComponent spellProjectileComponent = new SpellProjectileComponent(spell);
-        commandBuffer.run((writeStore) ->
-            writeStore.addComponent(projectileRef, ElementsPlugin.get().spellProjectileComponent, spellProjectileComponent));
-
-        // //check if component was added successfully
-        // SpellProjectileComponent projectileComponent = commandBuffer.getComponent(projectileRef, ElementsPlugin.get().spellProjectileComponent);
-        // if (projectileComponent == null) {
-        //     System.out.println("Failed to add SpellProjectileComponent to projectile.");
-        //     return List.of();
-        // }
-        // else {
-        //     projectileComponent.setSpell(spell);
-        //     System.out.println("Attached spell data to projectile: " + spell.getName());
-        // }
-
+        commandBuffer.run((writeStore) -> writeStore.addComponent(projectileRef,
+                ElementsPlugin.get().spellProjectileComponent, spellProjectileComponent));
         // Wait until the projectile hits something, no target selection for now
         return List.of();
     }
@@ -167,14 +144,16 @@ public abstract class SpellCastResolver {
                 for (Ref<EntityStore> target : targets) {
                     notifyPlayer(store, target, "You take " + spell.getStrength() + " spell damage.");
 
-                    EntitySource damageSource = new EntitySource(casterRef);                    
+                    EntitySource damageSource = new EntitySource(casterRef);
 
                     Damage damage = new Damage(damageSource, 1, spell.getStrength()); // TODO: add damage source/type
                     // Add metadata
 
-                    Vector4d targetLocation = Vector4d.newPosition(store.getComponent(target, TransformComponent.getComponentType()).getPosition());
+                    Vector4d targetLocation = Vector4d.newPosition(
+                            store.getComponent(target, TransformComponent.getComponentType()).getPosition());
                     damage.putMetaObject(Damage.HIT_LOCATION, targetLocation);
-                    damage.putMetaObject(Damage.HIT_ANGLE, 0f); // TODO: determine hit angle based on spell/target properties
+                    damage.putMetaObject(Damage.HIT_ANGLE, 0f); // TODO: determine hit angle based on spell/target
+                                                                // properties
 
                     // Fire the damage event
                     store.invoke(target, damage);
@@ -196,9 +175,8 @@ public abstract class SpellCastResolver {
                 "Cast " + spell.getName() + " hit " + targets.size() + " target(s).");
     }
 
-    private static void printProjectileConfigs() {
-        // Debug: print all loaded projectile configs to verify our config is loading
-        // correctly
+    private static void printAvailableProjectileConfigs() {
+        // Debug: print all loaded configs to verify our config is loading correctly
         ProjectileConfig.getAssetMap().getAssetMap().forEach((k, v) -> System.out.println("Projectile config: " + k));
     }
 
