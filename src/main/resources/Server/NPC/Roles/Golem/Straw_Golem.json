@@ -90,7 +90,7 @@
               "$Comment": "Harvest the nearest crop.",
               "Sensor": {
                 "Type": "FindCrop",
-                "Range": 1.0
+                "Range": 1.5
               },
               "BodyMotion": {
                 "Type": "Nothing"
@@ -280,7 +280,7 @@
           {
             "Type": "SetInteractable",
             "Interactable": true,
-            "Hint": "server.interactionHints.trade",
+            "Hint": "server.interactionHints.generic",
             "ShowPrompt": true
           }
         ]

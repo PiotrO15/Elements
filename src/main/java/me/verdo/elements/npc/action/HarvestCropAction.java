@@ -39,11 +39,11 @@ public class HarvestCropAction extends ActionBase {
 
         if (sensorInfo instanceof PositionProvider positionProvider) {
             if (!positionProvider.hasPosition()) {
-                return true;
+                return false;
             }
 
             World world = store.getExternalData().getWorld();
-            Vector3i target = new Vector3i((int) positionProvider.getX(), (int) positionProvider.getY(), (int) positionProvider.getZ());
+            Vector3i target = new Vector3i((int) Math.floor(positionProvider.getX()), (int) Math.floor(positionProvider.getY()), (int) Math.floor(positionProvider.getZ()));
             WorldChunk worldChunk = world.getChunk(ChunkUtil.indexChunkFromBlock(positionProvider.getX(), positionProvider.getZ()));
             if  (worldChunk == null) return false;
 
@@ -62,10 +62,10 @@ public class HarvestCropAction extends ActionBase {
 //            } else {
 //                harvest(ref, store, world, target, blockType);
 //            }
-            harvestEternal(ref, store, world, target, blockType);
+            return harvestEternal(ref, store, world, target, blockType);
         }
 
-        return true;
+        return false;
     }
 
     public void harvest(Ref<EntityStore> ref, Store<EntityStore> entityStore, World world, Vector3i pos, BlockType blockType) {
@@ -102,20 +102,24 @@ public class HarvestCropAction extends ActionBase {
         }
     }
 
-    public void harvestEternal(Ref<EntityStore> ref, Store<EntityStore> entityStore, World world, Vector3i targetBlock, BlockType blockType) {
+    public boolean harvestEternal(Ref<EntityStore> ref, Store<EntityStore> entityStore, World world, Vector3i targetBlock, BlockType blockType) {
         ChunkStore chunkStore = world.getChunkStore();
         long chunkIndex = ChunkUtil.indexChunkFromBlock(targetBlock.x, targetBlock.z);
         Ref<ChunkStore> chunkRef = chunkStore.getChunkReference(chunkIndex);
 
-        if  (chunkRef == null || !chunkRef.isValid()) return;
+        if  (chunkRef == null || !chunkRef.isValid()) return false;
 
         BlockChunk blockChunkComponent = chunkStore.getStore().getComponent(chunkRef, BlockChunk.getComponentType());
         BlockSection blockSection = blockChunkComponent.getSectionAtBlockY(targetBlock.y);
 
         int rotationIndex = blockSection.getRotationIndex(targetBlock.x, targetBlock.y, targetBlock.z);
-        FarmingUtil.harvest(world, entityStore, ref, blockType, rotationIndex, targetBlock);
+        boolean harvested = FarmingUtil.harvest(world, entityStore, ref, blockType, rotationIndex, targetBlock);
 
-        BreakBlockEvent event = new BreakBlockEvent(ItemStack.EMPTY, targetBlock, blockType);
-        entityStore.invoke(ref, event);
+        if  (harvested) {
+            BreakBlockEvent event = new BreakBlockEvent(ItemStack.EMPTY, targetBlock, blockType);
+            entityStore.invoke(ref, event);
+            return true;
+        }
+        return false;
     }
 }

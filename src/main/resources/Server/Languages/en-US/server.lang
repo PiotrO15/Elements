@@ -8,14 +8,16 @@ items.Alchemical_Furnace.description = A furnace that can break down items into 
 items.Essence_Jar.name = Essence Jar
 items.Essence_Pipe.name = Essence Pipe
 items.Essence_Collector.name = Essence Collector
+items.Essence_Collector.description = Absorbs Essence of Life emitted by breaking mature crops.
 items.Essence_Collector_Harvest.name = Harvest-Attuned Essence Collector
+items.Essence_Collector_Harvest.description = Absorbs Essence of the Harvest emitted by breaking mature crops.
 interactionHints.Essence_Jar = Press [{key}] to store or extract essence
 
 items.Rooted_Workbench.name = Rooted Workbench
-items.Rooted_Workbench.description = A workbench that can be used to craft items used by elemental magic.
+items.Rooted_Workbench.description = A workbench that can be used to craft items used for elemental magic.
 
 items.Rootbound_Nexus.name = Rootbound Nexus
-items.Rootbound_Nexus.description = An altar capable of creating useful items from items and essence. Used together with Rootbound Pedestals and a Rootbound Wand to trigger crafting.
+items.Rootbound_Nexus.description = An altar capable of creating useful items from items and essence. Used together with Rootbound Pedestals and a Rootbound Wand to trigger a ritual.
 items.Rootbound_Pedestal.name = Rootbound Pedestal
 items.Rootbound_Wand.name = Rootbound Wand
 items.Rootbound_Wand.description = Can be used on Rootbound Nexus to trigger crafting.
@@ -27,10 +29,11 @@ items.Spellcrafting_Table.description = Interact with this table while holding a
 
 items.Empty_Seal.name = Empty Seal
 items.Dominion_Wand.name = Dominion Wand
+items.Dominion_Wand.description = Crouch and interact with a golem to pick it up.
 items.Harvesting_Seal.name = Harvesting Will
-items.Harvesting_Seal.description = Allows your golem to harvest crops
+items.Harvesting_Seal.description = Allows your golem to harvest crops.
 items.Gathering_Seal.name = Gathering Will
-items.Gathering_Seal.description = Allows your golem to gather items from the ground to store in nearby chests
+items.Gathering_Seal.description = Allows your golem to gather items from the ground to store in nearby chests.
 
 items.Straw_Golem.name = Straw Golem
 npcRoles.Straw_Golem.name = Straw Golem
