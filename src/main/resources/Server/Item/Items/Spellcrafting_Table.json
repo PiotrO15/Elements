@@ -50,27 +50,27 @@
   },
   "Parent": "Rock_Stone_Brick_Pillar_Middle",
   "Recipe": {
-    "TimeSeconds": 3,
+    "TimeSeconds": 5,
     "Input": [
       {
         "ResourceTypeId": "Rock_Marble",
         "Quantity": 4
       },
       {
-        "ItemId": "Ingredient_Bar_Copper",
-        "Quantity": 1
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 25
       }
     ],
     "BenchRequirement": [
       {
-        "Id": "Arcanebench",
+        "Id": "Rooted_Workbench",
         "Type": "Crafting",
         "Categories": [
-          "Arcane_Misc"
+          "Core"
         ]
       }
     ],
-    "OutputQuantity": 2
+    "OutputQuantity": 1
   },
   "IconProperties": {
     "Scale": 0.55,
