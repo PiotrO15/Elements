@@ -2,14 +2,13 @@
   "TranslationProperties": {
     "Name": "server.items.Spellcrafting_Table.name"
   },
-  "Icon": "Icons/ItemsGenerated/Rootbound_Pedestal.png",
   "Set": "",
   "BlockType": {
     "Opacity": "Transparent",
     "CustomModelTexture": [
       {
         "Weight": 1,
-        "Texture": "Items/Blocks/Rootbound_Pedestal.png"
+        "Texture": "Items/Blocks/Spellcrafting_Table.png"
       }
     ],
     "Gathering": {
@@ -30,7 +29,7 @@
     "Interactions": {
       "Use": "SpellcraftingTableInteraction"
     },
-    "CustomModel": "Items/Blocks/Rootbound_Pedestal.blockymodel",
+    "CustomModel": "Items/Blocks/Spellcrafting_Table.blockymodel",
     "Material": "Solid",
     "VariantRotation": "NESW",
     "RandomRotation": "None",
@@ -83,5 +82,6 @@
       0,
       -17
     ]
-  }
+  },
+  "Icon": "Icons/ItemsGenerated/Spellcrafting_Table.png"
 }
