@@ -33,9 +33,6 @@ public class SpellProjectileMissInteraction extends SimpleInstantInteraction {
       return;
     }
 
-    System.out.println("Projectile miss interaction triggered for projectile entity: " + projectileRef);
-
     commandBuffer.run((writeStore) -> writeStore.removeEntity(projectileRef, RemoveReason.REMOVE));
-    System.out.println("Projectile entity removed in projectile miss interaction: " + projectileRef);
   }
 }

@@ -14,6 +14,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import me.verdo.elements.spells.SpellDefinition;
 
+// TODO: Remove? currently specific damage types like fireball and ice bolt are used instead
 public final class DamageSpellPart extends AbstractSpellPart {
     public static final int COST = 0;
     public static final String ID = "damage";

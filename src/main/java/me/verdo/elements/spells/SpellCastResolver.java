@@ -36,27 +36,19 @@ public abstract class SpellCastResolver {
             @Nonnull CommandBuffer<EntityStore> commandBuffer) {
         List<Ref<EntityStore>> targets = selectTargets(casterRef, spell, target, commandBuffer, store);
 
-        // If no targets found, notify player and exit. For projectile spells we allow
-        // no initial targets since they will apply effects on hit.
+        // notifyPlayer(store, casterRef, "Spell hits " + targets.size() + " target(s).");
+
         if (targets.isEmpty()) {
-            if (spell.getTargetType() != SpellTargetType.PROJECTILE) {
-                notifyPlayer(store, casterRef, "Spell failed: no valid target.");
-            }
             return;
         }
 
         List<Ref<EntityStore>> finalTargets = expandAoeTargets(targets);
-
-        notifyPlayer(store, casterRef, "Spell hits " + targets.size() + " target(s).");
-
-        // SpellModifierSet modifiers = event.getSpell().getModifiers();
 
         int casts = 1; // TODO: implement modifiers
         int delayTicks = 0; // TODO: implement modifiers
 
         World world = store.getExternalData().getWorld();
         for (int castIndex = 0; castIndex < casts; castIndex++) {
-            final int iteration = castIndex + 1;
             long delayMs = (long) delayTicks * castIndex * MILLIS_PER_TICK;
             HytaleServer.SCHEDULED_EXECUTOR.schedule(
                     () -> world.execute(() -> applySpellOnce(store, casterRef, spell, finalTargets)),
