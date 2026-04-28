@@ -33,7 +33,7 @@
   },
   "Scale": 0.8,
   "Light": {
-    "Color": "#310",
+    "Color": "#330",
     "Radius": 1
   },
   "ItemSoundSetId": "ISS_Items_Gems",
