@@ -4,8 +4,13 @@
   },
   "Icon": "Icons/ItemsGenerated/Rootbound_Pedestal.png",
   "Set": "",
+  "Interactions": {
+    "Primary": "Block_Primary",
+    "Secondary": "Block_Secondary"
+  },
   "BlockType": {
     "Opacity": "Transparent",
+    "DrawType": "Model",
     "CustomModelTexture": [
       {
         "Weight": 1,
@@ -40,15 +45,6 @@
       }
     }
   },
-  "Tags": {
-    "Type": [
-      "Rock"
-    ],
-    "Family": [
-      "Marble"
-    ]
-  },
-  "Parent": "Rock_Stone_Brick_Pillar_Middle",
   "Recipe": {
     "TimeSeconds": 3,
     "Input": [

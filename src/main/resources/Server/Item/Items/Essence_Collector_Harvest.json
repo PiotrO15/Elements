@@ -1,6 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Essence_Collector_Harvest.name"
+    "Name": "server.items.Essence_Collector_Harvest.name",
+    "Description": "server.items.Essence_Collector_Harvest.description"
   },
   "Icon": "Icons/ItemsGenerated/Essence_Collector_Harvest.png",
   "Interactions": {
