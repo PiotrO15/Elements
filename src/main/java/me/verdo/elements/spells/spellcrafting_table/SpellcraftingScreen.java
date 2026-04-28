@@ -77,7 +77,7 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     baseData.editedItem = editedItem;
     baseData.currentSlot = 0;
     SpellSlotsComponent spellSlotsComponent = editedItem != null ? SpellSlotsComponent.getSpellsFromItem(editedItem) : null;
-    baseData.currentSpell = spellSlotsComponent != null ? spellSlotsComponent.getSpell(baseData.currentSlot) : null;
+    baseData.currentSpell = copySpell(spellSlotsComponent != null ? spellSlotsComponent.getSpell(baseData.currentSlot) : null);
     handleDataEvent(ref, store, baseData);
   }
 
@@ -220,7 +220,7 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     uiEventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#ResetButton", resetEventData, false);
   }
 
-  private static SpellDefinition ensureCurrentSpell(Data data, SpellSlotsComponent spellSlotsComponent, int maxSlots) {
+  private static SpellDefinition ensureCurrentSpell(Data data, int maxSlots) {
     if (data.currentSpell != null) {
       return data.currentSpell;
     }
@@ -233,12 +233,16 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
         "spell_" + (data.currentSlot + 1),
         SpellTargetType.SELF, 
       SpellPartRegistry.getDefault());
-    if (spellSlotsComponent != null) {
-      spellSlotsComponent.addSpell(createdSpell, data.currentSlot);
-    }
-
     data.currentSpell = createdSpell;
     return data.currentSpell;
+  }
+
+  private static SpellDefinition copySpell(SpellDefinition spell) {
+    if (spell == null) {
+      return null;
+    }
+
+    return new SpellDefinition(spell.getName(), spell.getTargetType(), spell.getEffectPart());
   }
 
   @Override
@@ -252,7 +256,6 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     }
 
     SpellSlotsComponent spellSlotsComponent = data.editedItem != null ? SpellSlotsComponent.getSpellsFromItem(data.editedItem) : null;
-    data.currentSpell = spellSlotsComponent != null ? spellSlotsComponent.getSpell(data.currentSlot) : null;
 
     commandBuilder.append("Spellcrafting/SpellcraftingTable.ui");
     commandBuilder.append("Spellcrafting/TargetTypeSelector.ui");
@@ -266,10 +269,12 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
       data.currentSlot = 0;
     }
 
-    data.currentSpell = spellSlotsComponent != null ? spellSlotsComponent.getSpell(data.currentSlot) : null;
+    if (data.currentSpell == null) {
+      data.currentSpell = copySpell(spellSlotsComponent != null ? spellSlotsComponent.getSpell(data.currentSlot) : null);
+    }
 
     if (data.selectedTargetType != null && !data.selectedTargetType.isBlank()) {
-      SpellDefinition spell = ensureCurrentSpell(data, spellSlotsComponent, maxSlots);
+      SpellDefinition spell = ensureCurrentSpell(data, maxSlots);
       if (spell != null) {
         spell.setTargetType(SpellTargetType.fromString(data.selectedTargetType));
       }
@@ -277,7 +282,7 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     }
 
     if (data.selectedSpellPartId != null && !data.selectedSpellPartId.isBlank()) {
-      SpellDefinition spell = ensureCurrentSpell(data, spellSlotsComponent, maxSlots);
+      SpellDefinition spell = ensureCurrentSpell(data, maxSlots);
       if (spell != null) {
         spell.setEffectPart(AbstractSpellPart.fromId(data.selectedSpellPartId));
       }
@@ -289,27 +294,22 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
         data.editedItem = SpellSlotsComponent.setSpellInItemBySlot(data.editedItem, data.currentSpell, data.currentSlot);
         editedItem = data.editedItem;
         spellSlotsComponent = SpellSlotsComponent.getSpellsFromItem(data.editedItem);
-        data.currentSpell = spellSlotsComponent != null ? spellSlotsComponent.getSpell(data.currentSlot) : null;
+        data.currentSpell = copySpell(spellSlotsComponent != null ? spellSlotsComponent.getSpell(data.currentSlot) : null);
+
+        if (tableStoredItemComponent != null) {
+          tableStoredItemComponent.setStoredItem(data.editedItem);
+        }
       }
       data.action = null;
     } else if ("Reset".equals(data.action)) {
       if (data.editedItem != null) {
-        data.currentSpell = SpellSlotsComponent.getSpellFromItemBySlot(data.editedItem, data.currentSlot);
+        data.currentSpell = copySpell(SpellSlotsComponent.getSpellFromItemBySlot(data.editedItem, data.currentSlot));
       } else {
         data.currentSpell = null;
       }
       data.selectedTargetType = null;
       data.selectedSpellPartId = null;
       data.action = null;
-    }
-
-    if (data.editedItem != null && spellSlotsComponent != null) {
-      data.editedItem = SpellSlotsComponent.setSpellsInItem(data.editedItem, spellSlotsComponent);
-      editedItem = data.editedItem;
-
-      if (tableStoredItemComponent != null) {
-        tableStoredItemComponent.setStoredItem(data.editedItem);
-      }
     }
 
     updateTargetButtons(commandBuilder, eventBuilder, spellTargetTypes, data.currentSlot, data.currentSpell);
