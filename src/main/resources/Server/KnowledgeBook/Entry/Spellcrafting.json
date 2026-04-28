@@ -3,7 +3,28 @@
     {
       "Type": "TextPage",
       "Title": "Spellcrafting",
-      "Text": "Coming Soon!"
+      "Text": "Spellcrafting is the practice of shaping elemental power into usable forms.\n\nA spellbook holds the knowledge needed to cast, while the spellcrafting table is where that knowledge is organized into something you can actually use."
+    },
+    {
+      "Type": "ListPage",
+      "Title": "Entries",
+      "Entries": [
+        {
+          "ItemIcon": "Rootbound_Spellbook",
+          "Title": "Rootbound Spellbook",
+          "Link": "Rootbound_Spellbook"
+        },
+        {
+          "ItemIcon": "Spellcrafting_Table",
+          "Title": "Spellcrafting Table",
+          "Link": "Spellcrafting_Table"
+        },
+        {
+          "ItemIcon": "Recipe_Food_Pie_Apple",
+          "Title": "Spell Structure",
+          "Link": "Spell_Structure"
+        }
+      ]
     }
   ]
 }

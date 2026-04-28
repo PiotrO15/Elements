@@ -1,0 +1,9 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Spell Structure",
+      "Text": "A spell consists of several components that work together to create a desired effect.\n\nEvery spell is defined by:\n-A target type, which determines how the targets for the spell are chosen\n- The spell's effects, which are applied to a target once the spell is cast\n\nUnderstanding how these components interact is key to mastering spellcrafting and creating powerful spells.\n\nIn the future, more spell parts and modifiers will be added!"
+    }
+  ]
+}
