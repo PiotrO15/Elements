@@ -1,0 +1,13 @@
+Button #TargetTypeButton {
+    Anchor: (Top: 0, Left: 0, Width: 130, Height: 95);
+    Style: ButtonStyle(
+        Default: (Background: PatchStyle(TexturePath: "Assets/spell_node.png")),
+        Hovered: (Background: PatchStyle(TexturePath: "Assets/spell_node_hover.png"))
+    );
+
+    Label #TargetTypeName {
+        Anchor: (Top: 28, Left: 0, Width: 120, Height: 40);
+        Text: "target";
+        Style: (TextColor: #000000, FontSize: 22, Alignment: Center, Wrap: true);
+    }
+}

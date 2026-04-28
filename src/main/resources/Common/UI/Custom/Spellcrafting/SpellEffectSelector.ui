@@ -1,0 +1,16 @@
+Group {
+  Group #SpellEffectSelector {
+    Anchor: (Top: 140, Left: 840, Width: 850, Height: 300);
+    Background: (TexturePath: "Assets/section_background.png");
+
+    Label #SpellEffectSelectorLabel {
+        Anchor: (Top: 20, Left: 35, Width: 300, Height: 50);
+        Text: "Spell effect";
+        Style: (TextColor: #000000, FontSize: 28, FontName: "Secondary");
+    }
+
+    Group #EffectButtons {
+        Anchor: (Top: 85, Left: 35, Width: 790, Height: 170);
+    }
+  }
+}

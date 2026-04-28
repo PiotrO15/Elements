@@ -1,0 +1,87 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Spellcrafting_Table.name"
+  },
+  "Set": "",
+  "BlockType": {
+    "Opacity": "Transparent",
+    "CustomModelTexture": [
+      {
+        "Weight": 1,
+        "Texture": "Items/Blocks/Spellcrafting_Table.png"
+      }
+    ],
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Benches"
+      }
+    },
+    "Supporting": {
+      "Down": [
+        {}
+      ],
+      "Up": [
+        {}
+      ]
+    },
+    "ParticleColor": "#d5d5c8",
+    "HitboxType": "Spellcrafting_Table",
+    "Interactions": {
+      "Use": "SpellcraftingTableInteraction"
+    },
+    "CustomModel": "Items/Blocks/Spellcrafting_Table.blockymodel",
+    "Material": "Solid",
+    "VariantRotation": "NESW",
+    "RandomRotation": "None",
+    "BlockEntity": {
+      "Components": {
+        "StoredItem": {}
+      }
+    }
+  },
+  "Tags": {
+    "Type": [
+      "Rock"
+    ],
+    "Family": [
+      "Marble"
+    ]
+  },
+  "Parent": "Rock_Stone_Brick_Pillar_Middle",
+  "Recipe": {
+    "TimeSeconds": 5,
+    "Input": [
+      {
+        "ResourceTypeId": "Rock_Marble",
+        "Quantity": 4
+      },
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 25
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Rooted_Workbench",
+        "Type": "Crafting",
+        "Categories": [
+          "Core"
+        ]
+      }
+    ],
+    "OutputQuantity": 1
+  },
+  "IconProperties": {
+    "Scale": 0.55,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -17
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Spellcrafting_Table.png"
+}

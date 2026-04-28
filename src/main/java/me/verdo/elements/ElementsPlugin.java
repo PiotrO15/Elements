@@ -1,6 +1,7 @@
 package me.verdo.elements;
 
 import com.hypixel.hytale.assetstore.map.DefaultAssetMap;
+import com.hypixel.hytale.assetstore.map.IndexedLookupTableAssetMap;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.ResourceType;
@@ -28,9 +29,15 @@ import me.verdo.elements.npc.ElementsNPC;
 import me.verdo.elements.system.EssencePipeSystem;
 import me.verdo.elements.interaction.NexusInteraction;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
+import me.verdo.elements.spells.SpellCastInteraction;
+import me.verdo.elements.spells.SpellProjectileComponent;
+import me.verdo.elements.spells.SpellProjectileImpactInteraction;
+import me.verdo.elements.spells.SpellProjectileMissInteraction;
 import me.verdo.elements.system.BlockBreakEventSystem;
 import me.verdo.elements.system.EssenceTransferSystem;
 import me.verdo.elements.system.HarvestCropEventSystem;
+import me.verdo.elements.spells.SpellSlotsComponent;
+import me.verdo.elements.spells.spellcrafting_table.SpellcraftingTableInteraction;
 import me.verdo.elements.util.SpatialRefUtil;
 
 import javax.annotation.Nonnull;
@@ -50,6 +57,8 @@ public class ElementsPlugin extends JavaPlugin {
     public ComponentType<ChunkStore, StoredItemComponent> storedItem;
     public ComponentType<ChunkStore, EssenceExtractorBlock> essenceExtractorBlock;
     public ComponentType<ChunkStore, EssenceCollectorComponent> essenceCollectorBlock;
+    public ComponentType<EntityStore, SpellSlotsComponent> spellSlotsComponent;
+    public ComponentType<EntityStore, SpellProjectileComponent> spellProjectileComponent;
 
     public ComponentType<EntityStore, ComplexEssenceStorageComponent> storedEssence;
     public ComponentType<EntityStore, GolemSealComponent> golemStorage;
@@ -84,9 +93,10 @@ public class ElementsPlugin extends JavaPlugin {
         storedItem = getChunkStoreRegistry().registerComponent(StoredItemComponent.class, "StoredItem", StoredItemComponent.CODEC);
         essenceExtractorBlock = getChunkStoreRegistry().registerComponent(EssenceExtractorBlock.class, "EssenceExtractorBlock", EssenceExtractorBlock.CODEC);
         essenceCollectorBlock = getChunkStoreRegistry().registerComponent(EssenceCollectorComponent.class, "EssenceCollectorBlock", EssenceCollectorComponent.CODEC);
-
         storedEssence = getEntityStoreRegistry().registerComponent(ComplexEssenceStorageComponent.class, "StoredEssence", ComplexEssenceStorageComponent.CODEC);
         golemStorage = getEntityStoreRegistry().registerComponent(GolemSealComponent.class, "GolemStorage", GolemSealComponent.CODEC);
+        spellSlotsComponent = getEntityStoreRegistry().registerComponent(SpellSlotsComponent.class, "SpellSlots", SpellSlotsComponent.CODEC); // Turn into item component?
+        spellProjectileComponent = getEntityStoreRegistry().registerComponent(SpellProjectileComponent.class, "SpellProjectile", SpellProjectileComponent.CODEC);
 
         essenceStorageNeedRebuild = getChunkStoreRegistry().registerResource(SpatialRefUtil.SpatialNeedRebuild.class, SpatialRefUtil.SpatialNeedRebuild::new);
         essenceStorageSpatialResourceType = getChunkStoreRegistry().registerSpatialResource(() -> new KDTree<>(Ref::isValid));
@@ -103,6 +113,10 @@ public class ElementsPlugin extends JavaPlugin {
         getCodecRegistry(Interaction.CODEC).register("OpenKnowledgeBook", OpenKnowledgeBookInteraction.class, OpenKnowledgeBookInteraction.CODEC);
 
         ElementsNPC.registerComponents();
+        getCodecRegistry(Interaction.CODEC).register("SpellCastInteraction", SpellCastInteraction.class, SpellCastInteraction.CODEC);
+        getCodecRegistry(Interaction.CODEC).register("SpellProjectileImpactInteraction", SpellProjectileImpactInteraction.class, SpellProjectileImpactInteraction.CODEC);
+        getCodecRegistry(Interaction.CODEC).register("SpellProjectileMissInteraction", SpellProjectileMissInteraction.class, SpellProjectileMissInteraction.CODEC);
+        getCodecRegistry(Interaction.CODEC).register("SpellcraftingTableInteraction", SpellcraftingTableInteraction.class, SpellcraftingTableInteraction.CODEC);
 
         getEntityStoreRegistry().registerSystem(new BlockBreakEventSystem(BreakBlockEvent.class));
         getEntityStoreRegistry().registerSystem(new BlockBreakDisplayEventSystem(BreakBlockEvent.class));

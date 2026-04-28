@@ -1,0 +1,49 @@
+$Common = "../Common.ui";
+
+Group {
+    Anchor: (Width: 1920, Height: 1080);
+    Background: (TexturePath: "Assets/background_base.png");
+
+    Group #RightTabs {
+        Anchor: (Top: 130, Left: 1720, Width: 110, Height: 400);
+    }
+
+    Group #SpellcraftingRoot {
+        Anchor: (Top: 40, Left: 40, Width: 1780, Height: 1020);
+        Background: (TexturePath: "Assets/background_top.png");
+
+        Label #CostLabel {
+            Anchor: (Top: 820, Left: 190, Width: 250, Height: 40);
+            Text: "Cost: 0";
+            Style: (TextColor: #000000, FontSize: 30, FontName: "Secondary");
+        }
+
+        Button #SaveButton {
+            Anchor: (Top: 810, Left: 1280, Width: 110, Height: 58);
+            Style: ButtonStyle(
+                // Default: (Background: PatchStyle(TexturePath: "./save.png")),
+                // Hovered: (Background: PatchStyle(TexturePath: "./save_hover.png"))
+            );
+
+            Label #SaveText {
+                Anchor: (Top: 12, Left: 20, Width: 70, Height: 30);
+                Text: "save";
+                Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+            }
+        }
+
+        Button #ResetButton {
+            Anchor: (Top: 810, Left: 1430, Width: 140, Height: 58);
+            Style: ButtonStyle(
+                // Default: (Background: PatchStyle(TexturePath: "./reset.png")),
+                // Hovered: (Background: PatchStyle(TexturePath: "./reset_hover.png"))
+            );
+
+            Label #ResetText {
+                Anchor: (Top: 12, Left: 25, Width: 90, Height: 30);
+                Text: "reset";
+                Style: (TextColor: #000000, FontSize: 24, Alignment: Center);
+            }
+        }
+    }
+}

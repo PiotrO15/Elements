@@ -1,0 +1,13 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Spellcrafting Table",
+      "Text": "The Spellcrafting Table is where spells can be created and bound to a spellbook.\n\nInteract with the table while holding a Spellbook to modify the spells contained within."
+    },
+    {
+      "Type": "RecipePage",
+      "CraftedItem": "Spellcrafting_Table"
+    }
+  ]
+}

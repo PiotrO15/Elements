@@ -20,11 +20,16 @@ items.Rootbound_Nexus.name = Rootbound Nexus
 items.Rootbound_Nexus.description = An altar capable of creating useful items from items and essence. Used together with Rootbound Pedestals and a Rootbound Wand to trigger a ritual.
 items.Rootbound_Pedestal.name = Rootbound Pedestal
 items.Rootbound_Wand.name = Rootbound Wand
-items.Rootbound_Wand.description = Can be used on Rootbound Nexus to trigger a ritual.
+items.Rootbound_Wand.description = Can be used on Rootbound Nexus to trigger crafting.
 
+items.Rootbound_Spellbook.name = Rootbound Spellbook
+items.Rootbound_Spellbook.description = Spellbook containing knowledge about elemental magic and spells. You can use the Spellcasting Table to create new spells.
+items.Spellcrafting_Table.name = Spellcrafting Table
+items.Spellcrafting_Table.description = Interact with this table while holding a Rootbound Spellbook to create new spells using spell parts and modifiers.
+
+items.Empty_Seal.name = Empty Seal
 items.Dominion_Wand.name = Dominion Wand
 items.Dominion_Wand.description = Crouch and interact with a golem to pick it up.
-items.Empty_Seal.name = Empty Will
 items.Harvesting_Seal.name = Harvesting Will
 items.Harvesting_Seal.description = Allows your golem to harvest crops.
 items.Gathering_Seal.name = Gathering Will
@@ -34,4 +39,4 @@ items.Straw_Golem.name = Straw Golem
 npcRoles.Straw_Golem.name = Straw Golem
 
 items.Roots_Of_Knowledge.name = Roots of Knowledge
-items.Roots_Of_Knowledge.description = Your source of knowledge about the elemental magic.
+items.Roots_Of_Knowledge.description = Your source of knowledge about elemental magic

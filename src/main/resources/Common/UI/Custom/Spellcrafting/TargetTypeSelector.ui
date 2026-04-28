@@ -1,0 +1,16 @@
+Group {
+  Group #TargetTypeSelector {
+    Anchor: (Top: 140, Left: 260, Width: 530, Height: 260);
+    Background: (TexturePath: "Assets/section_background.png");
+
+    Label #TargetTypeSelectorLabel {
+        Anchor: (Top: 20, Left: 35, Width: 250, Height: 50);
+        Text: "Target type";
+        Style: (TextColor: #000000, FontSize: 28, FontName: "Secondary");
+    }
+
+    Group #TargetButtons {
+        Anchor: (Top: 85, Left: 35, Width: 460, Height: 170);
+    }
+  }
+}

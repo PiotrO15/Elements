@@ -1,0 +1,142 @@
+package me.verdo.elements.spells.spellcrafting_table;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.ComponentType;
+import com.hypixel.hytale.math.util.ChunkUtil;
+import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.server.core.entity.EntityUtils;
+import com.hypixel.hytale.server.core.entity.InteractionContext;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
+import com.hypixel.hytale.server.core.modules.block.BlockModule;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
+import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+
+import me.verdo.elements.ElementsPlugin;
+import me.verdo.elements.component.StoredItemComponent;
+import me.verdo.elements.display.ItemDisplayManager;
+import me.verdo.elements.recipe.RootboundCraftingRecipe;
+import me.verdo.elements.spells.SpellSlotsComponent;
+import me.verdo.elements.util.ModChunkUtil;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.server.core.entity.Entity;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.SimpleBlockInteraction;
+import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+
+public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
+    private final ComponentType<ChunkStore, BlockModule.BlockStateInfo> blockStateInfoComponentType = BlockModule.BlockStateInfo
+            .getComponentType();
+
+    public static final BuilderCodec<SpellcraftingTableInteraction> CODEC = BuilderCodec
+            .builder(SpellcraftingTableInteraction.class, SpellcraftingTableInteraction::new)
+            .documentation("Interaction for opening spell crafting table.").build();
+
+    public static final Map<String, Integer> SUPPORTED_ITEMS = Map.of( //map of supported item ids to the defaultnumber of spell slots they provide
+        "Rootbound_Spellbook", 3
+        // "Spellbook", 3
+    );
+    public static final List<String> SUPPORTED_BLOCKS = List.of("Spellcrafting_Table");
+
+    @Override
+    protected void interactWithBlock(@Nonnull World world, @Nonnull CommandBuffer<EntityStore> commandBuffer,
+            @Nonnull InteractionType interactionType, @Nonnull InteractionContext context,
+            @Nullable ItemStack itemStack, @Nonnull Vector3i targetBlock, @Nonnull CooldownHandler cooldownHandler) {
+        Ref<ChunkStore> chunkStoreRef = ModChunkUtil.getBlockComponentEntity(world, targetBlock);
+        WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(targetBlock.x, targetBlock.z));
+
+        if (chunk == null)
+            return;
+
+        if (world.getBlockType(targetBlock) == null)
+            return;
+
+        if (chunkStoreRef == null) {
+            return;
+        }
+
+        BlockModule.BlockStateInfo blockStateInfo = world.getChunkStore().getStore().getComponent(chunkStoreRef,
+                this.blockStateInfoComponentType);
+
+        if (!SUPPORTED_BLOCKS.contains(world.getBlockType(targetBlock).getId())) {
+            return;
+        }
+
+        StoredItemComponent storedItem = chunkStoreRef.getStore().ensureAndGetComponent(chunkStoreRef,
+                ElementsPlugin.get().storedItem);
+
+        Ref<EntityStore> entityRef = context.getEntity();
+        Entity entity = EntityUtils.getEntity(entityRef, context.getCommandBuffer());
+
+        if (entity instanceof Player player) {
+            CombinedItemContainer inventory = InventoryComponent.getCombined(commandBuffer, entityRef,
+                    InventoryComponent.HOTBAR_FIRST);
+            ItemStack heldItem = context.getHeldItem();
+            if (heldItem != null && heldItem.getItemId().equals("Rootbound_Wand")) {
+                RootboundCraftingRecipe.craft(blockStateInfo, targetBlock, commandBuffer);
+                return;
+            }
+
+            if (context.getHeldItem() != null && storedItem.getStoredItem().isEmpty()) {
+                ItemStack placedItem = context.getHeldItem().withQuantity(1);
+
+                // don't allow placing of items that aren't spellbooks or already have spells in
+                // them
+                if (!SUPPORTED_ITEMS.containsKey(placedItem.getItemId())) {
+                    return;
+                }
+
+                // if item is a spellbook without spell metadata, add empty spell component
+                if (SUPPORTED_ITEMS.containsKey(placedItem.getItemId())
+                        && SpellSlotsComponent.getSpellsFromItem(placedItem) == null) {
+                    placedItem = SpellSlotsComponent.setSpellsInItem(placedItem, new SpellSlotsComponent(SUPPORTED_ITEMS.get(placedItem.getItemId())));
+                    System.out.println("Added empty SpellSlotsComponent to item: " + placedItem);
+                }
+
+                storedItem.setStoredItem(placedItem);
+                commandBuffer.run(_ -> ItemDisplayManager.createOrUpdateDisplay(storedItem, world, targetBlock.x,
+                        targetBlock.y, targetBlock.z, chunkStoreRef));
+                chunk.markNeedsSaving();
+
+                inventory.removeItemStackFromSlot(context.getHeldItemSlot(), 1);
+
+                // open spell crafting UI here
+                PlayerRef playerRefComponent = commandBuffer.getStore().getComponent(entityRef,
+                        PlayerRef.getComponentType());
+
+                if (playerRefComponent != null) {
+                    player.getPageManager().openCustomPage(entityRef, commandBuffer.getStore(),
+                            new SpellcraftingScreen(playerRefComponent, storedItem.getStoredItem(), storedItem));
+                }
+            } else {
+                ItemStack stored = storedItem.getStoredItem();
+                if (stored != null) {
+                    if (inventory.addItemStack(stored, true, false, true).succeeded()) {
+                        storedItem.setStoredItem(ItemStack.EMPTY);
+                        commandBuffer.run(_ -> ItemDisplayManager.removeDisplayEntity(world, chunkStoreRef, chunk));
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void simulateInteractWithBlock(@Nonnull InteractionType interactionType,
+            @Nonnull InteractionContext interactionContext, @Nullable ItemStack itemStack, @Nonnull World world,
+            @Nonnull Vector3i vector3i) {
+    }
+}

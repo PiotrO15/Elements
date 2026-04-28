@@ -1,0 +1,13 @@
+Button #RightTabButton {
+    Anchor: (Top: 0, Left: 0, Width: 110, Height: 72);
+    Style: ButtonStyle(
+        Default: (Background: PatchStyle(TexturePath: "Assets/spell_slot_tab.png")),
+        Hovered: (Background: PatchStyle(TexturePath: "Assets/spell_slot_tab_selected.png"))
+    );
+
+    Label #RightTabText {
+        Anchor: (Top: 20, Left: 25, Width: 50, Height: 30);
+        Text: "1";
+        Style: (TextColor: #d8a84e, FontSize: 24, Alignment: Center);
+    }
+}

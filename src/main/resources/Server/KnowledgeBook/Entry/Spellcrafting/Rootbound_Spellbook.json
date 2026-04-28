@@ -1,0 +1,13 @@
+{
+  "Pages": [
+    {
+      "Type": "TextPage",
+      "Title": "Rootbound Spellbook",
+      "Text": "The Rootbound Spellbook is the focus item used to store and cast spells.\n\nCurrently only the first spell slot can be cast. (This will change soon!)"
+    },
+    {
+      "Type": "RootboundPage",
+      "RecipeId": "Rootbound_Spellbook"
+    }
+  ]
+}
