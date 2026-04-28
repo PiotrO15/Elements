@@ -1,11 +1,14 @@
 {
     "Group": "Elements",
     "Name": "Elements",
-    "Version": "0.2.1",
+    "Version": "0.3.0",
     "Description": "Magic expansion to Hytale!",
     "Authors": [
         {
             "Name": "Verdo"
+        },
+        {
+            "Name": "Syurima"
         }
     ],
     "ServerVersion": "2026.03.26-89796e57b",
