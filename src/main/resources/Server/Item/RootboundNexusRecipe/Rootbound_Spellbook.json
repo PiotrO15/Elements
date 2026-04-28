@@ -1,6 +1,6 @@
 {
   "MainInput": {
-    "ItemId": "Ingredient_Hide_Soft"
+    "ItemId": "Ingredient_Leather_Light"
   },
   "PedestalInputs": [
     {
@@ -8,7 +8,7 @@
       "Quantity": 1
     },
     {
-      "ItemId": "Ingredient_Fabric_Scrap_Cotton",
+      "ItemId": "Ingredient_Fabric_Scrap_Linen",
       "Quantity": 3
     }
   ],
