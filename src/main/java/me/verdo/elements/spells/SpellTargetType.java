@@ -24,7 +24,7 @@ public enum SpellTargetType {
     public static List<String> getValidTypes() {
         return Arrays.stream(SpellTargetType.values())
                 .map(Enum::name)
-                .filter(name -> !name.equals(UNDEFINED.name()))
+                .filter(name -> !name.equals(UNDEFINED.name()) && !name.equals(TOUCH.name())) // Exclude UNDEFINED and TOUCH from valid types
                 .toList();
     }
 }
