@@ -60,8 +60,6 @@ public class SpellcraftingScreen extends InteractiveCustomUIPage<SpellcraftingSc
     public String action = null;
   }
 
-  public List<SpellDefinition> spellsOnItem; // TODO: populate with actual spells from current item
-
   private final static List<String> spellTargetTypes = SpellTargetType.getValidTypes();
   private final static List<AbstractSpellPart> spellParts = AbstractSpellPart.getAvailableSpellParts();
 

@@ -85,7 +85,7 @@ public final class SpellDefinition {
     }
 
     public static SpellDefinition makeTestSpell() {
-        return new SpellDefinition("test_spell", SpellTargetType.SELF, SpellPartRegistry.getDefault());
+        return new SpellDefinition("test_spell", SpellTargetType.PROJECTILE, SpellPartRegistry.getDefault());
     }
 
     // make codecs, equals, hashCode, toString as needed

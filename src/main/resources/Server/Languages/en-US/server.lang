@@ -20,14 +20,13 @@ items.Rootbound_Pedestal.name = Rootbound Pedestal
 items.Rootbound_Wand.name = Rootbound Wand
 items.Rootbound_Wand.description = Can be used on Rootbound Nexus to trigger crafting.
 
-items.Test_Spellbook.name = Test Spellbook
-items.Test_Spellbook.description = A spellbook used for testing spells.
+items.Rootbound_Spellbook.name = Rootbound Spellbook
+items.Rootbound_Spellbook.description = Spellbook containing knowledge about elemental magic and spells. You can use the Spellcasting Table to create new spells.
 items.Spellcrafting_Table.name = Spellcrafting Table
-items.Spellcrafting_Table.description = A table used for creating spells.
+items.Spellcrafting_Table.description = Interact with this table while holding a Rootbound Spellbook to create new spells using spell parts and modifiers.
+
 items.Empty_Seal.name = Empty Seal
-items.Harvesting_Seal.name = Harvesting Seal
 items.Dominion_Wand.name = Dominion Wand
-items.Empty_Seal.name = Empty Will
 items.Harvesting_Seal.name = Harvesting Will
 items.Harvesting_Seal.description = Allows your golem to harvest crops
 items.Gathering_Seal.name = Gathering Will

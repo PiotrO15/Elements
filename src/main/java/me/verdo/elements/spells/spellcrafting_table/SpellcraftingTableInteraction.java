@@ -1,6 +1,7 @@
 package me.verdo.elements.spells.spellcrafting_table;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -45,6 +46,12 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
             .builder(SpellcraftingTableInteraction.class, SpellcraftingTableInteraction::new)
             .documentation("Interaction for opening spell crafting table.").build();
 
+    public static final Map<String, Integer> SUPPORTED_ITEMS = Map.of( //map of supported item ids to the defaultnumber of spell slots they provide
+        "Rootbound_Spellbook", 3
+        // "Spellbook", 3
+    );
+    public static final List<String> SUPPORTED_BLOCKS = List.of("Spellcrafting_Table");
+
     @Override
     protected void interactWithBlock(@Nonnull World world, @Nonnull CommandBuffer<EntityStore> commandBuffer,
             @Nonnull InteractionType interactionType, @Nonnull InteractionContext context,
@@ -65,8 +72,7 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
         BlockModule.BlockStateInfo blockStateInfo = world.getChunkStore().getStore().getComponent(chunkStoreRef,
                 this.blockStateInfoComponentType);
 
-        List<String> supportedBlocks = List.of("Spellcrafting_Table");
-        if (!supportedBlocks.contains(world.getBlockType(targetBlock).getId())) {
+        if (!SUPPORTED_BLOCKS.contains(world.getBlockType(targetBlock).getId())) {
             return;
         }
 
@@ -90,14 +96,14 @@ public class SpellcraftingTableInteraction extends SimpleBlockInteraction {
 
                 // don't allow placing of items that aren't spellbooks or already have spells in
                 // them
-                if (!"Test_Spellbook".equals(placedItem.getItemId())) {
+                if (!SUPPORTED_ITEMS.containsKey(placedItem.getItemId())) {
                     return;
                 }
 
                 // if item is a spellbook without spell metadata, add empty spell component
-                if ("Test_Spellbook".equals(placedItem.getItemId())
+                if (SUPPORTED_ITEMS.containsKey(placedItem.getItemId())
                         && SpellSlotsComponent.getSpellsFromItem(placedItem) == null) {
-                    placedItem = SpellSlotsComponent.setSpellsInItem(placedItem, new SpellSlotsComponent(3));
+                    placedItem = SpellSlotsComponent.setSpellsInItem(placedItem, new SpellSlotsComponent(SUPPORTED_ITEMS.get(placedItem.getItemId())));
                     System.out.println("Added empty SpellSlotsComponent to item: " + placedItem);
                 }
 
