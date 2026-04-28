@@ -6,10 +6,6 @@ import javax.annotation.Nonnull;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.math.vector.Vector4d;
-import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
-import com.hypixel.hytale.server.core.modules.entity.damage.Damage;
-import com.hypixel.hytale.server.core.modules.entity.damage.Damage.EntitySource;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import me.verdo.elements.spells.SpellDefinition;
@@ -59,19 +55,7 @@ public final class FireballSpellPart extends AbstractSpellPart {
     public void onResolveEntity(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> casterRef,
             @Nonnull SpellDefinition spell, @Nonnull List<Ref<EntityStore>> targets) {
         for (Ref<EntityStore> target : targets) {
-            notifyPlayer(store, target, "You take " + spell.getStrength() + " spell damage.");
-
-            TransformComponent transform = store.getComponent(target, TransformComponent.getComponentType());
-            if (transform == null) {
-                continue;
-            }
-
-            EntitySource damageSource = new EntitySource(casterRef);
-            Damage damage = new Damage(damageSource, 1, spell.getStrength());
-            Vector4d targetLocation = Vector4d.newPosition(transform.getPosition());
-            damage.putMetaObject(Damage.HIT_LOCATION, targetLocation);
-            damage.putMetaObject(Damage.HIT_ANGLE, 0f);
-            store.invoke(target, damage);
+            SpellHelpers.dealDamage(store, casterRef, target, spell.getStrength());
         }
     }
 

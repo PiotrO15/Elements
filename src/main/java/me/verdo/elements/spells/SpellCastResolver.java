@@ -36,7 +36,8 @@ public abstract class SpellCastResolver {
             @Nonnull CommandBuffer<EntityStore> commandBuffer) {
         List<Ref<EntityStore>> targets = selectTargets(casterRef, spell, target, commandBuffer, store);
 
-        // notifyPlayer(store, casterRef, "Spell hits " + targets.size() + " target(s).");
+        // notifyPlayer(store, casterRef, "Spell hits " + targets.size() + "
+        // target(s).");
 
         if (targets.isEmpty()) {
             return;
@@ -78,7 +79,8 @@ public abstract class SpellCastResolver {
     private static List<Ref<EntityStore>> shootProjectile(Ref<EntityStore> casterRef, SpellDefinition spell,
             CommandBuffer<EntityStore> commandBuffer, @Nonnull Store<EntityStore> store) {
 
-        ProjectileConfig config = ProjectileConfig.getAssetMap().getAsset(spell.getEffectPart().getProjectileConfigName());
+        ProjectileConfig config = ProjectileConfig.getAssetMap()
+                .getAsset(spell.getEffectPart().getProjectileConfigName());
 
         // Get caster position, with direction based on caster look vector
         TransformComponent transform = store.getComponent(casterRef, TransformComponent.getComponentType());
@@ -135,8 +137,8 @@ public abstract class SpellCastResolver {
         AbstractSpellPart effectPart = spell.getEffectPart();
         effectPart.onResolveEntity(store, casterRef, spell, targets);
 
-        notifyPlayer(store, casterRef,
-                "Cast " + spell.getName() + " hit " + targets.size() + " target(s).");
+        // notifyPlayer(store, casterRef,
+        //         "Cast " + spell.getName() + " hit " + targets.size() + " target(s).");
     }
 
     private static void printAvailableProjectileConfigs() {

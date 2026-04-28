@@ -44,7 +44,7 @@ public class SpellCastInteraction extends SimpleInstantInteraction {
 
             PlayerRef playerRefComponent = buffer.getStore().getComponent(entityRef, PlayerRef.getComponentType());
             if (playerRefComponent != null && spell != null) {
-                player.sendMessage(Message.raw("Casting spell part - " + spell.getEffectPart().getName()));
+                // System.out.println("Player " + player.getName() + " is casting spell: " + spell.getName());
 
                 SpellCastResolver.handleSpellCast(entityRef, spell, null, buffer.getStore(), buffer);
             }
