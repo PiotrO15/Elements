@@ -2,7 +2,6 @@ package me.verdo.elements.npc.action;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
 import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -80,7 +79,6 @@ public class ApplySealAction extends ActionBase {
             ModelAsset modelAsset = ModelAsset.getAssetMap().getAsset("Straw_Golem_Harvesting");
             Model model = Model.createScaledModel(modelAsset, 1.0f);
             PersistentModel persistentModel = new PersistentModel(model.toReference());
-            playerComponent.sendMessage(Message.raw(persistentModel.toString()));
             store.putComponent(ref, PersistentModel.getComponentType(), persistentModel);
         }
 

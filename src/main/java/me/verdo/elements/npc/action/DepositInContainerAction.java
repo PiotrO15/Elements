@@ -29,10 +29,10 @@ public class DepositInContainerAction extends ActionBase {
 
         CombinedItemContainer inventory = InventoryComponent.getCombined(store, ref, InventoryComponent.HOTBAR_FIRST);
 
-        IPositionProvider provider = sensorInfo.getPositionProvider();
-        if (provider == null) return false;
+        IPositionProvider positionProvider = sensorInfo.getPositionProvider();
+        if (positionProvider == null) return false;
 
-        Vector3i target = new Vector3i((int) provider.getX(), (int) provider.getY(), (int) provider.getZ());
+        Vector3i target = new Vector3i((int) Math.floor(positionProvider.getX()), (int) Math.floor(positionProvider.getY()), (int) Math.floor(positionProvider.getZ()));
         World world = store.getExternalData().getWorld();
 
         WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(target.x, target.z));
