@@ -20,7 +20,7 @@ public final class DamageSpellPart extends AbstractSpellPart {
     public static final String NAME = "Damage";
     public static final String DESCRIPTION = "Deals spell damage to targets.";
     public static final String ELEMENT = null;
-    public static final String PROJECTILE_CONFIG_NAME = "Default_Spell_Projectile";
+    public static final String PROJECTILE_CONFIG_NAME = "Fire_Spell_Projectile";
 
     public DamageSpellPart() {
     }

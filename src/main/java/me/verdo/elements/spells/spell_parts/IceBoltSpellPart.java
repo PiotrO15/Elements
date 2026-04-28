@@ -14,15 +14,15 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import me.verdo.elements.spells.SpellDefinition;
 
-public final class HealSpellPart extends AbstractSpellPart {
+public final class IceBoltSpellPart extends AbstractSpellPart {
     public static final int COST = 0;
-    public static final String ID = "heal";
-    public static final String NAME = "Heal";
-    public static final String DESCRIPTION = "Restores health to targets.";
-    public static final String ELEMENT = null;
-    public static final String PROJECTILE_CONFIG_NAME = "Healing_Spell_Projectile";
+    public static final String ID = "ice_bolt";
+    public static final String NAME = "Ice Bolt";
+    public static final String DESCRIPTION = "Fires an ice bolt at targets.";
+    public static final String ELEMENT = "ICE";
+    public static final String PROJECTILE_CONFIG_NAME = "Ice_Spell_Projectile";
 
-    public HealSpellPart() {
+    public IceBoltSpellPart() {
     }
 
     @Override
@@ -59,7 +59,7 @@ public final class HealSpellPart extends AbstractSpellPart {
     public void onResolveEntity(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> casterRef,
             @Nonnull SpellDefinition spell, @Nonnull List<Ref<EntityStore>> targets) {
         for (Ref<EntityStore> target : targets) {
-            notifyPlayer(store, target, "You are healed for " + spell.getStrength() + " health.");
+            notifyPlayer(store, target, "You take " + spell.getStrength() + " spell damage.");
 
             TransformComponent transform = store.getComponent(target, TransformComponent.getComponentType());
             if (transform == null) {
@@ -67,7 +67,7 @@ public final class HealSpellPart extends AbstractSpellPart {
             }
 
             EntitySource damageSource = new EntitySource(casterRef);
-            Damage damage = new Damage(damageSource, 1, -1 * spell.getStrength());
+            Damage damage = new Damage(damageSource, 1, spell.getStrength());
             Vector4d targetLocation = Vector4d.newPosition(transform.getPosition());
             damage.putMetaObject(Damage.HIT_LOCATION, targetLocation);
             damage.putMetaObject(Damage.HIT_ANGLE, 0f);

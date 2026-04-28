@@ -10,9 +10,10 @@ import javax.annotation.Nullable;
 
 public final class SpellPartRegistry {
     private static final List<AbstractSpellPart> REGISTERED_PARTS = List.of(
-            new DamageSpellPart(),
-            new HealSpellPart(),
-            new DebuffSpellPart());
+            new IceBoltSpellPart(),
+            new FireballSpellPart(),
+            new HealSpellPart()
+    );
 
     private static final Map<String, AbstractSpellPart> BY_ID = REGISTERED_PARTS.stream()
             .collect(Collectors.toUnmodifiableMap(part -> normalizeId(part.getId()), Function.identity()));

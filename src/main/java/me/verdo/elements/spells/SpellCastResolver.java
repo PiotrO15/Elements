@@ -86,7 +86,7 @@ public abstract class SpellCastResolver {
     private static List<Ref<EntityStore>> shootProjectile(Ref<EntityStore> casterRef, SpellDefinition spell,
             CommandBuffer<EntityStore> commandBuffer, @Nonnull Store<EntityStore> store) {
 
-        ProjectileConfig config = ProjectileConfig.getAssetMap().getAsset("Default_Spell_Projectile");
+        ProjectileConfig config = ProjectileConfig.getAssetMap().getAsset(spell.getEffectPart().getProjectileConfigName());
 
         // Get caster position, with direction based on caster look vector
         TransformComponent transform = store.getComponent(casterRef, TransformComponent.getComponentType());
