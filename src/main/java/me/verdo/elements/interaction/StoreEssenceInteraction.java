@@ -4,7 +4,6 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
@@ -13,10 +12,12 @@ import com.hypixel.hytale.server.core.entity.EntityUtils;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.movement.MovementStatesComponent;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.transaction.ItemStackTransaction;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.client.SimpleBlockInteraction;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
@@ -24,6 +25,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.EssenceType;
 import me.verdo.elements.component.EssenceStorageComponent;
+import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -63,10 +65,10 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
                 chunkStoreRef.getStore().replaceComponent(chunkStoreRef, ElementsPlugin.get().essenceStorage, c);
                 displayEssence(chunk, vector3i, c);
 
-                player.getInventory().getCombinedHotbarFirst().removeItemStackFromSlot(player.getInventory().getActiveHotbarSlot(), toStore);
+                InventoryComponent.getCombined(ref.getStore(), ref, InventoryComponent.HOTBAR_FIRST).removeItemStackFromSlot(context.getHeldItemSlot(), toStore);
                 chunk.markNeedsSaving();
             } else {
-                MovementStatesComponent component = world.getEntityStore().getStore().getComponent(player.getReference(), MovementStatesComponent.getComponentType());
+                MovementStatesComponent component = world.getEntityStore().getStore().getComponent(ref, MovementStatesComponent.getComponentType());
                 if (component != null && !component.getMovementStates().crouching) {
                     if (c.getStoredEssenceType() == null || c.getStoredEssenceAmount() == 0) {
                         return;
@@ -78,7 +80,7 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
                     if (drop == null)
                         return;
 
-                    ItemStackTransaction transaction = player.getInventory().getCombinedHotbarFirst().addItemStack(drop);
+                    ItemStackTransaction transaction = InventoryComponent.getCombined(ref.getStore(), ref, InventoryComponent.HOTBAR_FIRST).addItemStack(drop);
                     if (transaction.succeeded()) {
                         if (transaction.getRemainder() != null) {
                             int remainder = transaction.getRemainder().getQuantity();
@@ -98,7 +100,7 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
                     return;
                 }
 
-                player.sendMessage(Message.raw("Storage: " + c.getStoredEssenceAmount() + "/" + ElementsPlugin.get().getCommonConfig().get().getMaxEssenceStorage()));
+                commandBuffer.ensureAndGetComponent(ref, PlayerRef.getComponentType()).sendMessage(Message.raw("Storage: " + c.getStoredEssenceAmount() + "/" + ElementsPlugin.get().getCommonConfig().get().getMaxEssenceStorage()));
             }
         }
     }
@@ -157,7 +159,7 @@ public class StoreEssenceInteraction extends SimpleBlockInteraction {
 
             int rotation = chunk.getRotationIndex(targetBlock.x, targetBlock.y, targetBlock.z);
 
-            chunk.setBlock(targetBlock.getX(), targetBlock.getY(), targetBlock.getZ(), newBlockId, newBlockType, rotation, 0, 130);
+            chunk.setBlock(targetBlock.x, targetBlock.y, targetBlock.z, newBlockId, newBlockType, rotation, 0, 130);
         }
     }
 }

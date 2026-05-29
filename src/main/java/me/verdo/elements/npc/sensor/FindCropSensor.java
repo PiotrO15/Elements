@@ -2,8 +2,6 @@ package me.verdo.elements.npc.sensor;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -17,6 +15,8 @@ import me.verdo.elements.component.GolemSealComponent;
 import me.verdo.elements.npc.sensor.builder.BuilderFindCropSensor;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3d;
+import org.joml.Vector3i;
 
 public class FindCropSensor extends SensorBase {
     protected final double range;
@@ -62,7 +62,7 @@ public class FindCropSensor extends SensorBase {
             for (int y = (int) Math.floor(golemCenter.y - golemRange); y <= Math.ceil(golemCenter.y + golemRange); y++) {
                 for (int z = (int) Math.floor(golemCenter.z - golemRange); z <= Math.ceil(golemCenter.z + golemRange); z++) {
                     if (world.getBlockType(x, y, z) != null && world.getBlockType(x, y, z).getId().contains("Plant_Crop") && world.getBlockType(x, y, z).getId().contains("StageFinal")) {
-                        double distFromPos = pos.distanceTo(x + 0.5, y + 0.5, z + 0.5);
+                        double distFromPos = pos.distance(x + 0.5, y + 0.5, z + 0.5);
                         if (distFromPos > range) continue;
                         if (distFromPos < closestDist) {
                             closestDist = distFromPos;

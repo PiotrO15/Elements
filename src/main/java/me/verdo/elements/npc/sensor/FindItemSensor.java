@@ -3,7 +3,6 @@ package me.verdo.elements.npc.sensor;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.spatial.SpatialResource;
-import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
@@ -18,6 +17,7 @@ import me.verdo.elements.component.GolemSealComponent;
 import me.verdo.elements.npc.sensor.builder.BuilderFindItemSensor;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3d;
 
 import java.util.List;
 
@@ -74,7 +74,7 @@ public class FindItemSensor extends SensorBase {
                 continue;
             }
 
-            double distFromPos = pos.distanceTo(resultPos);
+            double distFromPos = pos.distance(resultPos);
             if (distFromPos > golemRange) continue;
             if (distFromPos < closestDist) {
                 closestDist = distFromPos;

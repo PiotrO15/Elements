@@ -7,8 +7,8 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.component.system.EntityEventSystem;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.math.vector.Vector3dUtil;
+import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.protocol.Color;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
@@ -26,6 +26,8 @@ import me.verdo.elements.util.ModChunkUtil;
 import me.verdo.elements.util.ModParticleUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3d;
+import org.joml.Vector3i;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +49,7 @@ public class HarvestCropEventSystem extends EntityEventSystem<EntityStore, Break
 
         SpatialResource<Ref<ChunkStore>, ChunkStore> blockStateSpatialStructure = chunkStore.getResource(ElementsPlugin.get().essenceCollectorSpatialResourceType);
         List<Ref<ChunkStore>> results = SpatialResource.getThreadLocalReferenceList();
-        blockStateSpatialStructure.getSpatialStructure().ordered3DAxis(event.getTargetBlock().toVector3d(), 10, 10, 10, results);
+        blockStateSpatialStructure.getSpatialStructure().ordered3DAxis(Vector3iUtil.toVector3d(event.getTargetBlock()), 10, 10, 10, results);
 
         if (!results.isEmpty()) {
             for (Ref<ChunkStore> result : results) {
@@ -55,16 +57,16 @@ public class HarvestCropEventSystem extends EntityEventSystem<EntityStore, Break
                 if (blockStateInfoI == null) continue;
                 Vector3i blockPosI = ModChunkUtil.getBlockPosFromIndex(blockStateInfoI);
 
-                Vector3d from = event.getTargetBlock().toVector3d().add(0.5, 0.5, 0.5);
-                Vector3d to = blockPosI.clone().toVector3d().add(0.5, 2.0, 0.5);
+                Vector3d from = Vector3iUtil.toVector3d(event.getTargetBlock()).add(0.5, 0.5, 0.5);
+                Vector3d to = Vector3iUtil.toVector3d(blockPosI).add(0.5, 2.0, 0.5);
 
-                double distance = from.distanceTo(to);
+                double distance = from.distance(to);
                 int steps = (int) (distance / 0.5);
 
                 Color particleColor;
                 String essenceType;
 
-                BlockType blockTypeI = world.getBlockType(to.toVector3i());
+                BlockType blockTypeI = world.getBlockType(Vector3dUtil.toVector3i(to));
                 if (blockTypeI == null) continue;
 
                 if (blockTypeI.getId().equals("Essence_Collector_Harvest")) {

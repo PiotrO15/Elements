@@ -2,13 +2,13 @@ package me.verdo.elements.util;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.spatial.SpatialResource;
-import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.protocol.Color;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.joml.Vector3d;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +21,7 @@ public class ModParticleUtil {
     }
 
     public static void createParticleFlow(World world, Vector3d from, Vector3d to, Color color) {
-        double distance = from.distanceTo(to);
+        double distance = from.distance(to);
         int steps = (int) (distance / 0.5);
 
         double dx = to.x - from.x;

@@ -4,8 +4,8 @@ import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
+import com.hypixel.hytale.math.vector.Rotation3f;
+import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.BreakBlockEvent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -16,6 +16,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.component.EssenceStorageComponent;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -59,8 +60,8 @@ public class BlockBreakEventSystem extends EntityEventSystem<EntityStore, BreakB
                 ItemStack toDrop = new ItemStack(c.getStoredEssenceType().getItemId());
                 toDrop = toDrop.withQuantity(c.getStoredEssenceAmount());
                 List<ItemStack> allItemStacks = List.of(toDrop);
-                Vector3d dropPosition = event.getTargetBlock().toVector3d().add(0.5F, 0.0F, 0.5F);
-                Holder<EntityStore>[] itemEntityHolders = ItemComponent.generateItemDrops(store, allItemStacks, dropPosition, Vector3f.ZERO);
+                Vector3d dropPosition = Vector3iUtil.toVector3d(event.getTargetBlock()).add(0.5F, 0.0F, 0.5F);
+                Holder<EntityStore>[] itemEntityHolders = ItemComponent.generateItemDrops(store, allItemStacks, dropPosition, new Rotation3f());
                 if (itemEntityHolders.length > 0) {
                     world.execute(() -> store.addEntities(itemEntityHolders, AddReason.SPAWN));
                 }

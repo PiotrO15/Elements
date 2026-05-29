@@ -4,8 +4,7 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.spatial.SpatialResource;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.server.core.asset.type.item.config.CraftingRecipe;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
@@ -20,6 +19,8 @@ import me.verdo.elements.asset.EssenceCraftingRecipe;
 import me.verdo.elements.component.EssenceStorageComponent;
 import me.verdo.elements.util.ModChunkUtil;
 import me.verdo.elements.util.RecipeUtil;
+import org.joml.Vector3d;
+import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
 
         SpatialResource<Ref<ChunkStore>, ChunkStore> blockStateSpatialStructure = store.getResource(ElementsPlugin.get().essenceStorageSpatialResourceType);
         List<Ref<ChunkStore>> results = SpatialResource.getThreadLocalReferenceList();
-        blockStateSpatialStructure.getSpatialStructure().ordered3DAxis(blockPos.toVector3d(), searchRadius.x, searchRadius.y, searchRadius.z, results);
+        blockStateSpatialStructure.getSpatialStructure().ordered3DAxis(Vector3iUtil.toVector3d(blockPos), searchRadius.x, searchRadius.y, searchRadius.z, results);
 
         if (!results.isEmpty()) {
             for (Ref<ChunkStore> ref : results) {
@@ -84,7 +85,7 @@ public class RootboundCraftingRecipe extends CraftingRecipe {
                     continue;
                 }
 
-                Vector3d center = blockPos.toVector3d().add(1.5, 1.25, 1.5);
+                Vector3d center = Vector3iUtil.toVector3d(blockPos).add(1.5, 1.25, 1.5);
 
                 mainInput.setStoredItem(ItemStack.EMPTY);
 

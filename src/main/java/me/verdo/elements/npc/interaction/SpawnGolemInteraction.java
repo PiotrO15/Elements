@@ -3,8 +3,8 @@ package me.verdo.elements.npc.interaction;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.math.vector.Vector3f;
-import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.math.vector.Rotation3f;
+import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -19,6 +19,7 @@ import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.component.GolemSealComponent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3i;
 
 public class SpawnGolemInteraction extends SimpleBlockInteraction {
     @Override
@@ -26,14 +27,14 @@ public class SpawnGolemInteraction extends SimpleBlockInteraction {
         commandBuffer.run((store) -> {
             String entityToSpawn = "Straw_Golem";
 
-            Pair<Ref<EntityStore>, INonPlayerCharacter> pair = NPCPlugin.get().spawnNPC(store, entityToSpawn, null, targetBlock.toVector3d().add(0, 1, 0), new Vector3f());
+            Pair<Ref<EntityStore>, INonPlayerCharacter> pair = NPCPlugin.get().spawnNPC(store, entityToSpawn, null, Vector3iUtil.toVector3d(targetBlock).add(0, 1, 0), new Rotation3f());
 
             if (pair == null) {
                 return;
             }
             Ref<EntityStore> entityRef = pair.key();
             GolemSealComponent golemSealComponent = new GolemSealComponent();
-            golemSealComponent.setCenter(targetBlock.toVector3d());
+            golemSealComponent.setCenter(Vector3iUtil.toVector3d(targetBlock));
             store.addComponent(entityRef, ElementsPlugin.get().golemStorage, golemSealComponent);
         });
 

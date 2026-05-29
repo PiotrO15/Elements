@@ -4,7 +4,7 @@ import com.hypixel.hytale.builtin.crafting.component.CraftingManager;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.math.shape.Box;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.server.core.asset.type.blockhitbox.BlockBoundingBoxes;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -18,6 +18,7 @@ import me.verdo.elements.display.ItemDisplayManager;
 import me.verdo.elements.interaction.StoreEssenceInteraction;
 import me.verdo.elements.component.EssenceStorageComponent;
 import me.verdo.elements.recipe.RootboundCraftingRecipe;
+import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -102,7 +103,7 @@ public class RecipeUtil {
                     StoreEssenceInteraction.displayEssence(chunk, container.pos(), container.component());
                     remaining -= toConsume;
 
-                    ModParticleUtil.createParticleFlow(world, container.pos().toVector3d().add(0.5, 1.25, 0.5), center, essenceType.getColor());
+                    ModParticleUtil.createParticleFlow(world, Vector3iUtil.toVector3d(container.pos()).add(0.5, 1.25, 0.5), center, essenceType.getColor());
                 }
             }
         }
@@ -129,9 +130,9 @@ public class RecipeUtil {
                     commandBuffer.run(_ -> ItemDisplayManager.removeDisplayEntity(world, container.ref(), chunk));
                     remaining -= toConsume;
 
-                    ModParticleUtil.createParticleFlow(world, container.pos().toVector3d().add(0.5, 1.25, 0.5), center);
+                    ModParticleUtil.createParticleFlow(world, Vector3iUtil.toVector3d(container.pos()).add(0.5, 1.25, 0.5), center);
 
-                    ParticleUtil.spawnParticleEffect("GreenOrbImpact", container.pos().toVector3d().add(0.5, 1.25, 0.5), world.getEntityStore().getStore());
+                    ParticleUtil.spawnParticleEffect("GreenOrbImpact", Vector3iUtil.toVector3d(container.pos()).add(0.5, 1.25, 0.5), world.getEntityStore().getStore());
                 }
             }
         }

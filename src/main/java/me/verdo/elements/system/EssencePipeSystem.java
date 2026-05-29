@@ -6,7 +6,7 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.server.core.HytaleServer;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.Rotation;
@@ -19,6 +19,8 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.FillerBlockUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -26,33 +28,33 @@ import java.util.concurrent.TimeUnit;
 public class EssencePipeSystem {
     private enum PipeShape {
         ZERO("Pipe_Empty"),
-        ONE("Pipe_One", Vector3i.NORTH),
-        TWO_STRAIGHT("Pipe_Two_H", Vector3i.WEST, Vector3i.EAST),
-        TWO_CORNER("Pipe_Two_D", Vector3i.WEST, Vector3i.DOWN),
-        THREE_HORIZONTAL("Pipe_Three_H", Vector3i.EAST, Vector3i.NORTH, Vector3i.SOUTH),
-        THREE_VERTICAL("Pipe_Three_V", Vector3i.NORTH, Vector3i.SOUTH, Vector3i.UP),
-        THREE_DIRECTIONAL("Pipe_Three_D", Vector3i.WEST, Vector3i.NORTH, Vector3i.DOWN),
-        FOUR_CROSS("Pipe_Four_Cross", Vector3i.NORTH, Vector3i.SOUTH, Vector3i.EAST, Vector3i.WEST),
-        FOUR_DIRECTIONAL("Pipe_Four_D", Vector3i.NORTH, Vector3i.SOUTH, Vector3i.WEST, Vector3i.DOWN),
-        FIVE_WAY("Pipe_Five", Vector3i.NORTH, Vector3i.SOUTH, Vector3i.EAST, Vector3i.WEST, Vector3i.DOWN),
-        SIX_WAY("Pipe_Six", Vector3i.NORTH, Vector3i.SOUTH, Vector3i.EAST, Vector3i.WEST, Vector3i.UP, Vector3i.DOWN);
+        ONE("Pipe_One", Vector3iUtil.NORTH),
+        TWO_STRAIGHT("Pipe_Two_H", Vector3iUtil.WEST, Vector3iUtil.EAST),
+        TWO_CORNER("Pipe_Two_D", Vector3iUtil.WEST, Vector3iUtil.DOWN),
+        THREE_HORIZONTAL("Pipe_Three_H", Vector3iUtil.EAST, Vector3iUtil.NORTH, Vector3iUtil.SOUTH),
+        THREE_VERTICAL("Pipe_Three_V", Vector3iUtil.NORTH, Vector3iUtil.SOUTH, Vector3iUtil.UP),
+        THREE_DIRECTIONAL("Pipe_Three_D", Vector3iUtil.WEST, Vector3iUtil.NORTH, Vector3iUtil.DOWN),
+        FOUR_CROSS("Pipe_Four_Cross", Vector3iUtil.NORTH, Vector3iUtil.SOUTH, Vector3iUtil.EAST, Vector3iUtil.WEST),
+        FOUR_DIRECTIONAL("Pipe_Four_D", Vector3iUtil.NORTH, Vector3iUtil.SOUTH, Vector3iUtil.WEST, Vector3iUtil.DOWN),
+        FIVE_WAY("Pipe_Five", Vector3iUtil.NORTH, Vector3iUtil.SOUTH, Vector3iUtil.EAST, Vector3iUtil.WEST, Vector3iUtil.DOWN),
+        SIX_WAY("Pipe_Six", Vector3iUtil.NORTH, Vector3iUtil.SOUTH, Vector3iUtil.EAST, Vector3iUtil.WEST, Vector3iUtil.UP, Vector3iUtil.DOWN);
 
         final String name;
-        final Set<Vector3i> connections;
+        final Set<Vector3ic> connections;
 
-        PipeShape(String name, Vector3i... connections) {
+        PipeShape(String name, Vector3ic... connections) {
             this.name = name;
             this.connections = Set.of(connections);
         }
 
-        public static PipeShape getMatchingShape(Set<Vector3i> currentConnections) {
+        public static PipeShape getMatchingShape(Set<Vector3ic> currentConnections) {
             return switch (currentConnections.size()) {
                 case 1 -> ONE;
                 case 2 -> getPlaneCount(currentConnections) == 1 ? TWO_STRAIGHT : TWO_CORNER;
                 case 3 -> {
                     if (getPlaneCount(currentConnections) == 3) yield THREE_DIRECTIONAL;
 
-                    boolean hasVertical = currentConnections.contains(Vector3i.UP) || currentConnections.contains(Vector3i.DOWN);
+                    boolean hasVertical = currentConnections.contains(Vector3iUtil.UP) || currentConnections.contains(Vector3iUtil.DOWN);
                     if (hasVertical) yield THREE_VERTICAL;
                     yield THREE_HORIZONTAL;
                 }
@@ -63,26 +65,26 @@ public class EssencePipeSystem {
             };
         }
 
-        private static int getPlaneCount(Set<Vector3i> connections) {
+        private static int getPlaneCount(Set<Vector3ic> connections) {
             Set<Integer> planes = new HashSet<>();
-            for (Vector3i dir : connections) {
-                if (dir.equals(Vector3i.UP) || dir.equals(Vector3i.DOWN)) {
+            for (Vector3ic dir : connections) {
+                if (dir.equals(Vector3iUtil.UP) || dir.equals(Vector3iUtil.DOWN)) {
                     planes.add(1);
-                } else if (dir.equals(Vector3i.NORTH) || dir.equals(Vector3i.SOUTH)) {
+                } else if (dir.equals(Vector3iUtil.NORTH) || dir.equals(Vector3iUtil.SOUTH)) {
                     planes.add(2);
-                } else if (dir.equals(Vector3i.EAST) || dir.equals(Vector3i.WEST)) {
+                } else if (dir.equals(Vector3iUtil.EAST) || dir.equals(Vector3iUtil.WEST)) {
                     planes.add(3);
                 }
             }
             return planes.size();
         }
 
-        public static int getRotation(PipeShape shape, Set<Vector3i> connections) {
+        public static int getRotation(PipeShape shape, Set<Vector3ic> connections) {
             RotationTuple[] rotations = RotationTuple.VALUES;
 
             for (RotationTuple rotation : rotations) {
                 Set<Vector3i> rotatedConnections = new HashSet<>();
-                for (Vector3i dir : shape.connections) {
+                for (Vector3ic dir : shape.connections) {
                     Vector3i rotatedDir = Rotation.rotate(dir, rotation.yaw(), rotation.pitch(), rotation.roll());
                     rotatedConnections.add(rotatedDir);
                 }
@@ -97,12 +99,12 @@ public class EssencePipeSystem {
 
     public static void updateNeighborPipes(World world, Vector3i pos) {
         updatePipeShape(world, null, pos);
-        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.NORTH));
-        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.SOUTH));
-        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.EAST));
-        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.WEST));
-        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.UP));
-        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3i.DOWN));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3iUtil.NORTH));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3iUtil.SOUTH));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3iUtil.EAST));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3iUtil.WEST));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3iUtil.UP));
+        updatePipeShape(world, pos, new Vector3i(pos).add(Vector3iUtil.DOWN));
     }
 
     public static void updatePipeShape(World world, Vector3i from, Vector3i to) {
@@ -119,25 +121,25 @@ public class EssencePipeSystem {
             return;
         }
 
-        Set<Vector3i> connections = new HashSet<>();
+        Set<Vector3ic> connections = new HashSet<>();
 
-        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.NORTH))) {
-            connections.add(Vector3i.NORTH);
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3iUtil.NORTH))) {
+            connections.add(Vector3iUtil.NORTH);
         }
-        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.SOUTH))) {
-            connections.add(Vector3i.SOUTH);
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3iUtil.SOUTH))) {
+            connections.add(Vector3iUtil.SOUTH);
         }
-        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.EAST))) {
-            connections.add(Vector3i.EAST);
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3iUtil.EAST))) {
+            connections.add(Vector3iUtil.EAST);
         }
-        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.WEST))) {
-            connections.add(Vector3i.WEST);
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3iUtil.WEST))) {
+            connections.add(Vector3iUtil.WEST);
         }
-        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.UP))) {
-            connections.add(Vector3i.UP);
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3iUtil.UP))) {
+            connections.add(Vector3iUtil.UP);
         }
-        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3i.DOWN))) {
-            connections.add(Vector3i.DOWN);
+        if (canPipeConnect(world, to, new Vector3i(to).add(Vector3iUtil.DOWN))) {
+            connections.add(Vector3iUtil.DOWN);
         }
 
         PipeShape newShape = PipeShape.getMatchingShape(connections);
@@ -173,9 +175,9 @@ public class EssencePipeSystem {
         @Override
         public void handle(int i, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer, @NonNullDecl PlaceBlockEvent placeBlockEvent) {
             World world = store.getExternalData().getWorld();
-            Vector3i target = placeBlockEvent.getTargetBlock().clone();
+            Vector3i target = new Vector3i(placeBlockEvent.getTargetBlock());
             if (placeBlockEvent.getItemInHand() != null && placeBlockEvent.getItemInHand().getItemId().contains("Alchemical_Furnace")) {
-                target.add(Vector3i.UP);
+                target.add(Vector3iUtil.UP);
             }
 
             commandBuffer.run(_ -> updateNeighborPipes(store.getExternalData().getWorld(), target));
@@ -198,7 +200,7 @@ public class EssencePipeSystem {
         public void handle(int i, @NonNullDecl ArchetypeChunk<EntityStore> archetypeChunk, @NonNullDecl Store<EntityStore> store, @NonNullDecl CommandBuffer<EntityStore> commandBuffer, @NonNullDecl BreakBlockEvent placeBlockEvent) {
             Vector3i target = placeBlockEvent.getTargetBlock();
             if (placeBlockEvent.getBlockType().getId().contains("Alchemical_Furnace")) {
-                target.add(Vector3i.UP);
+                target.add(Vector3iUtil.UP);
             }
 
             commandBuffer.run(_ -> updateNeighborPipes(store.getExternalData().getWorld(), target));
@@ -222,7 +224,7 @@ public class EssencePipeSystem {
         while (!toVisit.isEmpty() && visited.size() < 1000) {
             Vector3i current = toVisit.poll();
 
-            for (Vector3i direction : DIRECTIONS) {
+            for (Vector3ic direction : DIRECTIONS) {
                 Vector3i neighbor = new Vector3i(current).add(direction);
 
                 if (visited.contains(neighbor)) {
@@ -249,9 +251,9 @@ public class EssencePipeSystem {
         return jarPositions;
     }
 
-    private static final Vector3i[] DIRECTIONS = {
-            Vector3i.NORTH, Vector3i.SOUTH,
-            Vector3i.EAST, Vector3i.WEST,
-            Vector3i.UP, Vector3i.DOWN
+    private static final Vector3ic[] DIRECTIONS = {
+            Vector3iUtil.NORTH, Vector3iUtil.SOUTH,
+            Vector3iUtil.EAST, Vector3iUtil.WEST,
+            Vector3iUtil.UP, Vector3iUtil.DOWN
     };
 }

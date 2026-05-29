@@ -1,11 +1,8 @@
 package me.verdo.elements.npc.sensor;
 
-import com.hypixel.hytale.builtin.crafting.component.CraftingManager;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.spatial.SpatialResource;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
@@ -23,6 +20,8 @@ import me.verdo.elements.npc.sensor.builder.BuilderFindItemContainerSensor;
 import me.verdo.elements.util.ModChunkUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3d;
+import org.joml.Vector3i;
 
 import java.util.List;
 
@@ -81,11 +80,11 @@ public class FindItemContainerSensor extends SensorBase {
             if (blockType == null || !blockType.getId().contains("Chest"))
                 continue;
 
-            double distFromPos = pos.distanceTo(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5);
+            double distFromPos = pos.distance(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5);
             if (distFromPos > range) continue;
             if (distFromPos < closestDist) {
                 closestDist = distFromPos;
-                closest = blockPos.clone();
+                closest = new Vector3i(blockPos);
             }
         }
 

@@ -3,9 +3,10 @@ package me.verdo.elements.component;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Component;
-import com.hypixel.hytale.math.vector.Vector3d;
+import com.hypixel.hytale.math.vector.Vector3dUtil;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.joml.Vector3d;
 
 public class GolemSealComponent implements Component<EntityStore> {
     public static final BuilderCodec<GolemSealComponent> CODEC;
@@ -46,7 +47,7 @@ public class GolemSealComponent implements Component<EntityStore> {
     static {
         CODEC = BuilderCodec.builder(GolemSealComponent.class, GolemSealComponent::new)
                 .append(new KeyedCodec<>("StoredSeal", ItemStack.CODEC, true), (c, s) -> c.storedSeal = s, (c) -> c.storedSeal).add()
-                .append(new KeyedCodec<>("Center", Vector3d.CODEC, true), (c, s) -> c.center = s, (c) -> c.center).add()
+                .append(new KeyedCodec<>("Center", Vector3dUtil.CODEC, true), (c, s) -> c.center = s, (c) -> c.center).add()
                 .build();
     }
 }

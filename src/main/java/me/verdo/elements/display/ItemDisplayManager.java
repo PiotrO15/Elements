@@ -2,8 +2,7 @@ package me.verdo.elements.display;
 
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
+import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.DespawnComponent;
@@ -20,6 +19,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import me.verdo.elements.ElementsPlugin;
 import me.verdo.elements.component.StoredItemComponent;
+import org.joml.Vector3d;
 
 import java.util.UUID;
 
@@ -133,7 +133,7 @@ public class ItemDisplayManager {
 
         holder.addComponent(ItemComponent.getComponentType(), new ItemComponent(displayStack));
         holder.addComponent(TransformComponent.getComponentType(),
-                new TransformComponent(position, Vector3f.ZERO));
+                new TransformComponent(position, Rotation3f.ZERO));
         holder.ensureComponent(Intangible.getComponentType());
         holder.ensureComponent(PreventPickup.getComponentType());
         holder.ensureComponent(UUIDComponent.getComponentType());

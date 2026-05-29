@@ -4,8 +4,7 @@ import com.hypixel.hytale.builtin.crafting.component.ProcessingBenchBlock;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
-import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.math.vector.Vector3iUtil;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
@@ -22,6 +21,8 @@ import me.verdo.elements.interaction.StoreEssenceInteraction;
 import me.verdo.elements.util.ModChunkUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -59,15 +60,15 @@ public class EssenceTransferSystem extends EntityTickingSystem<ChunkStore> {
             ItemContainer outputContainer = processingBenchBlock.getItemContainer().getContainer(2);
             if (outputContainer.isEmpty()) return;
 
-            transferFromContainer(world, blockPos.clone().add(0, 2, 0), outputContainer, commandBuffer);
+            transferFromContainer(world, new Vector3i(blockPos).add(0, 2, 0), outputContainer, commandBuffer);
         } else if (baseBlock.getId().contains("Essence_Collector")) {
             ItemContainerBlock containerBlock = archetypeChunk.getComponent(i, ItemContainerBlock.getComponentType());
             if (containerBlock == null || containerBlock.getItemContainer().isEmpty()) return;
 
-            List<Vector3i> connectors = List.of(Vector3i.EAST, Vector3i.WEST, Vector3i.NORTH, Vector3i.SOUTH);
+            List<Vector3ic> connectors = List.of(Vector3iUtil.EAST, Vector3iUtil.WEST, Vector3iUtil.NORTH, Vector3iUtil.SOUTH);
 
-            for (Vector3i connector : connectors) {
-                if (transferFromContainer(world, blockPos.clone().add(connector), containerBlock.getItemContainer(), commandBuffer)) {
+            for (Vector3ic connector : connectors) {
+                if (transferFromContainer(world, new Vector3i(blockPos).add(connector), containerBlock.getItemContainer(), commandBuffer)) {
                     return;
                 }
             }

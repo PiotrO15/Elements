@@ -4,8 +4,6 @@ import com.hypixel.hytale.builtin.adventure.farming.FarmingUtil;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockGathering;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.HarvestingDropType;
@@ -25,6 +23,7 @@ import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import me.verdo.elements.util.WorldUtil;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+import org.joml.Vector3i;
 
 import java.util.List;
 
@@ -71,15 +70,15 @@ public class HarvestCropAction extends ActionBase {
     public void harvest(Ref<EntityStore> ref, Store<EntityStore> entityStore, World world, Vector3i pos, BlockType blockType) {
         Store<ChunkStore> chunkStore = world.getChunkStore().getStore();
 
-        long chunkIndex = ChunkUtil.indexChunkFromBlock(pos.getX(), pos.getZ());
+        long chunkIndex = ChunkUtil.indexChunkFromBlock(pos.x, pos.z);
         Ref<ChunkStore> chunkRef = world.getChunkStore().getChunkReference(chunkIndex);
         if (chunkRef == null || !chunkRef.isValid()) return;
 
-        Ref<ChunkStore> sectionRef = world.getChunkStore().getChunkSectionReference(ChunkUtil.chunkCoordinate(pos.getX()), ChunkUtil.chunkCoordinate(pos.getY()), ChunkUtil.chunkCoordinate(pos.getZ()));
+        Ref<ChunkStore> sectionRef = world.getChunkStore().getChunkSectionReference(ChunkUtil.chunkCoordinate(pos.x), ChunkUtil.chunkCoordinate(pos.y), ChunkUtil.chunkCoordinate(pos.z));
         if (sectionRef != null && sectionRef.isValid()) {
             BlockSection section = chunkStore.getComponent(sectionRef, BlockSection.getComponentType());
             if (section != null) {
-                int filler = section.getFiller(pos.getX(), pos.getY(), pos.getZ());
+                int filler = section.getFiller(pos.x, pos.y, pos.z);
                 BlockHarvestUtils.performPickupByInteraction(ref, pos, blockType, filler, chunkRef, entityStore, chunkStore);
 
 //                if (blockType.getGathering() == null) {
